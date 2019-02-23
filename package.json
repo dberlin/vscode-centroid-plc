@@ -1,0 +1,41 @@
+{
+    "name": "centroid-plc-language",
+    "displayName": "Centroid PLC Language",
+    "description": "Syntax highlighting for Centroid PLC language",
+    "publisher" : "DanielBerlin",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.31.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "centroid-plc",
+                "aliases": [
+                    "Centroid PLC",
+                    "centroid-plc"
+                ],
+                "extensions": [
+                    ".src"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "centroid-plc",
+                "scopeName": "source.centroidplc",
+                "path": "./syntaxes/centroid-plc.tmLanguage.json"
+            }
+        ]
+    },
+    "devDependencies": {
+        "js-yaml": "^3.12.1"
+    },
+    "dependencies": {
+        "vscode-textmate": "^4.0.1"
+    }
+}
