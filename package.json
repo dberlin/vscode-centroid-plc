@@ -2,9 +2,9 @@
     "name": "centroid-plc-language",
     "displayName": "Centroid PLC Language",
     "description": "Syntax highlighting for Centroid PLC language",
-    "repository" : "https://github.com/dberlin/vscode-centroid-plc.git",
-    "publisher" : "DanielBerlin",
-    "version": "0.0.1",
+    "repository": "https://github.com/dberlin/vscode-centroid-plc.git",
+    "publisher": "DanielBerlin",
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.31.0"
     },
