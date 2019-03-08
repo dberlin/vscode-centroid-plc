@@ -2,9 +2,13 @@
     "name": "centroid-plc-language",
     "displayName": "Centroid PLC Language",
     "description": "Syntax highlighting for Centroid PLC language",
-    "repository": "https://github.com/dberlin/vscode-centroid-plc.git",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dberlin/vscode-centroid-plc.git"
+    },
     "publisher": "DanielBerlin",
-    "version": "0.1.0",
+    "license": "Apache-2.0",
+    "version": "0.2.0",
     "engines": {
         "vscode": "^1.31.0"
     },
@@ -41,17 +45,20 @@
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
         "@types/micromatch": "^3.1.0",
+        "@types/mocha": "^5.2.6",
         "@types/node": "^10.12.18",
+        "mocha": "^6.0.2",
         "tslint": "^5.11.1",
-        "typescript": "^3.2.4"
+        "typescript": "^3.2.4",
+        "vscode": "^1.1.2"
     },
     "dependencies": {
         "micromatch": "^3.1.10",
-        "tiny-trie": "^0.2.6",
-        "vscode": "^1.1.2"
+        "tiny-trie": "^0.2.6"
     }
 }
