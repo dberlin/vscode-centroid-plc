@@ -115,16 +115,19 @@ class DocumentSymbolManagerClass {
    * @returns Newly created symbol info, or null if we could not create symbol info.
    */
   private getSymbolInfoFromTypedVariable(captures: Array<string>) {
-    let symbolType = SymbolInfo.getSymbolTypeFromString(captures[4]);
+    let symbolType = captures[4].startsWith("SV")
+      ? SymbolInfo.SymbolType.SystemVariable
+      : SymbolInfo.getSymbolTypeFromString(captures[4]);
     if (isUndefined(symbolType)) return null;
 
     let possibleComment = captures[6].trim();
     let symbolDoc = this.isComment(possibleComment)
-      ? possibleComment.substring(1)
+      ? possibleComment.substring(1).trimLeft()
       : "";
     return new SymbolInfo.SymbolInfo(
       captures[0],
       symbolType,
+      captures[3],
       parseInt(captures[5]),
       0,
       symbolDoc
@@ -142,11 +145,12 @@ class DocumentSymbolManagerClass {
     let symbolType = SymbolInfo.SymbolType.MessageOrConstant;
     let possibleComment = captures[4].trim();
     let symbolDoc = this.isComment(possibleComment)
-      ? possibleComment.substring(1)
+      ? possibleComment.substring(1).trimLeft()
       : "";
     return new SymbolInfo.SymbolInfo(
       captures[0],
       symbolType,
+      captures[2],
       0,
       parseInt(captures[3]),
       symbolDoc

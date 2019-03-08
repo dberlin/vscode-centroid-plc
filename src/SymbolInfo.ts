@@ -11,25 +11,36 @@ export enum SymbolType {
   FastStage,
   Timer,
   OneShot,
-  MessageOrConstant
+  MessageOrConstant,
+  SystemVariable
 }
 export class SymbolInfo {
+  /* Name of the symbol */
   symbolName: string;
+  /* Which number symbol is it. All symbols of any type in centroid PLC are numbered instances of that type */
   symbolNumber: number;
+  /* If this is a constant symbol, what is the value. */
   symbolValue: number;
+  /* What kind of symbol is it. */
   symbolType: SymbolType;
+  /* What comments/documentation came with the symbol. */
   symbolDoc: string;
+  /* What line number did the symbol appear on. */
   symbolLine: number;
+  /* What was the original declaration type of the symbol. */
+  symbolDeclType: string;
 
   constructor(
     name: string,
     type: SymbolType,
+    declType: string = "",
     number: number = 0,
     value: number = 0,
     doc: string = ""
   ) {
     this.symbolName = name;
     this.symbolNumber = number;
+    this.symbolDeclType = declType;
     this.symbolType = type;
     this.symbolDoc = doc;
     this.symbolValue = value;
