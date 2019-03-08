@@ -2,7 +2,8 @@
 import * as vscode from "vscode";
 import { Trie } from "tiny-trie";
 import * as path from "path";
-import * as SymbolInfo from "./SymbolInfo";
+import { SymbolType, getSymbolTypeFromString, SymbolInfo } from "./SymbolInfo";
+
 import * as micromatch from "micromatch";
 import { isUndefined } from "util";
 
@@ -14,7 +15,7 @@ class FileTries {
   private allSymbols: Trie = new Trie();
   private constantSymbols: Trie = new Trie();
   private typedSymbols: Trie = new Trie();
-  private symbolMap: Map<string, SymbolInfo.SymbolInfo> = new Map();
+  private symbolMap: Map<string, SymbolInfo> = new Map();
 
   /**
    * Test whether we have any information about a named symbol.
@@ -33,9 +34,9 @@ class FileTries {
    * This function takes care of understanding the type of the symbol and adding it to the relevant tries.
    * @param symbolInfo - Symbol to add to tries.
    */
-  add(symbolInfo: SymbolInfo.SymbolInfo) {
+  add(symbolInfo: SymbolInfo) {
     let name = symbolInfo.symbolName;
-    if (symbolInfo.symbolType == SymbolInfo.SymbolType.MessageOrConstant) {
+    if (symbolInfo.symbolType == SymbolType.MessageOrConstant) {
       this.constantSymbols.insert(name);
     } else {
       this.typedSymbols.insert(name);
@@ -50,7 +51,7 @@ class FileTries {
    * @param symbolName - Symbol name to look for.
    * @returns The found symbol or null.
    */
-  getSymbol(symbolName: string): SymbolInfo.SymbolInfo {
+  getSymbol(symbolName: string): SymbolInfo {
     return this.symbolMap.get(symbolName);
   }
 }
@@ -82,7 +83,7 @@ class DocumentSymbolManagerClass {
     for (lineNum = 0; lineNum < document.lineCount; ++lineNum) {
       let line = document.lineAt(lineNum);
       let captures: string[];
-      let symbolInfo: SymbolInfo.SymbolInfo = null;
+      let symbolInfo: SymbolInfo = null;
 
       // See if it's a variable with an optional comment or if it is a variable that represents a constant
       if (
@@ -116,15 +117,15 @@ class DocumentSymbolManagerClass {
    */
   private getSymbolInfoFromTypedVariable(captures: Array<string>) {
     let symbolType = captures[4].startsWith("SV")
-      ? SymbolInfo.SymbolType.SystemVariable
-      : SymbolInfo.getSymbolTypeFromString(captures[4]);
+      ? SymbolType.SystemVariable
+      : getSymbolTypeFromString(captures[4]);
     if (isUndefined(symbolType)) return null;
 
     let possibleComment = captures[6].trim();
     let symbolDoc = this.isComment(possibleComment)
       ? possibleComment.substring(1).trimLeft()
       : "";
-    return new SymbolInfo.SymbolInfo(
+    return new SymbolInfo(
       captures[0],
       symbolType,
       captures[3],
@@ -142,12 +143,12 @@ class DocumentSymbolManagerClass {
    * @returns Newly created symbol info, or null if we could not create symbol info.
    */
   private getSymbolInfoFromConstantVariable(captures: Array<string>) {
-    let symbolType = SymbolInfo.SymbolType.MessageOrConstant;
+    let symbolType = SymbolType.MessageOrConstant;
     let possibleComment = captures[4].trim();
     let symbolDoc = this.isComment(possibleComment)
       ? possibleComment.substring(1).trimLeft()
       : "";
-    return new SymbolInfo.SymbolInfo(
+    return new SymbolInfo(
       captures[0],
       symbolType,
       captures[2],
