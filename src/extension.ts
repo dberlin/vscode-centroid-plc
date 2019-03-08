@@ -3,22 +3,58 @@ import * as vscode from "vscode";
 import { DocumentSymbolManager } from "./DocumentManager";
 import { SymbolType, getSymbolStringFromType } from "./SymbolInfo";
 
-export class CentroidHoverProvider implements vscode.HoverProvider {
+/**
+ * Convert a (document, position) pair into a word in the document.
+ *
+ * @param document - VSCode document the position is for.
+ * @param position - Position in document to get word for.
+ */
+function getWordForPosition(
+  document: vscode.TextDocument,
+  position: vscode.Position
+) {
+  let wordRange = document.getWordRangeAtPosition(position);
+  if (!wordRange) {
+    return null;
+  }
+  return document.getText(wordRange);
+}
+
+/**
+ * Return symbol information (if we have any) for a given position in the document.
+ *
+ * @param document - VSCode document the position is for.
+ * @param position - Position in document to get symbol for.
+ */
+function getSymbolForPosition(
+  document: vscode.TextDocument,
+  position: vscode.Position
+) {
+  let wordText = getWordForPosition(document, position);
+  return getSymbolByName(document, wordText);
+}
+
+/**
+ * Return symbol information (if we have any) for a given name in the document.
+ *
+ * @param document - VSCode document the symbol is in.
+ * @param symbolName - Symbol to try to find information about.
+ */
+function getSymbolByName(document: vscode.TextDocument, symbolName: string) {
+  let tries = DocumentSymbolManager.getTriesForDocument(document);
+  if (!tries) return null;
+
+  return tries.getSymbol(symbolName);
+}
+
+class CentroidHoverProvider implements vscode.HoverProvider {
   public provideHover(
     document: vscode.TextDocument,
     position: vscode.Position,
     token: vscode.CancellationToken
   ): Thenable<vscode.Hover> | null {
-    let wordRange = document.getWordRangeAtPosition(position);
-    if (!wordRange) {
-      return null;
-    }
-    let wordText = document.getText(wordRange);
-    let tries = DocumentSymbolManager.getTriesForDocument(document);
-    if (!tries) return null;
-
     /* See if we have the symbol */
-    let sym = tries.getSymbol(wordText);
+    let sym = getSymbolForPosition(document, position);
     if (sym) {
       let hoverText = new vscode.MarkdownString();
       let declString;
@@ -30,11 +66,7 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
       if (sym.symbolType == SymbolType.MessageOrConstant) {
         declString = sym.symbolName.concat(" IS ", sym.symbolValue.toString());
       } else {
-        declString = sym.symbolName.concat(
-          " IS ",
-          getSymbolStringFromType(sym.symbolType),
-          sym.symbolNumber.toString()
-        );
+        declString = sym.symbolName.concat(" IS ", sym.symbolDeclType);
       }
       /* Append the declaration line first, then any documentation */
       hoverText.appendCodeblock(declString, "centroid-plc");
@@ -44,12 +76,37 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
     }
   }
 }
+
+class CentroidDeclarationProvider implements vscode.DeclarationProvider {
+  provideDeclaration(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    token: vscode.CancellationToken
+  ): vscode.ProviderResult<
+    vscode.Location | vscode.Location[] | vscode.LocationLink[]
+  > {
+    let sym = getSymbolForPosition(document, position);
+    if (sym) {
+      // We don't have column information
+      let position = new vscode.Position(sym.symbolLine, 0);
+      return new vscode.Location(document.uri, position);
+    }
+    return null;
+  }
+}
 export function activate(context: vscode.ExtensionContext) {
   DocumentSymbolManager.init(context);
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(
       { language: "centroid-plc", scheme: "file" },
       new CentroidHoverProvider()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerDeclarationProvider(
+      { language: "centroid-plc", scheme: "file" },
+      new CentroidDeclarationProvider()
     )
   );
 
