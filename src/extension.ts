@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { DocumentSymbolManager } from "./DocumentManager";
-import { SymbolType, getSymbolStringFromType } from "./SymbolInfo";
+import { SymbolType, getSymbolStringFromType, SymbolInfo } from "./SymbolInfo";
 
 /**
  * Convert a (document, position) pair into a word in the document.
@@ -12,7 +12,7 @@ import { SymbolType, getSymbolStringFromType } from "./SymbolInfo";
 function getWordForPosition(
   document: vscode.TextDocument,
   position: vscode.Position
-) {
+): string {
   let wordRange = document.getWordRangeAtPosition(position);
   if (!wordRange) {
     return null;
@@ -29,7 +29,7 @@ function getWordForPosition(
 function getSymbolForPosition(
   document: vscode.TextDocument,
   position: vscode.Position
-) {
+): SymbolInfo {
   let wordText = getWordForPosition(document, position);
   return getSymbolByName(document, wordText);
 }
@@ -52,12 +52,12 @@ class CentroidHoverProvider implements vscode.HoverProvider {
     document: vscode.TextDocument,
     position: vscode.Position,
     token: vscode.CancellationToken
-  ): Thenable<vscode.Hover> | null {
+  ): vscode.Hover | null {
     /* See if we have the symbol */
     let sym = getSymbolForPosition(document, position);
     if (sym) {
       let hoverText = new vscode.MarkdownString();
-      let declString;
+      let declString: string;
 
       /* Don't produce a hover for the same line we declared the symbol on */
       if (position.line == sym.symbolLine) return null;
@@ -72,7 +72,7 @@ class CentroidHoverProvider implements vscode.HoverProvider {
       hoverText.appendCodeblock(declString, "centroid-plc");
       hoverText.appendMarkdown(sym.symbolDoc);
       let hover = new vscode.Hover(hoverText);
-      return Promise.resolve(hover);
+      return hover;
     }
   }
 }
