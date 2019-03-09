@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Hover for symbol info
+- Go to declaration
+- Find all references
 - Context aware code completion
 ### Changed
 - Some small syntax highlighting bugs were fixed

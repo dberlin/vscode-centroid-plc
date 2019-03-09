@@ -1,8 +1,9 @@
 "use strict";
 import * as vscode from "vscode";
 import { DocumentSymbolManager } from "./DocumentManager";
-import { SymbolType, getSymbolStringFromType, SymbolInfo } from "./SymbolInfo";
+import { SymbolInfo, SymbolType } from "./SymbolInfo";
 
+const centroidScheme = { language: "centroid-plc", scheme: "file" };
 /**
  * Convert a (document, position) pair into a word in the document.
  *
@@ -12,7 +13,7 @@ import { SymbolType, getSymbolStringFromType, SymbolInfo } from "./SymbolInfo";
 function getWordForPosition(
   document: vscode.TextDocument,
   position: vscode.Position
-): string {
+): string | null {
   let wordRange = document.getWordRangeAtPosition(position);
   if (!wordRange) {
     return null;
@@ -29,8 +30,9 @@ function getWordForPosition(
 function getSymbolForPosition(
   document: vscode.TextDocument,
   position: vscode.Position
-): SymbolInfo {
+): SymbolInfo | null {
   let wordText = getWordForPosition(document, position);
+  if (!wordText) return null;
   return getSymbolByName(document, wordText);
 }
 
@@ -52,25 +54,25 @@ class CentroidHoverProvider implements vscode.HoverProvider {
     document: vscode.TextDocument,
     position: vscode.Position,
     token: vscode.CancellationToken
-  ): vscode.Hover | null {
+  ): vscode.ProviderResult<vscode.Hover> {
     /* See if we have the symbol */
     let sym = getSymbolForPosition(document, position);
     if (sym) {
       let hoverText = new vscode.MarkdownString();
       let declString: string;
-
-      /* Don't produce a hover for the same line we declared the symbol on */
-      if (position.line == sym.symbolLine) return null;
+      let symbolPos = document.positionAt(sym.symbolPos);
+      /* Don't produce a hover for the same position we declared the symbol on */
+      if (position.line == symbolPos.line) return null;
 
       /* Produce a cleaned up declaration line for the symbol */
       if (sym.symbolType == SymbolType.MessageOrConstant) {
-        declString = sym.symbolName.concat(" IS ", sym.symbolValue.toString());
+        declString = sym.label.concat(" IS ", sym.symbolValue.toString());
       } else {
-        declString = sym.symbolName.concat(" IS ", sym.symbolDeclType);
+        declString = sym.label.concat(" IS ", <string>sym.detail);
       }
       /* Append the declaration line first, then any documentation */
       hoverText.appendCodeblock(declString, "centroid-plc");
-      hoverText.appendMarkdown(sym.symbolDoc);
+      hoverText.appendMarkdown(<string>sym.documentation);
       let hover = new vscode.Hover(hoverText);
       return hover;
     }
@@ -87,26 +89,85 @@ class CentroidDeclarationProvider implements vscode.DeclarationProvider {
   > {
     let sym = getSymbolForPosition(document, position);
     if (sym) {
-      // We don't have column information
-      let position = new vscode.Position(sym.symbolLine, 0);
-      return new vscode.Location(document.uri, position);
+      return new vscode.Location(
+        document.uri,
+        document.positionAt(sym.symbolPos)
+      );
     }
     return null;
   }
 }
+
+class CentroidReferenceProvider implements vscode.ReferenceProvider {
+  provideReferences(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    context: vscode.ReferenceContext,
+    token: vscode.CancellationToken
+  ): vscode.ProviderResult<vscode.Location[]> {
+    // This may take a while so use a promise.
+    return new Promise(resolve => {
+      // We use a simple regex to find the occurrences for now
+      let wordToLookFor = getWordForPosition(document, position);
+      if (!wordToLookFor) {
+        resolve([]);
+        return;
+      }
+      let docText = document.getText();
+      let regexToUse = RegExp("\\b".concat(wordToLookFor, "\\b"), "g");
+      let locationResults: vscode.Location[] = [];
+
+      while (regexToUse.exec(docText) != null) {
+        let resultPosition = document.positionAt(regexToUse.lastIndex);
+        locationResults.push(new vscode.Location(document.uri, resultPosition));
+      }
+      resolve(locationResults);
+    });
+  }
+}
+
+class CentroidCompletionProvider implements vscode.CompletionItemProvider {
+  provideCompletionItems(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    token: vscode.CancellationToken,
+    context: vscode.CompletionContext
+  ): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
+    let wordText = getWordForPosition(document, position);
+    let tries = DocumentSymbolManager.getTriesForDocument(document);
+    if (!tries) return [];
+    let symbolResults = tries.getAllCompletions(!wordText ? "" : wordText);
+    return symbolResults;
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
   DocumentSymbolManager.init(context);
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(
-      { language: "centroid-plc", scheme: "file" },
+      centroidScheme,
       new CentroidHoverProvider()
     )
   );
 
   context.subscriptions.push(
     vscode.languages.registerDeclarationProvider(
-      { language: "centroid-plc", scheme: "file" },
+      centroidScheme,
       new CentroidDeclarationProvider()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerReferenceProvider(
+      centroidScheme,
+      new CentroidReferenceProvider()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      centroidScheme,
+      new CentroidCompletionProvider()
     )
   );
 

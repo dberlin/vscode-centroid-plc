@@ -1,4 +1,6 @@
 "use strict";
+import * as vscode from "vscode";
+
 export enum SymbolType {
   Word,
   DoubleWord,
@@ -14,21 +16,15 @@ export enum SymbolType {
   MessageOrConstant,
   SystemVariable
 }
-export class SymbolInfo {
-  /* Name of the symbol */
-  symbolName: string;
+export class SymbolInfo extends vscode.CompletionItem {
   /* Which number symbol is it. All symbols of any type in centroid PLC are numbered instances of that type */
   symbolNumber: number;
   /* If this is a constant symbol, what is the value. */
   symbolValue: number;
   /* What kind of symbol is it. */
   symbolType: SymbolType;
-  /* What comments/documentation came with the symbol. */
-  symbolDoc: string;
-  /* What line number did the symbol appear on. */
-  symbolLine: number;
-  /* What was the original declaration type of the symbol. */
-  symbolDeclType: string;
+  /* What offset in the file did the symbol appear at. */
+  symbolPos: number;
 
   constructor(
     name: string,
@@ -36,15 +32,16 @@ export class SymbolInfo {
     declType: string = "",
     number: number = 0,
     value: number = 0,
-    doc: string = ""
+    doc: string = "",
+    pos: number = 0
   ) {
-    this.symbolName = name;
+    super(name, vscode.CompletionItemKind.Variable);
+    this.documentation = doc;
+    this.detail = declType;
     this.symbolNumber = number;
-    this.symbolDeclType = declType;
     this.symbolType = type;
-    this.symbolDoc = doc;
     this.symbolValue = value;
-    this.symbolLine = 0;
+    this.symbolPos = pos;
   }
 }
 const SymbolStringFromType: Map<SymbolType, string> = new Map([
