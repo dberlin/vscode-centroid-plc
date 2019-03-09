@@ -1,31 +1,44 @@
 "use strict";
-import * as vscode from "vscode";
-import { Trie } from "tiny-trie";
 import * as path from "path";
-import { SymbolType, getSymbolTypeFromString, SymbolInfo } from "./SymbolInfo";
+import { Trie } from "tiny-trie";
+import * as vscode from "vscode";
+import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
 
-import * as micromatch from "micromatch";
-import { isUndefined } from "util";
-
-const typedVariableWithComment: string =
-  "+([a-zA-Z0-9_])*([[:blank:]])IS*([[:blank:]])((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_PLC_FUNCTION_|SV_PC_KEYBOARD_KEY_|SV_SKIN_EVENT_|SV_M94_M95_)([0-9]+))*";
-const constantVariableWithComment: string =
-  "+([a-zA-Z0-9_])*([[:blank:]])IS*([[:blank:]])([0-9]+|TRUE|FALSE)*";
+const typedVariableWithComment: RegExp = new RegExp(
+  "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_)([0-9]+))\\s*(;.*)?$",
+  "gm"
+);
+const constantVariableWithComment: RegExp = new RegExp(
+  "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*([0-9]+|TRUE|FALSE)\\s*(;.*)?$",
+  "gm"
+);
 class FileTries {
   private allSymbols: Trie = new Trie();
   private constantSymbols: Trie = new Trie();
   private typedSymbols: Trie = new Trie();
+  private stageSymbols: Trie = new Trie();
   private symbolMap: Map<string, SymbolInfo> = new Map();
 
+  getAllCompletions(label: string): SymbolInfo[] {
+    let wordResults: string[] = <string[]>(
+      this.allSymbols.search(label, { prefix: true })
+    );
+    let results: SymbolInfo[] = [];
+    wordResults.forEach((val, index, arr) => {
+      let sym = this.getSymbol(val);
+      if (sym) results.push(sym);
+    });
+    return results;
+  }
   /**
    * Test whether we have any information about a named symbol.
    *
-   * @param symbolName - Symbol name to look for.
+   * @param label - Symbol name to look for.
    * @returns Whether the symbol was found.  This will be true if we processed the symbol, even
    * if various forms of lookups may not find it due to type not matching, etc.
    */
-  contains(symbolName: string): boolean {
-    return this.allSymbols.test(symbolName);
+  contains(label: string): boolean {
+    return this.allSymbols.test(label);
   }
 
   /**
@@ -35,11 +48,12 @@ class FileTries {
    * @param symbolInfo - Symbol to add to tries.
    */
   add(symbolInfo: SymbolInfo) {
-    let name = symbolInfo.symbolName;
+    let name = symbolInfo.label;
     if (symbolInfo.symbolType == SymbolType.MessageOrConstant) {
       this.constantSymbols.insert(name);
     } else {
       this.typedSymbols.insert(name);
+      if (isStageSymbol(symbolInfo)) this.stageSymbols.insert(name);
     }
     this.allSymbols.insert(name);
     this.symbolMap.set(name, symbolInfo);
@@ -48,12 +62,35 @@ class FileTries {
   /**
    * Return information about a named symbol.
    *
-   * @param symbolName - Symbol name to look for.
+   * @param label - Symbol name to look for.
    * @returns The found symbol or null.
    */
-  getSymbol(symbolName: string): SymbolInfo {
-    return this.symbolMap.get(symbolName);
+  getSymbol(label: string): SymbolInfo | null {
+    let res = this.symbolMap.get(label);
+    return !res ? null : res;
   }
+
+  /**
+   * Freeze all the tries so no more insertion can take place,
+   * and convert them into DAWGs
+   */
+  freeze() {
+    this.allSymbols.freeze();
+    this.constantSymbols.freeze();
+    this.typedSymbols.freeze();
+    this.stageSymbols.freeze();
+  }
+}
+
+function isStageSymbol(symbolInfo: SymbolInfo) {
+  return (
+    symbolInfo.symbolType == SymbolType.Stage ||
+    symbolInfo.symbolType == SymbolType.FastStage
+  );
+}
+
+function isComment(str: string) {
+  return str.length > 1 && str[0] == ";";
 }
 
 class DocumentSymbolManagerClass {
@@ -66,46 +103,48 @@ class DocumentSymbolManagerClass {
     return path.normalize(vscode.workspace.asRelativePath(document.fileName));
   }
 
-  private isComment(str: string) {
-    return str.length > 1 && str[0] == ";";
+  private parseSymbolsUsingRegex(
+    fileTries: FileTries,
+    text: string,
+    regex: RegExp,
+    callback: {
+      (captures: string[]): SymbolInfo | null;
+    }
+  ) {
+    let captures: RegExpExecArray | null;
+    while ((captures = regex.exec(text))) {
+      let symbolInfo = callback(captures);
+      if (!symbolInfo) continue;
+      // Set the positoin we found it as
+      symbolInfo.symbolPos = captures.index;
+      fileTries.add(symbolInfo);
+    }
   }
-
   // Parse and add a document to our list of managed documents
   parseAndAddDocument(document: vscode.TextDocument) {
     let filename = this.normalizePathtoDoc(document);
     if (this.tries.has(filename)) {
       return;
     }
-    this.tries.set(filename, new FileTries());
+    let fileTries = new FileTries();
+    this.tries.set(filename, fileTries);
 
-    // Parse out the symbols
-    let lineNum: number;
-    for (lineNum = 0; lineNum < document.lineCount; ++lineNum) {
-      let line = document.lineAt(lineNum);
-      let captures: string[];
-      let symbolInfo: SymbolInfo = null;
+    // Parse out all the symbols
+    let docText = document.getText();
 
-      // See if it's a variable with an optional comment or if it is a variable that represents a constant
-      if (
-        (captures = micromatch.capture(typedVariableWithComment, line.text))
-      ) {
-        symbolInfo = this.getSymbolInfoFromTypedVariable(captures);
-      } else if (
-        (captures = micromatch.capture(constantVariableWithComment, line.text))
-      ) {
-        symbolInfo = this.getSymbolInfoFromConstantVariable(captures);
-      }
-      if (!symbolInfo) continue;
-
-      // Set the line number we found it on
-      symbolInfo.symbolLine = line.lineNumber;
-      let fileTries = this.tries.get(filename);
-      if (fileTries.contains(symbolInfo.symbolName)) {
-        console.log("Found already existing symbol!");
-        return;
-      }
-      fileTries.add(symbolInfo);
-    }
+    this.parseSymbolsUsingRegex(
+      fileTries,
+      docText,
+      typedVariableWithComment,
+      this.getSymbolInfoFromTypedVariable
+    );
+    this.parseSymbolsUsingRegex(
+      fileTries,
+      docText,
+      constantVariableWithComment,
+      this.getSymbolInfoFromConstantVariable
+    );
+    fileTries.freeze();
   }
   /**
    * Convert a capture array into a typed variable symbol.
@@ -116,20 +155,20 @@ class DocumentSymbolManagerClass {
    * @returns Newly created symbol info, or null if we could not create symbol info.
    */
   private getSymbolInfoFromTypedVariable(captures: Array<string>) {
-    let symbolType = captures[4].startsWith("SV")
+    let symbolType = captures[3].startsWith("SV")
       ? SymbolType.SystemVariable
-      : getSymbolTypeFromString(captures[4]);
-    if (isUndefined(symbolType)) return null;
+      : getSymbolTypeFromString(captures[3]);
+    if (!symbolType) return null;
 
-    let possibleComment = captures[6].trim();
-    let symbolDoc = this.isComment(possibleComment)
+    let possibleComment = !captures[5] ? "" : captures[5].trim();
+    let symbolDoc = isComment(possibleComment)
       ? possibleComment.substring(1).trimLeft()
       : "";
     return new SymbolInfo(
-      captures[0],
+      captures[1],
       symbolType,
-      captures[3],
-      parseInt(captures[5]),
+      captures[2],
+      parseInt(captures[4]),
       0,
       symbolDoc
     );
@@ -144,16 +183,16 @@ class DocumentSymbolManagerClass {
    */
   private getSymbolInfoFromConstantVariable(captures: Array<string>) {
     let symbolType = SymbolType.MessageOrConstant;
-    let possibleComment = captures[4].trim();
-    let symbolDoc = this.isComment(possibleComment)
+    let possibleComment = !captures[3] ? "" : captures[3].trim();
+    let symbolDoc = isComment(possibleComment)
       ? possibleComment.substring(1).trimLeft()
       : "";
     return new SymbolInfo(
-      captures[0],
+      captures[1],
       symbolType,
       captures[2],
       0,
-      parseInt(captures[3]),
+      parseInt(captures[2]),
       symbolDoc
     );
   }
