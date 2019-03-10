@@ -9,10 +9,11 @@ import { SymbolInfo, SymbolType } from "./SymbolInfo";
  * @param sym - Symbol to check
  */
 export function isSystemSymbol(sym: SymbolInfo) {
-  return (
-    sym.symbolType == SymbolType.SystemType ||
-    sym.symbolType == SymbolType.SystemVariable
-  );
+  return sym.label.startsWith("SV_");
+}
+
+export function isSystemSymbolName(symName: string) {
+  return symName.startsWith("SV_");
 }
 
 /**

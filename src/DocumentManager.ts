@@ -1,11 +1,11 @@
 "use strict";
 import machine_params from "./json/machine_parameters.json";
-import sv_system_types from "./json/sv_system_types.json";
 import sv_system_variables from "./json/sv_system_variables.json";
 import * as path from "path";
 import { Trie } from "tiny-trie";
 import * as vscode from "vscode";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
+import { isSystemSymbolName } from "./util";
 
 const typedVariableWithComment: RegExp = new RegExp(
   "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_)([0-9]+))\\s*(;.*)?$",
@@ -55,8 +55,6 @@ class FileTries {
     let name = symbolInfo.label;
     if (symbolInfo.symbolType == SymbolType.MessageOrConstant) {
       this.constantSymbols.insert(name);
-    } else if (symbolInfo.symbolType == SymbolType.SystemType) {
-      this.typeSymbols.insert(name);
     } else {
       this.typedSymbols.insert(name);
       if (isStageSymbol(symbolInfo)) this.stageSymbols.insert(name);
@@ -113,7 +111,6 @@ class DocumentSymbolManagerClass {
   private systemSymbols: SymbolInfo[] = [];
   init(context: vscode.ExtensionContext) {
     this.processSymbolList(machine_params);
-    this.processSymbolList(sv_system_types);
     this.processSymbolList(sv_system_variables);
   }
   private processSymbolList(
@@ -124,7 +121,7 @@ class DocumentSymbolManagerClass {
         new SymbolInfo(
           val.name,
           <SymbolType>getSymbolTypeFromString(val.kind),
-          "",
+          val.kind,
           0,
           0,
           val.documentation
@@ -163,6 +160,7 @@ class DocumentSymbolManagerClass {
     let fileTries = new FileTries();
     this.tries.set(filename, fileTries);
     // Add system symbols
+    // In theory we should only do this once, but it takes no appreciable time/memory anyway
     for (var sym of this.systemSymbols) {
       fileTries.add(sym);
     }
@@ -192,9 +190,10 @@ class DocumentSymbolManagerClass {
    * @returns Newly created symbol info, or null if we could not create symbol info.
    */
   private getSymbolInfoFromTypedVariable(captures: Array<string>) {
-    let symbolType = captures[3].startsWith("SV")
-      ? SymbolType.SystemVariable
-      : getSymbolTypeFromString(captures[3]);
+    // Ignore system variables here, we process them separately
+    if (isSystemSymbolName(captures[1])) return null;
+
+    let symbolType = getSymbolTypeFromString(captures[3]);
     if (!symbolType) return null;
 
     let possibleComment = !captures[5] ? "" : captures[5].trim();
@@ -220,6 +219,9 @@ class DocumentSymbolManagerClass {
    * @returns Newly created symbol info, or null if we could not create symbol info.
    */
   private getSymbolInfoFromConstantVariable(captures: Array<string>) {
+    // Ignore system variables here, we process them separately
+    if (isSystemSymbolName(captures[1])) return null;
+
     let symbolType = SymbolType.MessageOrConstant;
     let possibleComment = !captures[3] ? "" : captures[3].trim();
     let symbolDoc = isComment(possibleComment)

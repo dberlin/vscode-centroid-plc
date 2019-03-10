@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { SymbolType } from "./SymbolInfo";
-import { getSymbolForPosition } from "./util";
+import { getSymbolForPosition, isSystemSymbolName } from "./util";
 
 export class CentroidHoverProvider implements vscode.HoverProvider {
   public provideHover(
@@ -23,11 +23,6 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
           declString = sym.label.concat(" IS ", sym.symbolValue.toString());
           break;
         }
-        case SymbolType.SystemType:
-        case SymbolType.SystemVariable: {
-          declString = sym.label.concat(" is a system defined variable/type");
-          break;
-        }
         default: {
           declString = sym.label.concat(" IS ", <string>sym.detail);
         }
@@ -35,6 +30,9 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
 
       /* Append the declaration line first, then any documentation */
       hoverText.appendCodeblock(declString, "centroid-plc");
+      if (isSystemSymbolName(sym.label)) {
+        hoverText.appendMarkdown("**This is a system defined variable**  \n\n");
+      }
       hoverText.appendMarkdown(
         (<vscode.MarkdownString>sym.documentation).value
       );
