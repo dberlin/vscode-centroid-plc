@@ -2,6 +2,10 @@
     "name": "centroid-plc-language",
     "displayName": "Centroid PLC Language",
     "description": "Syntax highlighting for Centroid PLC language",
+    "bugs": {
+        "url": "https://github.com/dberlin/vscode-centroid-plc/issues"
+    },
+    "homepage": "https://github.com/dberlin/vscode-centroid-plc",    
     "repository": {
         "type": "git",
         "url": "https://github.com/dberlin/vscode-centroid-plc.git"
