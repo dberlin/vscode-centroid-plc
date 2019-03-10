@@ -1,5 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
+import { MessageChannel } from "worker_threads";
 
 export enum SymbolType {
   Word,
@@ -14,7 +15,9 @@ export enum SymbolType {
   Timer,
   OneShot,
   MessageOrConstant,
-  SystemVariable
+  SystemType,
+  SystemVariable,
+  BuiltInKeyword
 }
 export class SymbolInfo extends vscode.CompletionItem {
   /* Which number symbol is it. All symbols of any type in centroid PLC are numbered instances of that type */
@@ -35,8 +38,14 @@ export class SymbolInfo extends vscode.CompletionItem {
     doc: string = "",
     pos: number = 0
   ) {
-    super(name, vscode.CompletionItemKind.Variable);
-    this.documentation = doc;
+    let kind = vscode.CompletionItemKind.Variable;
+    if (type == SymbolType.MessageOrConstant) {
+      kind = vscode.CompletionItemKind.Value;
+    } else if (type == SymbolType.BuiltInKeyword) {
+      kind = vscode.CompletionItemKind.Function;
+    }
+    super(name, kind);
+    this.documentation = new vscode.MarkdownString(doc);
     this.detail = declType;
     this.symbolNumber = number;
     this.symbolType = type;
@@ -73,7 +82,9 @@ const SymbolTypeFromString: Map<string, SymbolType> = new Map([
   ["STG", SymbolType.Stage],
   ["FSTG", SymbolType.FastStage],
   ["T", SymbolType.Timer],
-  ["PD", SymbolType.OneShot]
+  ["PD", SymbolType.OneShot],
+  ["system-variable", SymbolType.SystemVariable],
+  ["system-type", SymbolType.SystemType]
 ]);
 export function getSymbolTypeFromString(str: string) {
   return SymbolTypeFromString.get(str);

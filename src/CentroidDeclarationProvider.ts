@@ -1,6 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
-import { getSymbolForPosition } from "./util";
+import { isSystemSymbol, getSymbolForPosition } from "./util";
 
 export class CentroidDeclarationProvider implements vscode.DeclarationProvider {
   provideDeclaration(
@@ -11,7 +11,7 @@ export class CentroidDeclarationProvider implements vscode.DeclarationProvider {
     vscode.Location | vscode.Location[] | vscode.LocationLink[]
   > {
     let sym = getSymbolForPosition(document, position);
-    if (sym) {
+    if (sym && !isSystemSymbol(sym)) {
       return new vscode.Location(
         document.uri,
         document.positionAt(sym.symbolPos)

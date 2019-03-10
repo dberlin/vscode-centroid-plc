@@ -1,6 +1,11 @@
 "use strict";
 import * as vscode from "vscode";
 import { getWordForPosition } from "./util";
+/**
+ * Handles finding occurrences of symbols in the document.
+ *
+ * @remarks Currently uses regular expressions, not real knowledge.
+ */
 export class CentroidReferenceProvider implements vscode.ReferenceProvider {
   provideReferences(
     document: vscode.TextDocument,
