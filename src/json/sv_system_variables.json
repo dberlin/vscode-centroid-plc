@@ -1,0 +1,3187 @@
+[
+    {
+        "name": "SV_ATC_CAROUSEL_POSITION",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ATC_TOOL_IN_SPINDLE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_LABEL_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_AXIS_VALID_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_A_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_B_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_C_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DFW_RESERVED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DISABLE_STALL_DETECTION",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DOING_AUTO_TOOL_MEASURE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_CONTROL_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_FAULT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_ONLINE_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_TYPE_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_DRIVE_VERSION_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_AXIS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_ENABLE_IO_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_INP17_32_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_INP1_16_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_INP33_48_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_INP49_64_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_INP65_80_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_MEM17_32_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_MEM1_16_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_MEM33_48_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_MEM49_64_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_MEM65_80_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_OUT17_32_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_OUT1_16_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_OUT33_48_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_OUT49_64_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_OFF_OUT65_80_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_MEM17_32_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_MEM1_16_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_MEM33_48_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_MEM49_64_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_MEM65_80_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_OUT17_32_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_OUT1_16_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_OUT33_48_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_OUT49_64_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FORCE_ON_OUT65_80_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO12",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO13",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO14",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO15",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO16",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO17",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO18",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO19",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO20",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO21",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO22",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO23",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO24",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO25",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO26",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO27",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO28",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO29",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO30",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO31",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO32",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_FSIO9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_1_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_2_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_3_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_4_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_5_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_6_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_7_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_HSC_DRIVE_8_STATUS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_INVERT_INP17_32_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_INVERT_INP1_16_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_INVERT_INP33_48_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_INVERT_INP49_64_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_INVERT_INP65_80_BITS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOB_IN_PROGRESS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_12",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_13",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_14",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_15",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_16",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_17",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_18",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_19",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_20",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_21",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_22",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_23",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_24",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_25",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_26",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_27",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_28",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_29",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_30",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_31",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_32",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_DEBOUNCE_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_LINK_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_JOG_PANEL_REQUIRED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LEGACY_JOG_PANEL_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LIMIT_TRIPPED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_12",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_13",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LOCAL_DEBOUNCE_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_LUBRICANT_LOW",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MASTER_ENABLE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MEASURED_SPINDLE_SPEED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_12",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_13",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_14",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_15",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_16",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_METER_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_1_AXIS_SELECT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_1_ENABLED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_1_MULTIPLIER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_1_OFFSET_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_1_PLC_MPG_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_1_PLC_OFFSET",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_1_WINDUP_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_2_AXIS_SELECT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_2_ENABLED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_2_MULTIPLIER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_2_OFFSET_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_2_PLC_MPG_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_2_PLC_OFFSET",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_2_WINDUP_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_3_AXIS_SELECT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_3_ENABLED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_3_MULTIPLIER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_3_OFFSET_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_3_PLC_MPG_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_3_PLC_OFFSET",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_MPG_3_WINDUP_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_M_FUNCTION",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_FW9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_NV_W9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_COMMANDED_SPINDLE_SPEED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_CONFIG_MAX_SPINDLE_SPEED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_CONFIG_MIN_SPINDLE_SPEED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_CURRENT_WCS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_CYCLONE_STATUS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_CYCLONE_STATUS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_DAC_SPINDLE_SPEED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_FEEDRATE_PERCENTAGE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_HOME_SET",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_MAXIMUM_CSS_SPEED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_MINI_PLC_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_OVERRIDE_CONTROL_FEEDHOLD",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_OVERRIDE_CONTROL_FEEDRATE_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_OVERRIDE_CONTROL_SPINDLE_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_POWER_AXIS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_RIGID_TAP_SPINDLE_OFF",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_SOFTWARE_READY",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_SPINDLE_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_TOGGLE_RAPID_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PC_VIRTUAL_JOGPANEL_ACTIVE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_BUS_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_CAROUSEL_POSITION",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_12",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_13",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_14",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_15",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_16",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_17",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_18",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_19",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_20",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_21",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_22",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_23",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_24",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_25",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_26",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_27",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_28",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_29",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_30",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_31",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_32",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_33",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_34",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_35",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_36",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_37",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_38",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_39",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_40",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_41",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_42",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_43",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_44",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_45",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_46",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_47",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_48",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_49",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_50",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_51",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_52",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_53",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_54",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_55",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_56",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_57",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_58",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_59",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_60",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_61",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_62",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_63",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_64",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_DEBOUNCE_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_FAULT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_FAULT_ADDRESS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_FAULT_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_FEEDRATE_KNOB",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_FEEDRATE_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_IO2_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_OP_IN_PROGRESS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_OVERRIDE_CONTROL_FEEDHOLD",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_OVERRIDE_CONTROL_FEEDRATE_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_OVERRIDE_CONTROL_SPINDLE_OVERRIDE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_1_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_2_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_3_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_4_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_5_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_6_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_7_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SET_AXIS_8_PART_ZERO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SPINDLE_KNOB",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PLC_SPINDLE_SPEED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_PROGRAM_RUNNING",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RESET_PLC_STATS_AVG",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RESET_PLC_STATS_MIN_MAX",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ACTIVE_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_AXIS_ENABLE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_DIRECTION_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ENABLE_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_SPEED_REQUEST_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_RPM_MODE_ZERO_SPEED_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SCALE_INHIBIT_AXIS_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SD_DRIVE_1_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SD_DRIVE_2_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SD_DRIVE_3_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SD_DRIVE_4_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SD_DRIVE_5_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_DFW_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_FW_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_10",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_11",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_12",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SKINNING_DATA_W_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_D_ARG_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_1",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_2",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_3",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_4",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_5",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_6",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_7",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_8",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SMSG_F_ARG_9",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SPINDLE_DAC",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SPINDLE_FAULT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SPINDLE_LOW_RANGE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SPINDLE_MID_RANGE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SPINDLE_RPM_MODE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_STALL_AXIS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_STALL_ERROR",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_STALL_REASON",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_STARTUP_TIME",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_STOP",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_STOP_REASON",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SYS_COMMAND",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_SYS_MACRO",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_TOOL_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_TRIGGER_PLOT_DUMP",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_USB_MPG_AXIS_SELECT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_USB_MPG_BUTTON_STATE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_USB_MPG_ENCODER_WHEEL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_USB_MPG_SCALE_SELECT",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_U_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_V_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_W_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_X_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Y_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_DRIVE_CONTROL",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_DRIVE_NUMBER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_DRIVE_ONLINE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_DRIVE_STATUS",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_DRIVE_TYPE",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_FIBER_OK",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_METER",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_POWERED",
+        "documentation": "",
+        "kind": "system-variable"
+    },
+    {
+        "name": "SV_Z_AXIS_VALID",
+        "documentation": "",
+        "kind": "system-variable"
+    }
+]

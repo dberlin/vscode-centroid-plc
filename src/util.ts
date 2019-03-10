@@ -1,7 +1,19 @@
 "use strict";
 import * as vscode from "vscode";
 import { DocumentSymbolManager } from "./DocumentManager";
-import { SymbolInfo } from "./SymbolInfo";
+import { SymbolInfo, SymbolType } from "./SymbolInfo";
+
+/**
+ * Return true if the passed in symbol is a system defined symbol
+ *
+ * @param sym - Symbol to check
+ */
+export function isSystemSymbol(sym: SymbolInfo) {
+  return (
+    sym.symbolType == SymbolType.SystemType ||
+    sym.symbolType == SymbolType.SystemVariable
+  );
+}
 
 /**
  * Return symbol information (if we have any) for a given name in the document.
@@ -17,6 +29,7 @@ export function getSymbolByName(
   if (!tries) return null;
   return tries.getSymbol(symbolName);
 }
+
 /**
  * Convert a (document, position) pair into a word in the document.
  *

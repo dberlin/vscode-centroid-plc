@@ -1,4 +1,7 @@
 "use strict";
+import machine_params from "./json/machine_parameters.json";
+import sv_system_types from "./json/sv_system_types.json";
+import sv_system_variables from "./json/sv_system_variables.json";
 import * as path from "path";
 import { Trie } from "tiny-trie";
 import * as vscode from "vscode";
@@ -17,6 +20,7 @@ class FileTries {
   private constantSymbols: Trie = new Trie();
   private typedSymbols: Trie = new Trie();
   private stageSymbols: Trie = new Trie();
+  private typeSymbols: Trie = new Trie();
   private symbolMap: Map<string, SymbolInfo> = new Map();
 
   getAllCompletions(label: string): SymbolInfo[] {
@@ -51,6 +55,8 @@ class FileTries {
     let name = symbolInfo.label;
     if (symbolInfo.symbolType == SymbolType.MessageOrConstant) {
       this.constantSymbols.insert(name);
+    } else if (symbolInfo.symbolType == SymbolType.SystemType) {
+      this.typeSymbols.insert(name);
     } else {
       this.typedSymbols.insert(name);
       if (isStageSymbol(symbolInfo)) this.stageSymbols.insert(name);
@@ -79,6 +85,7 @@ class FileTries {
     this.constantSymbols.freeze();
     this.typedSymbols.freeze();
     this.stageSymbols.freeze();
+    this.typeSymbols.freeze();
   }
 }
 
@@ -93,11 +100,38 @@ function isComment(str: string) {
   return str.length > 1 && str[0] == ";";
 }
 
+/**
+ * Add a little markdown formatting to doc comments
+ * @param comment - comment to format
+ */
+function formatDocComment(comment: string) {
+  return "### ".concat(comment.substring(1).trimLeft());
+}
+
 class DocumentSymbolManagerClass {
   private tries: Map<string, FileTries> = new Map<string, FileTries>();
-
-  init(context: vscode.ExtensionContext) {}
-
+  private systemSymbols: SymbolInfo[] = [];
+  init(context: vscode.ExtensionContext) {
+    this.processSymbolList(machine_params);
+    this.processSymbolList(sv_system_types);
+    this.processSymbolList(sv_system_variables);
+  }
+  private processSymbolList(
+    symList: { kind: string; documentation: string; name: string }[]
+  ) {
+    symList.forEach((val, index, arr) => {
+      this.systemSymbols.push(
+        new SymbolInfo(
+          val.name,
+          <SymbolType>getSymbolTypeFromString(val.kind),
+          "",
+          0,
+          0,
+          val.documentation
+        )
+      );
+    });
+  }
   // Normalize path of document filename
   private normalizePathtoDoc(document: vscode.TextDocument) {
     return path.normalize(vscode.workspace.asRelativePath(document.fileName));
@@ -115,7 +149,7 @@ class DocumentSymbolManagerClass {
     while ((captures = regex.exec(text))) {
       let symbolInfo = callback(captures);
       if (!symbolInfo) continue;
-      // Set the positoin we found it as
+      // Set the position we found it as
       symbolInfo.symbolPos = captures.index;
       fileTries.add(symbolInfo);
     }
@@ -128,7 +162,10 @@ class DocumentSymbolManagerClass {
     }
     let fileTries = new FileTries();
     this.tries.set(filename, fileTries);
-
+    // Add system symbols
+    for (var sym of this.systemSymbols) {
+      fileTries.add(sym);
+    }
     // Parse out all the symbols
     let docText = document.getText();
 
@@ -162,7 +199,7 @@ class DocumentSymbolManagerClass {
 
     let possibleComment = !captures[5] ? "" : captures[5].trim();
     let symbolDoc = isComment(possibleComment)
-      ? possibleComment.substring(1).trimLeft()
+      ? formatDocComment(possibleComment)
       : "";
     return new SymbolInfo(
       captures[1],
@@ -173,6 +210,7 @@ class DocumentSymbolManagerClass {
       symbolDoc
     );
   }
+
   /**
    * Convert a capture array into a constant symbol.
    *
@@ -185,7 +223,7 @@ class DocumentSymbolManagerClass {
     let symbolType = SymbolType.MessageOrConstant;
     let possibleComment = !captures[3] ? "" : captures[3].trim();
     let symbolDoc = isComment(possibleComment)
-      ? possibleComment.substring(1).trimLeft()
+      ? formatDocComment(possibleComment)
       : "";
     return new SymbolInfo(
       captures[1],

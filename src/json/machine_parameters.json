@@ -1,0 +1,1922 @@
+[
+  {
+    "name": "SV_MACHINE_PARAMETER_000",
+    "kind": "system-variable",
+    "documentation": "### E-Stop PLC Bit Number"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_001",
+    "kind": "system-variable",
+    "documentation": "### Y Jog Key Orientation"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_002",
+    "kind": "system-variable",
+    "documentation": "### G-Code Interpretation Control"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_003",
+    "kind": "system-variable",
+    "documentation": "### Modal Tool and Height Offset Control"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_004",
+    "kind": "system-variable",
+    "documentation": "### File Load Options"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_005",
+    "kind": "system-variable",
+    "documentation": "### Suppress Machine Home Setup"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_006",
+    "kind": "system-variable",
+    "documentation": "### Auto Tool Changer Installed"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_007",
+    "kind": "system-variable",
+    "documentation": "### Display Colors"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_008",
+    "kind": "system-variable",
+    "documentation": "### Available Coolant System(s)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_009",
+    "kind": "system-variable",
+    "documentation": "### Display Language"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_010",
+    "kind": "system-variable",
+    "documentation": "### Macro M-Function Control.  \nDisplay M and G codes in M function macros ADD 1.  \nStep through M function macros in Block Mode ADD 2.  \nDecel on M105 and M106 ADD 4. Do NOT Move to Z home on M6 ADD 8.  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_011",
+    "kind": "system-variable",
+    "documentation": "### Touch Probe PLC Input"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_012",
+    "kind": "system-variable",
+    "documentation": "### Touch Probe Tool Number"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_013",
+    "kind": "system-variable",
+    "documentation": "### Probing Recovery Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_014",
+    "kind": "system-variable",
+    "documentation": "### Fast Probing Rate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_015",
+    "kind": "system-variable",
+    "documentation": "### Slow Probing Rate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_016",
+    "kind": "system-variable",
+    "documentation": "### Probing Search Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_017",
+    "kind": "system-variable",
+    "documentation": "### Tool Detector Reference Number"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_018",
+    "kind": "system-variable",
+    "documentation": "### PLC Input Spindle Inhibitor"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_019",
+    "kind": "system-variable",
+    "documentation": "### MPG Modes: Add 4 Enable Z axis MPG"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_020",
+    "kind": "system-variable",
+    "documentation": "### Ambient Temperature"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_021",
+    "kind": "system-variable",
+    "documentation": "### X Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_022",
+    "kind": "system-variable",
+    "documentation": "### Y Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_023",
+    "kind": "system-variable",
+    "documentation": "### Z Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_024",
+    "kind": "system-variable",
+    "documentation": "### 4th Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_025",
+    "kind": "system-variable",
+    "documentation": "### X Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_026",
+    "kind": "system-variable",
+    "documentation": "### Y Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_027",
+    "kind": "system-variable",
+    "documentation": "### Z Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_028",
+    "kind": "system-variable",
+    "documentation": "### 4th Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_029",
+    "kind": "system-variable",
+    "documentation": "### Overheat Warning Temperature"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_030",
+    "kind": "system-variable",
+    "documentation": "### Job Cancellation Temperature"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_031",
+    "kind": "system-variable",
+    "documentation": "### Legacy SPIN232 COM Port"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_032",
+    "kind": "system-variable",
+    "documentation": "### Autonomous Digitizing Offset Files  \nAdd  1: Raw Centerline Data        Add  2: Clean Centerline Data  \nAdd  4: Centerline Flow Splines    Add  8: Offset Data  \nAdd 16: Spline Offset Data          Add 32: Spline Offset Flow Splines  \nAdd 64: Offset Plus Flow  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_033",
+    "kind": "system-variable",
+    "documentation": "### Spindle Motor Gear Ratio"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_034",
+    "kind": "system-variable",
+    "documentation": "### Spindle Encoder Counts/Revolution"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_035",
+    "kind": "system-variable",
+    "documentation": "### Spindle Axis 1-8, 0 = disabled"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_036",
+    "kind": "system-variable",
+    "documentation": "### Rigid Tapping Enable/Disable"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_037",
+    "kind": "system-variable",
+    "documentation": "### Spindle Deceleration Time"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_038",
+    "kind": "system-variable",
+    "documentation": "### Multi-Axis Maximum Feedrate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_039",
+    "kind": "system-variable",
+    "documentation": "### Feedrate Override Percentage Limit"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_040",
+    "kind": "system-variable",
+    "documentation": "### Basic Jog Increment"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_041",
+    "kind": "system-variable",
+    "documentation": "### Rotary Axis Jog Increment"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_042",
+    "kind": "system-variable",
+    "documentation": "### Configuration Password"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_043",
+    "kind": "system-variable",
+    "documentation": "### Auto Tool Measurement: Add 1 to Subtract height of TT-1,  \nAdd 2 to use TT1 input for setting Z ref  \nAdd 4 to get a warning connect TT-1 cable during batch tool measurement  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_044",
+    "kind": "system-variable",
+    "documentation": "### TT1 plc input"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_045",
+    "kind": "system-variable",
+    "documentation": "### WCS Lockout"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_046",
+    "kind": "system-variable",
+    "documentation": "### Active G-Codes Display  \n0: Always  \n1: MDI Only  \n2: Never  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_047",
+    "kind": "system-variable",
+    "documentation": "### Not used"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_048",
+    "kind": "system-variable",
+    "documentation": "### 'Rapid to' clearance amount for playback of Grid Digitizing output data"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_049",
+    "kind": "system-variable",
+    "documentation": "### Small Arc Feedrate Limiting - Lower Limits"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_050",
+    "kind": "system-variable",
+    "documentation": "### Small Arc Feedrate Limiting - Upper Limits"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_051",
+    "kind": "system-variable",
+    "documentation": "### Small Arc Feedrate Limiting Mode"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_052",
+    "kind": "system-variable",
+    "documentation": "### Reserved: Do Not Modify"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_053",
+    "kind": "system-variable",
+    "documentation": "### Reserved: Do Not Modify"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_056",
+    "kind": "system-variable",
+    "documentation": "### Override Properties: 2=Programmed Feedrate, 4=Meters On, 8=Inverse Time in Seconds"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_057",
+    "kind": "system-variable",
+    "documentation": "### Axis Bitmap for Generic Meter"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_061",
+    "kind": "system-variable",
+    "documentation": "### High Power Stall Time Limit"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_062",
+    "kind": "system-variable",
+    "documentation": "### High Power Stall PID Threshold"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_063",
+    "kind": "system-variable",
+    "documentation": "### High Power Idle PID Multiplier"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_064",
+    "kind": "system-variable",
+    "documentation": "### 4th/5th Axis Pairing"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_065",
+    "kind": "system-variable",
+    "documentation": "### Low Range Spindle Gear Ratio"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_066",
+    "kind": "system-variable",
+    "documentation": "### Medium-Low Range Spindle Gear Ratio"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_067",
+    "kind": "system-variable",
+    "documentation": "### Medium-High Range Spindle Gear Ratio"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_068",
+    "kind": "system-variable",
+    "documentation": "### Minimum Rigid Tapping Spindle Speed"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_069",
+    "kind": "system-variable",
+    "documentation": "### Duration for Minimum Spindle Speed"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_070",
+    "kind": "system-variable",
+    "documentation": "### Offset Library Inc/Decrement Amount"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_071",
+    "kind": "system-variable",
+    "documentation": "### Part Setup Detector Height"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_072",
+    "kind": "system-variable",
+    "documentation": "### M120-M123 options: suppress labels=1, insert commas=2, suppress spaces=4"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_073",
+    "kind": "system-variable",
+    "documentation": "### G73 Canned Cycle Parameter"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_074",
+    "kind": "system-variable",
+    "documentation": "### G74 Canned Cycle Parameter"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_075",
+    "kind": "system-variable",
+    "documentation": "### Axis Summing Display Control"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_076",
+    "kind": "system-variable",
+    "documentation": "### Manual Input Unrestricted Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_077",
+    "kind": "system-variable",
+    "documentation": "### Manual Input Movement Tolerance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_078",
+    "kind": "system-variable",
+    "documentation": "### Display of Spindle Speed: add 1  \nOverride feedrate if spindle boggs down add 2  \nWait for spindle at speed add 4  \nNOTE: All 3 functions require spindle encoder feedback.  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_079",
+    "kind": "system-variable",
+    "documentation": "### Paired Axes Resync Delay Time"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_080",
+    "kind": "system-variable",
+    "documentation": "### Voltage Brake Message Frequency"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_081",
+    "kind": "system-variable",
+    "documentation": "### G81 Canned Cycle Parameter"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_082",
+    "kind": "system-variable",
+    "documentation": "### Spindle Drift Adjustment"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_083",
+    "kind": "system-variable",
+    "documentation": "### G83 Canned Cycle Parameter"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_084",
+    "kind": "system-variable",
+    "documentation": "### G84 Canned Cycle Parameter"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_085",
+    "kind": "system-variable",
+    "documentation": "### Door closed interlock"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_086",
+    "kind": "system-variable",
+    "documentation": "### Vector Optimization"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_087",
+    "kind": "system-variable",
+    "documentation": "### X Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_088",
+    "kind": "system-variable",
+    "documentation": "### Y Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_089",
+    "kind": "system-variable",
+    "documentation": "### Z Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_090",
+    "kind": "system-variable",
+    "documentation": "### 4th Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_091",
+    "kind": "system-variable",
+    "documentation": "### X AXIS Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSupress park function ADD 8, Linear Display of Rotory axis ADD 32,  \nTilt rotary axis ADD 256, Hide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_092",
+    "kind": "system-variable",
+    "documentation": "### Y AXIS Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSupress park function ADD 8, Linear Display of Rotory axis ADD 32,  \nTilt rotary axis ADD 256, Hide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_093",
+    "kind": "system-variable",
+    "documentation": "### Z AXIS Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSuppress dir check during tool check ADD 4, Supress park function ADD 8,  \nLinear Display of Rotory axis ADD 32, Tilt rotary axis ADD 256,  \nHide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_094",
+    "kind": "system-variable",
+    "documentation": "### 4th AXIS Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSupress park function ADD 8, Linear Display of Rotory axis ADD 32,  \n4th axis responds like Z axis ADD 64, Tilt rotary axis ADD 256  \nHide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_095",
+    "kind": "system-variable",
+    "documentation": "### X Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_096",
+    "kind": "system-variable",
+    "documentation": "### Y Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_097",
+    "kind": "system-variable",
+    "documentation": "### Z Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_098",
+    "kind": "system-variable",
+    "documentation": "### 4th Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_099",
+    "kind": "system-variable",
+    "documentation": "### Lookahead Number of Events"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_100",
+    "kind": "system-variable",
+    "documentation": "### Intercon comment generation: 0 = FALSE,1 = TRUE"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_101",
+    "kind": "system-variable",
+    "documentation": "### Intercon clearance amount"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_102",
+    "kind": "system-variable",
+    "documentation": "### Intercon spindle coolant delay"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_103",
+    "kind": "system-variable",
+    "documentation": "### Intercon corner feedrate override"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_104",
+    "kind": "system-variable",
+    "documentation": "### Intercon modal line parameters: 0 = FALSE,1 = TRUE"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_105",
+    "kind": "system-variable",
+    "documentation": "### Intercon modal arc parameters: 0 = FALSE,1 = TRUE"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_106",
+    "kind": "system-variable",
+    "documentation": "### Intercon modal drilling cycle parameters: 0 = FALSE,1 = TRUE"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_115",
+    "kind": "system-variable",
+    "documentation": "### Intercon help: 0 = OFF, 1 = ON"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_116",
+    "kind": "system-variable",
+    "documentation": "### A axis Y coordinate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_117",
+    "kind": "system-variable",
+    "documentation": "### A axis Z coordinate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_118",
+    "kind": "system-variable",
+    "documentation": "### B axis X coordinate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_119",
+    "kind": "system-variable",
+    "documentation": "### B axis Z coordinate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_120",
+    "kind": "system-variable",
+    "documentation": "### Probe stuck clearance amount"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_121",
+    "kind": "system-variable",
+    "documentation": "### Grid digitizing prediction minimum Z pullback"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_122",
+    "kind": "system-variable",
+    "documentation": "### Grid digitizing deadband move distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_123",
+    "kind": "system-variable",
+    "documentation": "### Radial digitizing clearance move"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_124",
+    "kind": "system-variable",
+    "documentation": "### PLC input for jogging"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_125",
+    "kind": "system-variable",
+    "documentation": "### PLC input for jogging"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_126",
+    "kind": "system-variable",
+    "documentation": "### PLC input for jogging"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_127",
+    "kind": "system-variable",
+    "documentation": "### PLC input for jogging"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_130",
+    "kind": "system-variable",
+    "documentation": "### Z axis on/off selection"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_131",
+    "kind": "system-variable",
+    "documentation": "### Fourth axis on/off selection"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_132",
+    "kind": "system-variable",
+    "documentation": "### 5th Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_133",
+    "kind": "system-variable",
+    "documentation": "### 6th Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_134",
+    "kind": "system-variable",
+    "documentation": "### 7th Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_135",
+    "kind": "system-variable",
+    "documentation": "### 8th Axis Heating Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_136",
+    "kind": "system-variable",
+    "documentation": "### G76 Fine Bore Retract Angle (0-359)  \n0 = Y+, 90 = X-, 180 = Y-, 270 = X+  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_137",
+    "kind": "system-variable",
+    "documentation": "### Load Meter Filter Size"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_138",
+    "kind": "system-variable",
+    "documentation": "### DRO Encoder Deadband Count"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_139",
+    "kind": "system-variable",
+    "documentation": "### Special Dwell between moves"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_140",
+    "kind": "system-variable",
+    "documentation": "### Message log priority level"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_141",
+    "kind": "system-variable",
+    "documentation": "### Maximum message log lines"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_142",
+    "kind": "system-variable",
+    "documentation": "### Message log trim amount"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_143",
+    "kind": "system-variable",
+    "documentation": "### DRO properties: 1=load meters, 2=meter outline, 4=5 dig DRO prec, 8=Mini DRO on"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_144",
+    "kind": "system-variable",
+    "documentation": "### Comparison Roundoff: 0=none, 1-9=significant digits after decimal."
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_145",
+    "kind": "system-variable",
+    "documentation": "### Branching properties: 1=fast branch enabled"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_146",
+    "kind": "system-variable",
+    "documentation": "### Feed hold threshold for feedrate override"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_147",
+    "kind": "system-variable",
+    "documentation": "### Number of items to keep in Operator Message Window"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_148",
+    "kind": "system-variable",
+    "documentation": "### Miscellaneous Jogging Options.  \nEnable Fast Jog before Home Set ADD 1.  \nProhibit Keyboard Jogging ADD 2.  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_149",
+    "kind": "system-variable",
+    "documentation": "### Spindle Speed wait percent (0.5 - 1.0)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_150",
+    "kind": "system-variable",
+    "documentation": "### Run-Time Graphics: Add 1,  \nShow CSR in backplot: Add 2,  \nDisable backplot machine geometry: Add 4,  \nEnable display of Skew Correction in backplot: Add 8,  \nEnable display of PC-based Backlash correction or Screw Comp in backplot: Add 16  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_151",
+    "kind": "system-variable",
+    "documentation": "### Probe Repeatability Tolerance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_153",
+    "kind": "system-variable",
+    "documentation": "### Probe Protection  \n0: Off  \n1: On  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_154",
+    "kind": "system-variable",
+    "documentation": "### Touch Screen Options"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_155",
+    "kind": "system-variable",
+    "documentation": "### Probe Settings : Standard Probe = 0, DSP Probe = 1, DP7 Probe = 2"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_156",
+    "kind": "system-variable",
+    "documentation": "### 5th Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_157",
+    "kind": "system-variable",
+    "documentation": "### 6th Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_158",
+    "kind": "system-variable",
+    "documentation": "### 7th Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_159",
+    "kind": "system-variable",
+    "documentation": "### 8th Axis Autotune Move Distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_160",
+    "kind": "system-variable",
+    "documentation": "### Enhanced ATC: 0 = Off, 1 = Nonrandom, 2 = Random"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_161",
+    "kind": "system-variable",
+    "documentation": "### ATC Maximum Tool Bins"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_162",
+    "kind": "system-variable",
+    "documentation": "### Intercon M6 Initial M-Code"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_164",
+    "kind": "system-variable",
+    "documentation": "### ATC feature bit"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_165",
+    "kind": "system-variable",
+    "documentation": "### Acceleration / Deceleration Options"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_166",
+    "kind": "system-variable",
+    "documentation": "### 5th Axis Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSupress park function ADD 8, Linear Display of Rotory axis ADD 32,  \nTilt rotary axis ADD 256, Hide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_167",
+    "kind": "system-variable",
+    "documentation": "### 6th Axis Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSupress park function ADD 8, Linear Display of Rotory axis ADD 32,  \nTilt rotary axis ADD 256, Hide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_168",
+    "kind": "system-variable",
+    "documentation": "### 7th Axis Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSupress park function ADD 8, Linear Display of Rotory axis ADD 32,  \nTilt rotary axis ADD 256, Hide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_169",
+    "kind": "system-variable",
+    "documentation": "### 8th Axis Properties: Rotary axis ADD 1, Rotary display wrap around ADD 2,  \nSupress park function ADD 8, Linear Display of Rotory axis ADD 32,  \nTilt rotary axis ADD 256, Hide axis display ADD 512  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_170",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP0"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_171",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP1"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_172",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP2"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_173",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP3"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_174",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP4"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_175",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP5"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_176",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP6"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_177",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP7"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_178",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP8"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_179",
+    "kind": "system-variable",
+    "documentation": "### PLC Parameter LP9"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_180",
+    "kind": "system-variable",
+    "documentation": "### Serial Comm - COM port (1-4)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_181",
+    "kind": "system-variable",
+    "documentation": "### Serial Comm - Baud rate (Kbps)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_182",
+    "kind": "system-variable",
+    "documentation": "### Serial Comm - Data, Parity, Stop"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_183",
+    "kind": "system-variable",
+    "documentation": "### Serial Comm - Flow control"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_184",
+    "kind": "system-variable",
+    "documentation": "### Serial Comm - Timeout (in seconds)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_185",
+    "kind": "system-variable",
+    "documentation": "### Serial Comm - Options"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_186",
+    "kind": "system-variable",
+    "documentation": "### Probe stuck retry disable"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_187",
+    "kind": "system-variable",
+    "documentation": "### Hard Stop Limit for Homing"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_188",
+    "kind": "system-variable",
+    "documentation": "### Aux 1 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_189",
+    "kind": "system-variable",
+    "documentation": "### Aux 2 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_190",
+    "kind": "system-variable",
+    "documentation": "### Aux 3 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_191",
+    "kind": "system-variable",
+    "documentation": "### Aux 4 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_192",
+    "kind": "system-variable",
+    "documentation": "### Aux 5 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_193",
+    "kind": "system-variable",
+    "documentation": "### Aux 6 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_194",
+    "kind": "system-variable",
+    "documentation": "### Aux 7 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_195",
+    "kind": "system-variable",
+    "documentation": "### Aux 8 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_196",
+    "kind": "system-variable",
+    "documentation": "### Aux 9 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_197",
+    "kind": "system-variable",
+    "documentation": "### Aux 10 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_198",
+    "kind": "system-variable",
+    "documentation": "### Aux 11 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_199",
+    "kind": "system-variable",
+    "documentation": "### Aux 12 Key Function"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_200",
+    "kind": "system-variable",
+    "documentation": "### Drive 1 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_201",
+    "kind": "system-variable",
+    "documentation": "### Drive 2 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_202",
+    "kind": "system-variable",
+    "documentation": "### Drive 3 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_203",
+    "kind": "system-variable",
+    "documentation": "### Drive 4 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_204",
+    "kind": "system-variable",
+    "documentation": "### Drive 5 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_205",
+    "kind": "system-variable",
+    "documentation": "### Drive 6 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_206",
+    "kind": "system-variable",
+    "documentation": "### Drive 7 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_207",
+    "kind": "system-variable",
+    "documentation": "### Drive 8 Tach volts per 1000 rpm"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_216",
+    "kind": "system-variable",
+    "documentation": "### PC-based backlash on/off: 1=PC-based, 0=MPU backlash"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_217",
+    "kind": "system-variable",
+    "documentation": "### PC-based Screw comp on/off: 1=PC-based, 0=MPU based"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_218",
+    "kind": "system-variable",
+    "documentation": "### USB MPG Options.  \nADD 1 = Axis 1 enabled.  \nADD 2 = Axis 2 enabled.  \nADD 4 = Axis 3 enabled.  \nADD 8 = Axis 4 enabled.  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_219",
+    "kind": "system-variable",
+    "documentation": "### Virtual Control Panel Options"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_220",
+    "kind": "system-variable",
+    "documentation": "### Smoothing mode on/off  \n1=on 0=off  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_221",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Amount to round corners and smooth geometry (NBpts)  \nRounded corners can be cut faster, but check tolerances (see next)  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_222",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Step size (STEP)  \nRounding Error is roughly (Parameter 221 * Parameter 222) / 3  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_223",
+    "kind": "system-variable",
+    "documentation": "### Smoothing vectors per second -- leave this at 800 (Umax)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_224",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Centripetal options:  \n0 = All axes and NO checking for excess accel  \n-1 = Linear axes only and NO checking for excess accel  \n-2 = All axes WITH checking for excess accel  \n-3 = Linear axes only WITH checking for excess accel  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_225",
+    "kind": "system-variable",
+    "documentation": "### Unused"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_226",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Filter half-width for feature detection (W)  \nIncrease this value to smooth over small glitches in your gcode programs  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_227",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Minimum angle for feature detection (Min_Angle)  \nMachine will round corners that are wider than this angle  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_228",
+    "kind": "system-variable",
+    "documentation": "### Smoothing S-Curve Filter Multiplier (S Curve)  \nSet this to 0 to turn off S-Curve, 1 for full S-Curve, Between 0 and 1 for partial  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_229",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Movements Drawn in Backplot  \nSet this to 1 to use Smoothing for Backplotting (slows it down considerably)  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_230",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Curve Feedrate Multiplier  \nIncrease this value to make your machine run faster (but bang more) -- 1 is normal  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_231",
+    "kind": "system-variable",
+    "documentation": "### Smoothing Acceleration Multiplier  \nIncrease this value to make your machine accelerate faster than normal -- 1 is normal  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_236",
+    "kind": "system-variable",
+    "documentation": "### 5th Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_237",
+    "kind": "system-variable",
+    "documentation": "### 6th Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_238",
+    "kind": "system-variable",
+    "documentation": "### 7th Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_239",
+    "kind": "system-variable",
+    "documentation": "### 8th Axis Cooling Coefficient"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_240",
+    "kind": "system-variable",
+    "documentation": "### Accel/Decel distance for Rigid Tapping"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_241",
+    "kind": "system-variable",
+    "documentation": "### Accel/Decel rotational step size (in degrees) for Rigid Tapping"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_252",
+    "kind": "system-variable",
+    "documentation": "### 5th Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_253",
+    "kind": "system-variable",
+    "documentation": "### 6th Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_254",
+    "kind": "system-variable",
+    "documentation": "### 7th Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_255",
+    "kind": "system-variable",
+    "documentation": "### 8th Axis Autotune Accel Time and Ka"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_256",
+    "kind": "system-variable",
+    "documentation": "### Drive Mode:  \n0 = Torque (Autotune Enabled)  \n1 = Velocity (Autotune Disabled)  \n2 = Precision (Auto Delay Enabled, Enables the Precision Mode Delay Parameters)  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_257",
+    "kind": "system-variable",
+    "documentation": "### Tool Touchoff Detect"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_258",
+    "kind": "system-variable",
+    "documentation": "### Velocity/Torque Mode override in Precision mode. Setting an axis bit allows that axis to run as if it were in velocity or torque mode, but prone to servo mismatch errors."
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_259",
+    "kind": "system-variable",
+    "documentation": "### Manual Axis Bits"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_260",
+    "kind": "system-variable",
+    "documentation": "### Accelerated Graphics Backplot... 1 = On, -1 = Off"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_261",
+    "kind": "system-variable",
+    "documentation": "### Precision Mode Standoff Tolerance Percentage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_262",
+    "kind": "system-variable",
+    "documentation": "### Precision Mode Standoff Delay Time (seconds)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_265",
+    "kind": "system-variable",
+    "documentation": "### Rotary A Axis Scale Encoder Home Position - DO NOT MODIFY EXCEPT TO SET TO ZERO FOR RECALIBRATION"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_266",
+    "kind": "system-variable",
+    "documentation": "### Rotary A Axis Scale Encoder Sign Extension - DO NO MODIFY"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_270",
+    "kind": "system-variable",
+    "documentation": "### Skew Correction: X Skew offset from Trusted/Intended X"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_271",
+    "kind": "system-variable",
+    "documentation": "### Skew Correction: Trusted/Intended Y"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_278",
+    "kind": "system-variable",
+    "documentation": "### Spindle Speed Display Precision"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_284",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 1 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_285",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 2 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_286",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 3 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_287",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 4 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_288",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 5 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_289",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 6 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_290",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 7 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_291",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive 8 Brake Resistor Wattage"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_316",
+    "kind": "system-variable",
+    "documentation": "### Absolute Encoder Bits"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_317",
+    "kind": "system-variable",
+    "documentation": "### Single Turn Absolute Encoder Bits"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_318",
+    "kind": "system-variable",
+    "documentation": "### Five Axis Configuration  \nStraight Rotary B axis Magnescale Scale Drive (1-8)  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_323",
+    "kind": "system-variable",
+    "documentation": "### MPU11 Encoder Filter Speed"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_332",
+    "kind": "system-variable",
+    "documentation": "### Disable differential encoder error faults"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_333",
+    "kind": "system-variable",
+    "documentation": "### Disable differential encoder error messages"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_334",
+    "kind": "system-variable",
+    "documentation": "### Disable quadrature encoder error faults"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_335",
+    "kind": "system-variable",
+    "documentation": "### Disable quadrature encoder error messages"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_336",
+    "kind": "system-variable",
+    "documentation": "### Axis meter overall gain"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_337",
+    "kind": "system-variable",
+    "documentation": "### Axis meter absolute error gain"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_338",
+    "kind": "system-variable",
+    "documentation": "### Axis meter sum error gain"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_339",
+    "kind": "system-variable",
+    "documentation": "### Axis meter delta error gain"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_365",
+    "kind": "system-variable",
+    "documentation": "### Drive Power On Delay (Milliseconds)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_366",
+    "kind": "system-variable",
+    "documentation": "### Probe Deceleration Multiplier"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_367",
+    "kind": "system-variable",
+    "documentation": "### TT1 Deceleration Multiplier"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_368",
+    "kind": "system-variable",
+    "documentation": "### Autonomous Digitizing Angle Adjustment Default"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_369",
+    "kind": "system-variable",
+    "documentation": "### Tool Check Max Absolute Angle"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_370",
+    "kind": "system-variable",
+    "documentation": "### PID Filter Constant A1 (Dev Test)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_371",
+    "kind": "system-variable",
+    "documentation": "### PID Filter Constant A2 (Dev Test)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_372",
+    "kind": "system-variable",
+    "documentation": "### PID Filter Constant B0 (Dev Test)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_373",
+    "kind": "system-variable",
+    "documentation": "### PID Filter Constant B1 (Dev Test)"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_374",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive Debug Log Axis Inclusion"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_375",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive Debug Log Size"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_376",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive Debug Log Collection Type"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_377",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive Debug Log Trigger Type"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_378",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive Debug Log Trigger Level"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_379",
+    "kind": "system-variable",
+    "documentation": "### ACDC Drive Debug Log Option"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_380",
+    "kind": "system-variable",
+    "documentation": "### Engine Block X Reference Position"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_381",
+    "kind": "system-variable",
+    "documentation": "### Engine Block Block WCS"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_382",
+    "kind": "system-variable",
+    "documentation": "### Engine Block Cam WCS"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_383",
+    "kind": "system-variable",
+    "documentation": "### Engine Block A axis Center Y"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_384",
+    "kind": "system-variable",
+    "documentation": "### Engine Block A axis Center Z"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_385",
+    "kind": "system-variable",
+    "documentation": "### Engine Block Surfacing Cycle B angle"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_386",
+    "kind": "system-variable",
+    "documentation": "### Reserved"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_389",
+    "kind": "system-variable",
+    "documentation": "### Debug Level"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_390",
+    "kind": "system-variable",
+    "documentation": "### AD1 CV on/off"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_391",
+    "kind": "system-variable",
+    "documentation": "### AD1 CV vectors per second"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_392",
+    "kind": "system-variable",
+    "documentation": "### DP7 pullback distance"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_393",
+    "kind": "system-variable",
+    "documentation": "### DP7 pullback feedrate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_394",
+    "kind": "system-variable",
+    "documentation": "### DP7 measuring feedrate"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_395",
+    "kind": "system-variable",
+    "documentation": "### Probing Setup Traverse Speed"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_396",
+    "kind": "system-variable",
+    "documentation": "### Probing Setup Plunge Speed"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_397",
+    "kind": "system-variable",
+    "documentation": "### Combustion Chamber Digitizing Clearance Height"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_398",
+    "kind": "system-variable",
+    "documentation": "### Current Port Block Mode:  \n0 - 3 Axis Mode  \n1 - Engine Block Mode  \n2 - Tilt Table Mode  "
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_399",
+    "kind": "system-variable",
+    "documentation": "### Arc chord off-path tolerance adjustment factor"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_400",
+    "kind": "system-variable",
+    "documentation": "### Allow Cycle Start in Run Menu"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_401",
+    "kind": "system-variable",
+    "documentation": "### Forget last job on software start."
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_900",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_901",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_902",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_903",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_904",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_905",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_906",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_907",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_908",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_909",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_910",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_911",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_912",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_913",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_914",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_915",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_916",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_917",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_918",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_919",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_920",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_921",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_922",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_923",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_924",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_925",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_926",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_927",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_928",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_929",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_930",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_931",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_932",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_933",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_934",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_935",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_936",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_937",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_938",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_939",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_940",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_941",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_942",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_943",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_944",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_945",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_946",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_947",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_948",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_949",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_950",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_951",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_952",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_953",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_954",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_955",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_956",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_957",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_958",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_959",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_960",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_961",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_962",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_963",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_964",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_965",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_966",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_967",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_968",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_969",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_970",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_971",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_972",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_973",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_974",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_975",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_976",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_977",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_978",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_979",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_980",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_981",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_982",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_983",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_984",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_985",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_986",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_987",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_988",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_989",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_990",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_991",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_992",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_993",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_994",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_995",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_996",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_997",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_998",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  },
+  {
+    "name": "SV_MACHINE_PARAMETER_999",
+    "kind": "system-variable",
+    "documentation": "### Reserved for PLC"
+  }
+]
