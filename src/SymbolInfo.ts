@@ -15,8 +15,6 @@ export enum SymbolType {
   Timer,
   OneShot,
   MessageOrConstant,
-  SystemType,
-  SystemVariable,
   BuiltInKeyword
 }
 export class SymbolInfo extends vscode.CompletionItem {
@@ -82,9 +80,7 @@ const SymbolTypeFromString: Map<string, SymbolType> = new Map([
   ["STG", SymbolType.Stage],
   ["FSTG", SymbolType.FastStage],
   ["T", SymbolType.Timer],
-  ["PD", SymbolType.OneShot],
-  ["system-variable", SymbolType.SystemVariable],
-  ["system-type", SymbolType.SystemType]
+  ["PD", SymbolType.OneShot]
 ]);
 export function getSymbolTypeFromString(str: string) {
   return SymbolTypeFromString.get(str);
