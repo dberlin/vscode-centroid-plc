@@ -7,9 +7,9 @@ let helpList: string[][] = JSON.parse(
   fs.readFileSync(process.argv[2]).toString()
 );
 // These are simple ranges
-let rangeRegex = new RegExp("_([0-9]+)-([0-9]+)", "g");
+let rangeRegex = new RegExp("_([0-9]+)-([0-9]+)");
 // These are wildcards that represent the axis names
-let wildRegex = new RegExp("_(\\?)_", "g");
+let wildRegex = new RegExp("_(\\?)_");
 let axisNames = ["X", "Y", "Z", "A", "B", "C", "U", "V", "W"];
 let expandedResults = [];
 let captures;

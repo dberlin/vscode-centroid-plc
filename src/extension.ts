@@ -9,6 +9,7 @@ import { CentroidReferenceProvider } from "./CentroidReferenceProvider";
 const centroidScheme = { language: "centroid-plc", scheme: "file" };
 
 export function activate(context: vscode.ExtensionContext) {
+  console.log("Activating!")
   DocumentSymbolManager.init(context);
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(

@@ -4,3 +4,5 @@
 vsc-extension-quickstart.md
 yaml/**
 json/**
+tsconfig.json
+tslint.json
