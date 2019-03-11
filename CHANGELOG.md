@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1] - 2019-03-11
 ### Fixed
-- A bug in a script caused some system variable documentation to go missing in this release
+- A bug in a script caused some system variable documentation to go missing in the prior release
 
 ## [0.2.0] - 2019-03-10
 ### Added
