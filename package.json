@@ -12,7 +12,7 @@
     },
     "publisher": "DanielBerlin",
     "license": "Apache-2.0",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "engines": {
         "vscode": "^1.31.0"
     },
@@ -46,7 +46,7 @@
     ],
     "main": "./out/extension.js",
     "scripts": {
-        "convert-yaml":"node src/scripts/yaml2js.js yaml/original_help_text.yaml > json/original_help_text.json",
+        "convert-yaml": "node src/scripts/yaml2js.js yaml/original_help_text.yaml > json/original_help_text.json",
         "expand-json": "ts-node src/scripts/expando.ts json/original_help_text.json >src/json/sv_system_variables.json",
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
