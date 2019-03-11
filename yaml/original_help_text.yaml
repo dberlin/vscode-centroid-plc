@@ -363,7 +363,8 @@
   - W
   - |-
     High Speed Drive Status word,separated by drive type.
-    ** ALLIN1DC/DC3IOB **
+
+    **ALLIN1DC/DC3IOB**
 
     |Bit  |Function   |
     |:----|:----------|
