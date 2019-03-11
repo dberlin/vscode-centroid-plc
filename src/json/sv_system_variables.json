@@ -705,7 +705,42 @@
     "documentation": "1 = indicates if the axis is powered to hold position"
   },
   {
-    "name": "SV_DRIVE_ONLINE_1-8",
+    "name": "SV_DRIVE_ONLINE_1",
+    "kind": "MEM",
+    "documentation": "1 = The drive for the axis is detected."
+  },
+  {
+    "name": "SV_DRIVE_ONLINE_2",
+    "kind": "MEM",
+    "documentation": "1 = The drive for the axis is detected."
+  },
+  {
+    "name": "SV_DRIVE_ONLINE_3",
+    "kind": "MEM",
+    "documentation": "1 = The drive for the axis is detected."
+  },
+  {
+    "name": "SV_DRIVE_ONLINE_4",
+    "kind": "MEM",
+    "documentation": "1 = The drive for the axis is detected."
+  },
+  {
+    "name": "SV_DRIVE_ONLINE_5",
+    "kind": "MEM",
+    "documentation": "1 = The drive for the axis is detected."
+  },
+  {
+    "name": "SV_DRIVE_ONLINE_6",
+    "kind": "MEM",
+    "documentation": "1 = The drive for the axis is detected."
+  },
+  {
+    "name": "SV_DRIVE_ONLINE_7",
+    "kind": "MEM",
+    "documentation": "1 = The drive for the axis is detected."
+  },
+  {
+    "name": "SV_DRIVE_ONLINE_8",
     "kind": "MEM",
     "documentation": "1 = The drive for the axis is detected."
   },
@@ -1375,7 +1410,42 @@
     "documentation": "1 = AC1 drive axis is at zero speed in RPM mode"
   },
   {
-    "name": "SV_RPM_MODE_ACTIVE_1-8",
+    "name": "SV_RPM_MODE_ACTIVE_1",
+    "kind": "MEM",
+    "documentation": "1 = AC1 drive axis is in RPM mode"
+  },
+  {
+    "name": "SV_RPM_MODE_ACTIVE_2",
+    "kind": "MEM",
+    "documentation": "1 = AC1 drive axis is in RPM mode"
+  },
+  {
+    "name": "SV_RPM_MODE_ACTIVE_3",
+    "kind": "MEM",
+    "documentation": "1 = AC1 drive axis is in RPM mode"
+  },
+  {
+    "name": "SV_RPM_MODE_ACTIVE_4",
+    "kind": "MEM",
+    "documentation": "1 = AC1 drive axis is in RPM mode"
+  },
+  {
+    "name": "SV_RPM_MODE_ACTIVE_5",
+    "kind": "MEM",
+    "documentation": "1 = AC1 drive axis is in RPM mode"
+  },
+  {
+    "name": "SV_RPM_MODE_ACTIVE_6",
+    "kind": "MEM",
+    "documentation": "1 = AC1 drive axis is in RPM mode"
+  },
+  {
+    "name": "SV_RPM_MODE_ACTIVE_7",
+    "kind": "MEM",
+    "documentation": "1 = AC1 drive axis is in RPM mode"
+  },
+  {
+    "name": "SV_RPM_MODE_ACTIVE_8",
     "kind": "MEM",
     "documentation": "1 = AC1 drive axis is in RPM mode"
   },
@@ -1425,7 +1495,47 @@
     "documentation": "These nine system variables are mapped to the SV_AXIS_VALID_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
   },
   {
-    "name": "SV_?_AXIS_DRIVE_ONLINE",
+    "name": "SV_X_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_Y_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_Z_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_A_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_B_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_C_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_U_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_V_AXIS_DRIVE_ONLINE",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_W_AXIS_DRIVE_ONLINE",
     "kind": "MEM",
     "documentation": "These nine system variables are mapped to the SV_DRIVE_ONLINE_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
   },
@@ -1475,7 +1585,47 @@
     "documentation": "These nine system variables are mapped to the bits in SV_PC_CYCLONE_STATUS_2 according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
   },
   {
-    "name": "SV_?_AXIS_POWERED",
+    "name": "SV_X_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_Y_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_Z_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_A_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_B_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_C_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_U_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_V_AXIS_POWERED",
+    "kind": "MEM",
+    "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_W_AXIS_POWERED",
     "kind": "MEM",
     "documentation": "These nine system variables are mapped to the SV_PC_POWER_AXIS_x bits according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
   },
@@ -2210,7 +2360,162 @@
     "documentation": "The current lash offset"
   },
   {
-    "name": "SV_FSIO_1-32",
+    "name": "SV_FSIO_1",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_2",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_3",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_4",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_5",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_6",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_7",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_8",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_9",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_10",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_11",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_12",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_13",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_14",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_15",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_16",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_17",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_18",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_19",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_20",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_21",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_22",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_23",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_24",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_25",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_26",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_27",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_28",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_29",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_30",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_31",
+    "kind": "W",
+    "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
+  },
+  {
+    "name": "SV_FSIO_32",
     "kind": "W",
     "documentation": "Fast Synchronous IO (see M300 commands in the Operator Manual)"
   },
@@ -2275,7 +2580,42 @@
     "documentation": "The type of drive connected to the axis:\n\n|Value  |Description   |\n|:----|:----------|\n|0|None|\n|1|Legacy DC|\n|2|DC3IOB|\n|3|SD|\n|4|AC1|\n|5|OPTIC4|\n|6|GPIO4D|\n|7|DC1|\n|8|ALLINONEDC|\n|9|Optic Direct|\n|10|RTK4|\n|11|ENCEXP|\n|12|OAK|\n|13|ACORN|\n|14|DRIVECOMM|"
   },
   {
-    "name": "SV_DRIVE_VERSION_1-8",
+    "name": "SV_DRIVE_VERSION_1",
+    "kind": "W",
+    "documentation": "The drive firmware version"
+  },
+  {
+    "name": "SV_DRIVE_VERSION_2",
+    "kind": "W",
+    "documentation": "The drive firmware version"
+  },
+  {
+    "name": "SV_DRIVE_VERSION_3",
+    "kind": "W",
+    "documentation": "The drive firmware version"
+  },
+  {
+    "name": "SV_DRIVE_VERSION_4",
+    "kind": "W",
+    "documentation": "The drive firmware version"
+  },
+  {
+    "name": "SV_DRIVE_VERSION_5",
+    "kind": "W",
+    "documentation": "The drive firmware version"
+  },
+  {
+    "name": "SV_DRIVE_VERSION_6",
+    "kind": "W",
+    "documentation": "The drive firmware version"
+  },
+  {
+    "name": "SV_DRIVE_VERSION_7",
+    "kind": "W",
+    "documentation": "The drive firmware version"
+  },
+  {
+    "name": "SV_DRIVE_VERSION_8",
     "kind": "W",
     "documentation": "The drive firmware version"
   },
@@ -2365,7 +2705,47 @@
     "documentation": "These nine system variables are mapped to the SV_DRIVE_STATUS_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
   },
   {
-    "name": "SV_?_AXIS_DRIVE_STATUS",
+    "name": "SV_X_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_Y_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_Z_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_A_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_B_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_C_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_U_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_V_AXIS_DRIVE_STATUS",
+    "kind": "W",
+    "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
+  },
+  {
+    "name": "SV_W_AXIS_DRIVE_STATUS",
     "kind": "W",
     "documentation": "These nine system variables are mapped to the SV_DRIVE_TYPE_1-8 system variables according to the axis labels (?) XYZABCUVW. They are intended to be a convenience when writing PLC programs so that they can handle axis changes more easily."
   },
@@ -3520,7 +3900,17 @@
     "documentation": "This MPG is enabled. This bit switches between MPG mode and Vector controlled mode for all axes in this group. When this is enabled the MPU11 will not process motion vectors from the PC or allow Jogging."
   },
   {
-    "name": "SV_MPG_1-3_WINDUP_MODE",
+    "name": "SV_MPG_1_WINDUP_MODE",
+    "kind": "MEM",
+    "documentation": "The MPG is in windup mode. This means the MPG will move the total distance commanded by the MPG encoder input. This mode is typically enabled for x1 and x10 mode.\n\nThis mode should be disabled for x100 mode. When windup mode is disabled the MPG will try to keep up, but will go off position if the MPG encoder counts too fast.\n\nWhen this happens CNC11 will display the message “MPG moving too fast”."
+  },
+  {
+    "name": "SV_MPG_2_WINDUP_MODE",
+    "kind": "MEM",
+    "documentation": "The MPG is in windup mode. This means the MPG will move the total distance commanded by the MPG encoder input. This mode is typically enabled for x1 and x10 mode.\n\nThis mode should be disabled for x100 mode. When windup mode is disabled the MPG will try to keep up, but will go off position if the MPG encoder counts too fast.\n\nWhen this happens CNC11 will display the message “MPG moving too fast”."
+  },
+  {
+    "name": "SV_MPG_3_WINDUP_MODE",
     "kind": "MEM",
     "documentation": "The MPG is in windup mode. This means the MPG will move the total distance commanded by the MPG encoder input. This mode is typically enabled for x1 and x10 mode.\n\nThis mode should be disabled for x100 mode. When windup mode is disabled the MPG will try to keep up, but will go off position if the MPG encoder counts too fast.\n\nWhen this happens CNC11 will display the message “MPG moving too fast”."
   },
@@ -3540,7 +3930,17 @@
     "documentation": "The MPG is in Offset Mode. The MPG movement will be added to the current Expected Position instead of setting the Expected Position. In this mode the MPG is independent and is allowed to command motion while vectors are being processed."
   },
   {
-    "name": "SV_MPG_1-3_PLC_MPG_MODE",
+    "name": "SV_MPG_1_PLC_MPG_MODE",
+    "kind": "MEM",
+    "documentation": "The MPG is in PLC Controlled Mode. The MPG encoder input will be read from SV_MPG_1_OFFSET instead of the actual encoder input. The plc program can change SV_MPG_1_OFFSET which will cause the mpg axis to move."
+  },
+  {
+    "name": "SV_MPG_2_PLC_MPG_MODE",
+    "kind": "MEM",
+    "documentation": "The MPG is in PLC Controlled Mode. The MPG encoder input will be read from SV_MPG_1_OFFSET instead of the actual encoder input. The plc program can change SV_MPG_1_OFFSET which will cause the mpg axis to move."
+  },
+  {
+    "name": "SV_MPG_3_PLC_MPG_MODE",
     "kind": "MEM",
     "documentation": "The MPG is in PLC Controlled Mode. The MPG encoder input will be read from SV_MPG_1_OFFSET instead of the actual encoder input. The plc program can change SV_MPG_1_OFFSET which will cause the mpg axis to move."
   },
@@ -3650,7 +4050,42 @@
     "documentation": "Used with AC1 drives to set the direction for RPM mode."
   },
   {
-    "name": "SV_RPM_MODE_ENABLE_1-8",
+    "name": "SV_RPM_MODE_ENABLE_1",
+    "kind": "MEM",
+    "documentation": "Used with AC1 drives to enable RPM mode."
+  },
+  {
+    "name": "SV_RPM_MODE_ENABLE_2",
+    "kind": "MEM",
+    "documentation": "Used with AC1 drives to enable RPM mode."
+  },
+  {
+    "name": "SV_RPM_MODE_ENABLE_3",
+    "kind": "MEM",
+    "documentation": "Used with AC1 drives to enable RPM mode."
+  },
+  {
+    "name": "SV_RPM_MODE_ENABLE_4",
+    "kind": "MEM",
+    "documentation": "Used with AC1 drives to enable RPM mode."
+  },
+  {
+    "name": "SV_RPM_MODE_ENABLE_5",
+    "kind": "MEM",
+    "documentation": "Used with AC1 drives to enable RPM mode."
+  },
+  {
+    "name": "SV_RPM_MODE_ENABLE_6",
+    "kind": "MEM",
+    "documentation": "Used with AC1 drives to enable RPM mode."
+  },
+  {
+    "name": "SV_RPM_MODE_ENABLE_7",
+    "kind": "MEM",
+    "documentation": "Used with AC1 drives to enable RPM mode."
+  },
+  {
+    "name": "SV_RPM_MODE_ENABLE_8",
     "kind": "MEM",
     "documentation": "Used with AC1 drives to enable RPM mode."
   },
@@ -3820,7 +4255,322 @@
     "documentation": "Reserved for future use. Do not use."
   },
   {
-    "name": "SV_PLC_DEBOUNCE_1-64",
+    "name": "SV_PLC_DEBOUNCE_1",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_2",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_3",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_4",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_5",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_6",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_7",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_8",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_9",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_10",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_11",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_12",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_13",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_14",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_15",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_16",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_17",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_18",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_19",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_20",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_21",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_22",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_23",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_24",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_25",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_26",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_27",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_28",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_29",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_30",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_31",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_32",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_33",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_34",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_35",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_36",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_37",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_38",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_39",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_40",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_41",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_42",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_43",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_44",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_45",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_46",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_47",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_48",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_49",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_50",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_51",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_52",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_53",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_54",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_55",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_56",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_57",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_58",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_59",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_60",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_61",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_62",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_63",
+    "kind": "W",
+    "documentation": "First 240 PLC inputs debounce configuration words"
+  },
+  {
+    "name": "SV_PLC_DEBOUNCE_64",
     "kind": "W",
     "documentation": "First 240 PLC inputs debounce configuration words"
   },
@@ -3985,7 +4735,67 @@
     "documentation": "Jog Panel Input debounce configuration words"
   },
   {
-    "name": "SV_LOCAL_DEBOUNCE_1-13",
+    "name": "SV_LOCAL_DEBOUNCE_1",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_2",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_3",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_4",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_5",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_6",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_7",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_8",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_9",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_10",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_11",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_12",
+    "kind": "W",
+    "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
+  },
+  {
+    "name": "SV_LOCAL_DEBOUNCE_13",
     "kind": "W",
     "documentation": "MPU11 Onboard/Local Inputs Debounce configuration"
   },
