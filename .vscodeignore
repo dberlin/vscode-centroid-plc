@@ -4,5 +4,6 @@
 vsc-extension-quickstart.md
 yaml/**
 json/**
+src/**
 tsconfig.json
 tslint.json
