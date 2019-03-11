@@ -2622,42 +2622,42 @@
   {
     "name": "SV_DRIVE_STATUS_1",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_DRIVE_STATUS_2",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_DRIVE_STATUS_3",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_DRIVE_STATUS_4",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_DRIVE_STATUS_5",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_DRIVE_STATUS_6",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_DRIVE_STATUS_7",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_DRIVE_STATUS_8",
     "kind": "W",
-    "documentation": "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
+    "documentation": "High Speed Drive Status word,separated by drive type.\n\n**ALLIN1DC/DC3IOB**\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   },
   {
     "name": "SV_X_AXIS_DRIVE_STATUS",
