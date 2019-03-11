@@ -1,6 +1,5 @@
 "use strict";
 import * as vscode from "vscode";
-import { MessageChannel } from "worker_threads";
 
 export enum SymbolType {
   Word,

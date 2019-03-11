@@ -5,7 +5,7 @@
     "bugs": {
         "url": "https://github.com/dberlin/vscode-centroid-plc/issues"
     },
-    "homepage": "https://github.com/dberlin/vscode-centroid-plc",    
+    "homepage": "https://github.com/dberlin/vscode-centroid-plc",
     "repository": {
         "type": "git",
         "url": "https://github.com/dberlin/vscode-centroid-plc.git"
@@ -46,6 +46,8 @@
     ],
     "main": "./out/extension.js",
     "scripts": {
+        "convert-yaml":"node src/scripts/yaml2js.js yaml/original_help_text.yaml > json/original_help_text.json",
+        "expand-json": "ts-node src/scripts/expando.ts json/original_help_text.json >src/json/sv_system_variables.json",
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
@@ -55,6 +57,7 @@
     "devDependencies": {
         "@types/mocha": "^5.2.6",
         "@types/node": "^10.12.18",
+        "js-yaml": "^3.12.2",
         "mocha": "^6.0.2",
         "tslint": "^5.11.1",
         "typescript": "^3.2.4",

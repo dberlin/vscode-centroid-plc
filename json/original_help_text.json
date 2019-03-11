@@ -2,7 +2,7 @@
   [
     "SV_M94_M95_1-128",
     "MEM",
-    "Used for M-Codes that require PLC interaction like M3, M4, M6, M7, M8, M10, M11 and custom M-Codes. They are set and reset from M & G-code programs using M94 and M95. These bits can also be controlled by the PLC program even though they are in the section labeled as Read Only for the PLC. Be aware that CNC11 has built-in default actions for some M-codes that control the first 16 of these variables.\n\nAn example is to turn off auto coolant and spindle when not running a program.\n\nIF !SV_PROGRAM_RUNNING THEN RST M3, RST M4, RST M7, RST M8."
+    "Used for M-Codes that require PLC interaction like M3, M4, M6, M7, M8, M10, M11 and custom M-Codes. They are set and reset from M & G-code programs using M94 and M95. These bits can also be controlled by the PLC program even though they are in the section labeled as Read Only for the PLC. Be aware that CNC11 has built-in default actions for some M-codes that control the first 16 of these variables.\n\nAn example is to turn off auto coolant and spindle when not running a program.\n\n`IF !SV_PROGRAM_RUNNING THEN RST M3, RST M4, RST M7, RST M8`."
   ],
   [
     "SV_PROGRAM_RUNNING",
@@ -67,12 +67,12 @@
   [
     "SV_PC_RIGID_TAP_SPINDLE_OFF",
     "MEM",
-    "CNC software SETs this bit to signal that the spindle should be turned off when the rigid tap depth has been reached if Parameter 36, bit 4 is SET, otherwise it is not needed.\n\n\n\n\nThis is usually not needed. It is NOT needed just because you have a custom mfunc5.mac file. CNC software ignores custom M5s during a rigid tap. It decides which bit to turn turn off (M3 or M4) based on the spindle direction. The only time that this system variable is needed is as follows: If turning off the spindle requires doing more than clearing M3 or M4. Note that CNC software will only clear one of M3 or M4 during a rigid tap, not both."
+    "CNC software SETs this bit to signal that the spindle should be turned off when the rigid tap depth has been reached if Parameter 36, bit 4 is SET, otherwise it is not needed. This is usually not needed. It is NOT needed just because you have a custom mfunc5.mac file. CNC software ignores custom M5s during a rigid tap. It decides which bit to turn turn off (M3 or M4) based on the spindle direction. The only time that this system variable is needed is as follows: If turning off the spindle requires doing more than clearing M3 or M4. Note that CNC software will only clear one of M3 or M4 during a rigid tap, not both."
   ],
   [
     "SV_PC_KEYBOARD_KEY_1-104",
     "MEM",
-    "1 = Keyboard key pressed, 0 = Keyboard key not pressed.\n\nSee Appendix C."
+    "|Value|Description|\n|:----|:----------|\n|1|Keyboard key pressed|\n|0|Keyboard key not pressed|  \n\nSee Appendix C."
   ],
   [
     "SV_PC_VIRTUAL_JOGPANEL_ACTIVE",
@@ -87,7 +87,7 @@
   [
     "SV_PC_SOFTWARE_READY",
     "MEM",
-    "1 = CNC software is initialized and communicating with MPU normally\n\n0 = CNC software exited normally or communication fault occurred. Intended to be used in a PLC program to disable certain functions when the CNC software is not running or there is another fault preventing normal communications. For example, on ATC machines, the carousel should not be rotated if the software is not running since the CNC software monitors the reported carousel position and saves changes to the job file."
+    "|Value|Description|\n|:----|:----------|\n|1|CNC software is initialized and communicating with MPU normally.| \n|0|CNC software exited normally or communication fault occurred.|  \n\nIntended to be used in a PLC program to disable certain functions when the CNC\nsoftware is not running or there is another fault preventing normal\ncommunications. For example, on ATC machines, the carousel should not be\nrotated if the software is not running since the CNC software monitors the\nreported carousel position and saves changes to the job file."
   ],
   [
     "SV_PC_TOGGLE_RAPID_OVERRIDE",
@@ -107,7 +107,7 @@
   [
     "SV_LIMIT_TRIPPED",
     "MEM",
-    "1 = Any configured limit switch is tripped\n\n0 = No configured limit switches are tripped\n\nNote: The PLC program is not required to perform any actions when this bit is set."
+    "|Value|Description|\n|:----|:----------|\n|1|Any configured limit switch is tripped|\n|0|No configured limit switches are tripped|  \n\nNote: The PLC program is not required to perform any actions when this bit\nis set."
   ],
   [
     "SV_JOB_IN_PROGRESS",
@@ -187,17 +187,17 @@
   [
     "SV_PC_CYCLONE_STATUS_1",
     "W",
-    "PLC and Drive Status Bits"
+    "PLC and Drive Status Bits\n\n|Bit  |Function   |\n|:----|:----------|\n|0-20|Reserved|\n|21|Out Fiber for PLC OK|\n|22-31|Reserved|"
   ],
   [
     "SV_PC_CYCLONE_STATUS_2",
     "W",
-    "The PLC program should check drive enables from this word to determine if fiber4 has been broken and cause a drive fault"
+    "**The PLC program should check drive enables from this word to determine if\nfiber4 has been broken and cause a drive fault**.\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Drive Axis 1|\n|1|Drive Axis 2|\n|2|Drive Axis 3|\n|3|Drive Axis 4|\n|4|Drive Axis 5|\n|5|Drive Axis 6|\n|6|Drive Axis 7|\n|7|Drive Axis 8|\n|9-31|Reserved|"
   ],
   [
     "SV_PC_MINI_PLC_ONLINE",
     "W",
-    "Online bits for PLCADD1616 and other expansion PLC modules."
+    "Online bits for PLCADD1616 and other expansion PLC modules.\n\n|Bit  |Function   |\n|:----|:----------|\n|0|MiniPLC1 is online|\n|1|MiniPLC2 is online|\n|2|MiniPLC3 is online|\n|3|MiniPLC4 is online|\n|4|MiniPLC5 is online|\n|5|MiniPLC6 is online|\n|6|MiniPLC7 is online|\n|7|MiniPLC8 is online|\n|8|MiniPLC9 is online|\n|9|MiniPLC10 is online|\n|10|MiniPLC11 is online|\n|11|MiniPLC12 is online|\n|12|MiniPLC13 is online|\n|13|MiniPLC14 is online|\n|14|MiniPLC15 is online|\n|15|MiniPLC16 is online|\n|16-31|Reserved|"
   ],
   [
     "SV_MPU11_LASH_OFFSET_0-7",
@@ -212,7 +212,7 @@
   [
     "SV_STALL_REASON",
     "W",
-    "Set whenever SV_STALL_ERROR is set.\n\nNo Error = 0 position error = 1\n\nfull power without motion = 2 encoder differential error = 3 spindle slave position error = 4 OpticDirect C8 Error = 6\n\nscale encoder differential error=15 encoder quadrature error = 16\n\nscale encoder quadrature error = 17 standoff_error = 18\n\nscale position error = 19 master enable turned off = 99"
+    "Set whenever SV_STALL_ERROR is set.\n\n|Value  |Description   |\n|:----|:----------|\n|0|No Error|\n|1|Position error|\n|2|Full power without motion|\n|3|Encoder differential error|\n|4|Spindle slave position error|\n|6|OpticDirect C8 Error|\n|15|Scale encoder differential error|\n|16|Encoder quadrature error|\n|17|Scale encoder quadrature error|\n|18|Standoff error|\n|19|Scale position error|\n|99|Master enable turned off|"
   ],
   [
     "SV_STALL_AXIS",
@@ -232,16 +232,17 @@
   [
     "SV_DRIVE_TYPE_1-8",
     "W",
-    "The tyoe of drive connected to the axis: 0 = None\n\n1 = Legacy DC 2 = DC3IOB\n\n3 = SD\n\n4 = AC1\n\n5 = OPTIC4\n\n6 = GPIO4D\n\n7 = DC1\n\n8 = ALLINONEDC\n\n9 = Optic Direct 10 = RTK4\n\n11 = ENCEXP\n\n12 = OAK\n\n13 = ACORN\n\n14 = DRIVECOMM"
+    "The type of drive connected to the axis:\n\n|Value  |Description   |\n|:----|:----------|\n|0|None|\n|1|Legacy DC|\n|2|DC3IOB|\n|3|SD|\n|4|AC1|\n|5|OPTIC4|\n|6|GPIO4D|\n|7|DC1|\n|8|ALLINONEDC|\n|9|Optic Direct|\n|10|RTK4|\n|11|ENCEXP|\n|12|OAK|\n|13|ACORN|\n|14|DRIVECOMM|"
   ],
   [
     "SV_DRIVE_VERSION_1-8",
     "W",
     "The drive firmware version"
   ],
-  [ "SV_DRIVE_STATUS_1-8",
+  [
+    "SV_DRIVE_STATUS_1-8",
     "W",
-    ""
+    "High Speed Drive Status word,separated by drive type.\n** ALLIN1DC/DC3IOB **\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Current Setting Low Bit|\n|1|Current Setting High Bit|\n|2|High power enable - FETs are installed to handle 15A current setting|\n|3|Drive master/slave – 1 = communicating on fibers, 0 = comm. on wires|\n|4|Aux 1 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|5|Aux 2 jumper state – 1 = jumper block removed, 0 = jumper block in place|\n|6-15|Reserved|"
   ],
   [
     "SV_?_AXIS_DRIVE_STATUS",
@@ -256,7 +257,7 @@
   [
     "SV_AXIS_LABEL_1-8",
     "W",
-    "The uppercase ASCII character value assigned to the axis. Common values are:\n\nA = 65\n\nB = 66\n\nC = 67\n\nN = 78\n\nU = 85\n\nV = 86\n\nW = 87\n\nX = 88\n\nY = 89\n\nZ = 90"
+    "The uppercase ASCII character value assigned to the axis. Common values are:\n\n|Value  |Description   |\n|:----|:----------|\n|65|A|\n|66|B|\n|67|C|\n|78|N|\n|85|U|\n|86|V|\n|87|W|\n|88|X|\n|89|Y|\n|90|Z|"
   ],
   [
     "SV_SKINNING_DATA_W_1-12",
@@ -286,7 +287,7 @@
   [
     "SV_USB_MPG_BUTTON_STATE",
     "W",
-    "Contains bits for wireless MPG USB button states bit 0 = Reset (Cycle Cancel)\n\nbit 1 = Feed Hold bit 2 = Cycle Start bit 3 = Jog Plus bit 4 = Jog Minus\n\nbit 5 = SPIN Auto/Man bit 6 = SPIN On/Off bit 7 = Macro 1\n\nbit 8 = Macro 2\n\nbit 9 = Macro 3\n\nbit 10 = Macro 4 bit 11 = Tool Check\n\nbit 12 = Set Zero (=0)"
+    "Contains bits for wireless MPG USB button states\n\n|Bit  |Function   |\n|:----|:----------|\n|0|Reset (Cycle Cancel)|\n|1|Feed Hold bit|\n|2|Cycle Start|\n|3|Jog Plus|\n|4|Jog Minus|\n|5|SPIN Auto/Man|\n|6|SPIN On/Off|\n|7|Macro 1|\n|8|Macro 2|\n|9|Macro 3|\n|10|Macro 4|\n|11|Tool Check|\n|12|Set Zero (=0)|"
   ],
   [
     "SV_USB_MPG_ENCODER_WHEEL",
@@ -716,67 +717,27 @@
   [
     "SV_STALL_ERROR",
     "MEM",
-    "1 = MPU11 detected an error that the PLC program should handle. See SV_STALL_REASON and SV_STALL_AXIS for further information on the specific cause.\n\nPLC program should turn off all enables including the Master Enable when this error occurs.\n\nThe PLC Program should RST this bit if the error occurred and E-Stop is pushed in. (ie clear on E-Stop)"
+    "1 = MPU11 detected an error that the PLC program should handle. See SV_STALL_REASON and SV_STALL_AXIS for further information on the specific cause.\n**PLC program should turn off all enables including the Master Enable when this error occurs.**\nThe PLC Program should RST this bit if the error occurred and E-Stop is pushed in. (ie clear on E-Stop)"
   ],
   [
-    "SV_MPG_1_ENABLED",
+    "SV_MPG_1-3_ENABLED",
     "MEM",
     "This MPG is enabled. This bit switches between MPG mode and Vector controlled mode for all axes in this group. When this is enabled the MPU11 will not process motion vectors from the PC or allow Jogging."
   ],
   [
-    "SV_MPG_1_WINDUP_MODE",
+    "SV_MPG_1-3_WINDUP_MODE",
     "MEM",
     "The MPG is in windup mode. This means the MPG will move the total distance commanded by the MPG encoder input. This mode is typically enabled for x1 and x10 mode.\n\nThis mode should be disabled for x100 mode. When windup mode is disabled the MPG will try to keep up, but will go off position if the MPG encoder counts too fast.\n\nWhen this happens CNC11 will display the message “MPG moving too fast”."
   ],
   [
-    "SV_MPG_1_OFFSET_MODE",
+    "SV_MPG_1-3_OFFSET_MODE",
     "MEM",
     "The MPG is in Offset Mode. The MPG movement will be added to the current Expected Position instead of setting the Expected Position. In this mode the MPG is independent and is allowed to command motion while vectors are being processed."
   ],
   [
-    "SV_MPG_1_PLC_MPG_MODE",
+    "SV_MPG_1-3_PLC_MPG_MODE",
     "MEM",
     "The MPG is in PLC Controlled Mode. The MPG encoder input will be read from SV_MPG_1_OFFSET instead of the actual encoder input. The plc program can change SV_MPG_1_OFFSET which will cause the mpg axis to move."
-  ],
-  [
-    "SV_MPG_2_ENABLED",
-    "MEM",
-    "See SV_MPG_1_ENABLED above."
-  ],
-  [
-    "SV_MPG_2_WINDUP_MODE",
-    "MEM",
-    "See SV_MPG_1_WINDUP_MODE above."
-  ],
-  [
-    "SV_MPG_2_OFFSET_MODE",
-    "MEM",
-    "See SV_MPG_1_OFFSET_MODE above."
-  ],
-  [
-    "SV_MPG_2_PLC_MPG_MODE",
-    "MEM",
-    "See SV_MPG_1_PLC_MPG_MODE above."
-  ],
-  [
-    "SV_MPG_3_ENABLED",
-    "MEM",
-    "See SV_MPG_1_ENABLED above."
-  ],
-  [
-    "SV_MPG_3_WINDUP_MODE",
-    "MEM",
-    "See SV_MPG_1_WINDUP_MODE above."
-  ],
-  [
-    "SV_MPG_3_OFFSET_MODE",
-    "MEM",
-    "See SV_MPG_1_OFFSET_MODE above."
-  ],
-  [
-    "SV_MPG_3_PLC_MPG_MODE",
-    "MEM",
-    "See SV_MPG_1_PLC_MPG_MODE above."
   ],
   [
     "SV_TRIGGER_PLOT_DUMP",
