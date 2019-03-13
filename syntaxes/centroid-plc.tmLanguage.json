@@ -38,11 +38,8 @@
 		{
 			"include": "#variable"
 		},
-		{ 
-			"include": "#fpnumeric"
-		},
 		{
-			"include": "#integernumeric"
+			"include": "#numeric"
 		},
 		{
 			"include": "#strings"
@@ -64,19 +61,19 @@
 		"controlkeywords": {
 			"patterns": [{
 				"name": "keyword.control.centroid-plc",
-				"match": "\\b(IF|THEN|ELSE|JMP)\\b"
+				"match": "\\b(?i)(IF|THEN|ELSE|JMP)\\b"
 			}]
 		},
 		"bitopkeywords" : {
 			"patterns": [{
 				"name": "keyword.other.bitops.centroid-plc",
-				"match": "\\b(SET|RST|WTB|BTW|BITSET|BITRST|BITTST|LSHIFT|RSHIFT)\\b"
+				"match": "\\b(?i)(SET|RST|WTB|BTW|BITSET|BITRST|BITTST|LSHIFT|RSHIFT)\\b"
 			}]
 		},
 		"mathkeywords" : {
 			"patterns": [{
 				"name": "keyword.other.math.centroid-plc",
-				"match": "\\b(SIN|COS|ASIN|ACOS|TAN|ABS|POW|SQRT|DIST2|DIST3|ATAN2)\\b"
+				"match": "\\b(?i)(SIN|COS|ASIN|ACOS|TAN|ABS|POW|SQRT|DIST2|DIST3|ATAN2)\\b"
 			}]
 		},
 		"otheroperators" : {
@@ -123,7 +120,7 @@
 		"systemvariables" : {
 			"patterns":[{
 				"name": "support.variable.centroid-plc",
-				"match": "(SV_[A-Z_]+(_[0-9]+)*|MPG_AXIS_[0-9]+)"
+				"match": "(SV_[A-Z_]+(_[1-9][0-9]*)|MPG_AXIS_[0-9]+)"
 			}]
 		},
 		"variable" : {
@@ -132,16 +129,10 @@
 				"match": "([a-zA-z][a-zA-Z0-9_]+)"
 			}]
 		},
-		"integernumeric" : {
+		"numeric" : {
 			"patterns": [{
 				"name": "constant.numeric.centroid-plc",
-				"match": "[0-9]+"
-			}]
-		},
-		"fpnumeric" : {
-			"patterns": [{
-				"name": "constant.numeric.centroid-plc",
-				"match": "[0-9]+\\.[0-9]+"
+				"match": "\\b([0-9]([0-9']*[0-9])?\\.?[0-9]*([0-9']*[0-9])?)\\b"
 			}]
 		},
 		"strings": {
