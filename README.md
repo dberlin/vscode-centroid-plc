@@ -8,6 +8,8 @@ Provides language support for Centroid CNC's PLC language.
 - Hover help
 - Symbol auto completion
 - Go to declaration
+- Go to definition for stages
+- Outlining for stages
 - Reference finding
 
 ## Getting help
