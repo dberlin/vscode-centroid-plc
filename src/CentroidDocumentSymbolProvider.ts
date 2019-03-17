@@ -14,12 +14,11 @@ export class CentroidDocumentSymbolProvider
     if (!fileTries) return null;
     let stageSymbols = fileTries.getStageSymbols();
 
-    /* 
-        Convert stage symbols to DocumentSymbols. We pretend they are functions
-        and do a little work to convert the symbol positions (which say where the
-        name starts and the stage ends) to where the name starts and ends and the
-        stage starts and ends.
-    */
+    // Convert stage symbols to DocumentSymbols. We pretend they are functions
+    // and do a little work to convert the symbol positions (which say where the
+    // name starts and the stage ends) to where the name starts and ends and the
+    // stage starts and ends.
+
     return stageSymbols.map((val, idx, arr) => {
       let originalPos = document.positionAt(val.symbolDefPos);
       let symRange = new vscode.Range(

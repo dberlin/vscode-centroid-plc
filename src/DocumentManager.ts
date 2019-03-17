@@ -174,8 +174,8 @@ class DocumentSymbolManagerClass {
     }
     let fileTries = new FileTries();
     this.tries.set(filename, fileTries);
-    // Add system symbols
-    // In theory we should only do this once, but it takes no appreciable time/memory anyway
+    // Add system symbols.  In theory we should only do this once, but it takes
+    // no appreciable time/memory anyway
     for (var sym of this.systemSymbols) {
       fileTries.add(sym);
     }
@@ -216,7 +216,8 @@ class DocumentSymbolManagerClass {
         symbol.symbolDefPos = matches.index;
         if (lastStage) {
           let originalPlace = document.positionAt(matches.index);
-          // Place the end of the last stage at the end of the line before this stage starts
+          // Place the end of the last stage at the end of the line before this
+          // stage starts
           lastStage.symbolDefEndPos =
             document.offsetAt(originalPlace.with(undefined, 0)) - 1;
         }
