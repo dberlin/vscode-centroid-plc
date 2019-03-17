@@ -23,8 +23,12 @@ export class SymbolInfo extends vscode.CompletionItem {
   symbolValue: number;
   /* What kind of symbol is it. */
   symbolType: SymbolType;
-  /* What offset in the file did the symbol appear at. */
-  symbolPos: number;
+  /* What offset in the file did the symbol get declared at. */
+  symbolDeclPos: number;
+  /* What offset in the file did the symbol get defined at. */
+  symbolDefPos: number;
+  /* What offset in the file did the symbol end at (for stages). */
+  symbolDefEndPos: number;
 
   constructor(
     name: string,
@@ -33,7 +37,7 @@ export class SymbolInfo extends vscode.CompletionItem {
     number: number = 0,
     value: number = 0,
     doc: string = "",
-    pos: number = 0
+    declPos: number = -1
   ) {
     let kind = vscode.CompletionItemKind.Variable;
     if (type == SymbolType.MessageOrConstant) {
@@ -47,7 +51,9 @@ export class SymbolInfo extends vscode.CompletionItem {
     this.symbolNumber = number;
     this.symbolType = type;
     this.symbolValue = value;
-    this.symbolPos = pos;
+    this.symbolDeclPos = declPos;
+    this.symbolDefPos = -1;
+    this.symbolDefEndPos = -1;
   }
 }
 const SymbolStringFromType: Map<SymbolType, string> = new Map([

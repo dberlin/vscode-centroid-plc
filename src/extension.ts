@@ -1,20 +1,23 @@
 "use strict";
 import * as vscode from "vscode";
-import { DocumentSymbolManager } from "./DocumentManager";
 import { CentroidCompletionProvider } from "./CentroidCompletionProvider";
-import { CentroidHoverProvider } from "./CentroidHoverProvider";
 import { CentroidDeclarationProvider } from "./CentroidDeclarationProvider";
+import { CentroidDefinitionProvider } from "./CentroidDefinitionProvider";
+import { CentroidDocumentSymbolProvider } from "./CentroidDocumentSymbolProvider";
+import { CentroidHoverProvider } from "./CentroidHoverProvider";
 import { CentroidReferenceProvider } from "./CentroidReferenceProvider";
+import { DocumentSymbolManager } from "./DocumentManager";
 
 const centroidScheme = { language: "centroid-plc", scheme: "file" };
 
 export function activate(context: vscode.ExtensionContext) {
   console.log("Activating!");
   DocumentSymbolManager.init(context);
+
   context.subscriptions.push(
-    vscode.languages.registerHoverProvider(
+    vscode.languages.registerCompletionItemProvider(
       centroidScheme,
-      new CentroidHoverProvider()
+      new CentroidCompletionProvider()
     )
   );
 
@@ -26,16 +29,29 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.languages.registerReferenceProvider(
+    vscode.languages.registerDefinitionProvider(
       centroidScheme,
-      new CentroidReferenceProvider()
+      new CentroidDefinitionProvider()
+    )
+  );
+  context.subscriptions.push(
+    vscode.languages.registerDocumentSymbolProvider(
+      centroidScheme,
+      new CentroidDocumentSymbolProvider()
     )
   );
 
   context.subscriptions.push(
-    vscode.languages.registerCompletionItemProvider(
+    vscode.languages.registerHoverProvider(
       centroidScheme,
-      new CentroidCompletionProvider()
+      new CentroidHoverProvider()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerReferenceProvider(
+      centroidScheme,
+      new CentroidReferenceProvider()
     )
   );
 

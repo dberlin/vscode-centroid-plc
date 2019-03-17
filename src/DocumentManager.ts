@@ -85,6 +85,21 @@ class FileTries {
     this.stageSymbols.freeze();
     this.typeSymbols.freeze();
   }
+  /**
+   * Return the names of all stage variables in the trie.
+   */
+  getStageNames(): string[] {
+    return <string[]>this.stageSymbols.search("", { prefix: true });
+  }
+  /**
+   * Return the symbols for all the stage variables in the trie;
+   */
+  getStageSymbols(): SymbolInfo[] {
+    let stageNames = this.getStageNames();
+    return stageNames.map((val, idx, arr) => {
+      return <SymbolInfo>this.getSymbol(val);
+    });
+  }
 }
 
 function isStageSymbol(symbolInfo: SymbolInfo) {
@@ -147,7 +162,7 @@ class DocumentSymbolManagerClass {
       let symbolInfo = callback(captures);
       if (!symbolInfo) continue;
       // Set the position we found it as
-      symbolInfo.symbolPos = captures.index;
+      symbolInfo.symbolDeclPos = captures.index;
       fileTries.add(symbolInfo);
     }
   }
@@ -180,6 +195,35 @@ class DocumentSymbolManagerClass {
       this.getSymbolInfoFromConstantVariable
     );
     fileTries.freeze();
+    this.findStageSymbols(document, docText, fileTries);
+  }
+  private findStageSymbols(
+    document: vscode.TextDocument,
+    docText: string,
+    fileTries: FileTries
+  ) {
+    let stageSymbolArray = fileTries.getStageNames();
+    if (stageSymbolArray.length > 0) {
+      let stageRegex = new RegExp(
+        "(?<=^\\s*)(" + stageSymbolArray.join("|") + ")(?=\\s*$)",
+        "mg"
+      );
+      let lastStage = null;
+      let matches;
+      while ((matches = stageRegex.exec(docText))) {
+        let symbol = fileTries.getSymbol(matches[1]);
+        if (!symbol) continue;
+        symbol.symbolDefPos = matches.index;
+        if (lastStage) {
+          let originalPlace = document.positionAt(matches.index);
+          // Place the end of the last stage at the end of the line before this stage starts
+          lastStage.symbolDefEndPos =
+            document.offsetAt(originalPlace.with(undefined, 0)) - 1;
+        }
+        lastStage = symbol;
+      }
+      if (lastStage) lastStage.symbolDefEndPos = docText.length;
+    }
   }
   /**
    * Convert a capture array into a typed variable symbol.

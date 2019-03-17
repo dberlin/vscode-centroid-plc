@@ -14,7 +14,10 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
     if (sym) {
       let hoverText = new vscode.MarkdownString();
       let declString: string;
-      let symbolPos = document.positionAt(sym.symbolPos);
+      let symbolPos =
+        sym.symbolDeclPos == -1
+          ? document.positionAt(0)
+          : document.positionAt(sym.symbolDeclPos);
       /* Don't produce a hover for the same position we declared the symbol on */
       if (position.line == symbolPos.line) return null;
       /* Produce a cleaned up declaration line for the symbol */
