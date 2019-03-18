@@ -4,6 +4,16 @@ import { DocumentSymbolManager } from "./DocumentManager";
 import { SymbolInfo, SymbolType } from "./SymbolInfo";
 
 /**
+ *
+ * This function normalizes symbol names.
+ *
+ * @param name - symbol name to normalize.
+ */
+export function normalizeSymbolName(name: string) {
+  return name.trim();
+}
+
+/**
  * Return true if the passed in symbol is a system defined symbol
  *
  * @param sym - Symbol to check

@@ -2,10 +2,10 @@
 import machine_params from "./json/machine_parameters.json";
 import sv_system_variables from "./json/sv_system_variables.json";
 import * as path from "path";
-import { Trie } from "tiny-trie";
 import * as vscode from "vscode";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
 import { isSystemSymbolName } from "./util";
+import { FileTries } from "./FileTries";
 
 const typedVariableWithComment: RegExp = new RegExp(
   "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_)([0-9]+))\\s*(;.*)?$",
@@ -15,94 +15,7 @@ const constantVariableWithComment: RegExp = new RegExp(
   "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*([0-9]+|TRUE|FALSE)\\s*(;.*)?$",
   "gm"
 );
-class FileTries {
-  private allSymbols: Trie = new Trie();
-  private constantSymbols: Trie = new Trie();
-  private typedSymbols: Trie = new Trie();
-  private stageSymbols: Trie = new Trie();
-  private typeSymbols: Trie = new Trie();
-  private symbolMap: Map<string, SymbolInfo> = new Map();
-
-  getAllCompletions(label: string): SymbolInfo[] {
-    let wordResults: string[] = <string[]>(
-      this.allSymbols.search(label, { prefix: true })
-    );
-    let results: SymbolInfo[] = [];
-    wordResults.forEach((val, index, arr) => {
-      let sym = this.getSymbol(val);
-      if (sym) results.push(sym);
-    });
-    return results;
-  }
-  /**
-   * Test whether we have any information about a named symbol.
-   *
-   * @param label - Symbol name to look for.
-   * @returns Whether the symbol was found.  This will be true if we processed the symbol, even
-   * if various forms of lookups may not find it due to type not matching, etc.
-   */
-  contains(label: string): boolean {
-    return this.allSymbols.test(label);
-  }
-
-  /**
-   * Add a symbol to the symbol tries.
-   *
-   * This function takes care of understanding the type of the symbol and adding it to the relevant tries.
-   * @param symbolInfo - Symbol to add to tries.
-   */
-  add(symbolInfo: SymbolInfo) {
-    let name = symbolInfo.label;
-    if (symbolInfo.symbolType == SymbolType.MessageOrConstant) {
-      this.constantSymbols.insert(name);
-    } else {
-      this.typedSymbols.insert(name);
-      if (isStageSymbol(symbolInfo)) this.stageSymbols.insert(name);
-    }
-    this.allSymbols.insert(name);
-    this.symbolMap.set(name, symbolInfo);
-  }
-
-  /**
-   * Return information about a named symbol.
-   *
-   * @param label - Symbol name to look for.
-   * @returns The found symbol or null.
-   */
-  getSymbol(label: string): SymbolInfo | null {
-    let res = this.symbolMap.get(label);
-    return !res ? null : res;
-  }
-
-  /**
-   * Freeze all the tries so no more insertion can take place,
-   * and convert them into DAWGs
-   */
-  freeze() {
-    this.allSymbols.freeze();
-    this.constantSymbols.freeze();
-    this.typedSymbols.freeze();
-    this.stageSymbols.freeze();
-    this.typeSymbols.freeze();
-  }
-  /**
-   * Return the names of all stage variables in the trie.
-   */
-  getStageNames(): string[] {
-    return <string[]>this.stageSymbols.search("", { prefix: true });
-  }
-  /**
-   * Return the symbols for all the stage variables in the trie;
-   */
-  getStageSymbols(): SymbolInfo[] {
-    let stageNames = this.getStageNames();
-    return stageNames.map((val, idx, arr) => {
-      return <SymbolInfo>this.getSymbol(val);
-    });
-  }
-}
-
-function isStageSymbol(symbolInfo: SymbolInfo) {
+export function isStageSymbol(symbolInfo: SymbolInfo) {
   return (
     symbolInfo.symbolType == SymbolType.Stage ||
     symbolInfo.symbolType == SymbolType.FastStage
