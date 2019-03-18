@@ -1,21 +1,15 @@
 "use strict";
+import * as vscode from "vscode";
+import { FileTries } from "./FileTries";
 import machine_params from "./json/machine_parameters.json";
 import sv_system_variables from "./json/sv_system_variables.json";
-import * as path from "path";
-import * as vscode from "vscode";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
-import { isSystemSymbolName } from "./util";
-import { FileTries } from "./FileTries";
+import { getSymbolByName, isSystemSymbolName } from "./util";
 import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
 
-const typedVariableWithComment: RegExp = new RegExp(
-  "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_)([0-9]+))\\s*(;.*)?$",
-  "gm"
-);
-const constantVariableWithComment: RegExp = new RegExp(
-  "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*([0-9]+|TRUE|FALSE)\\s*(;.*)?$",
-  "gm"
-);
+const typedVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|(?:SV_.*?))(\d+))\s*(;.*)?$/gm;
+const constantVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*(\d+|TRUE|FALSE)\\s*(;.*)?$/gim;
+
 export function isStageSymbol(symbolInfo: SymbolInfo) {
   return (
     symbolInfo.symbolType == SymbolType.Stage ||
@@ -71,13 +65,13 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
 
     this.parseSymbolsUsingRegex(
       fileTries,
-      docText,
+      document,
       typedVariableWithComment,
       this.getSymbolInfoFromTypedVariable
     );
     this.parseSymbolsUsingRegex(
       fileTries,
-      docText,
+      document,
       constantVariableWithComment,
       this.getSymbolInfoFromConstantVariable
     );
@@ -133,10 +127,32 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
    * @param captures - An array of captured strings from micromatch.
    * @returns Newly created symbol info, or null if we could not create symbol info.
    */
-  private getSymbolInfoFromTypedVariable(captures: Array<string>) {
+  private getSymbolInfoFromTypedVariable(
+    document: vscode.TextDocument,
+    captures: RegExpExecArray
+  ) {
     // Ignore system variables here, we process them separately
     if (isSystemSymbolName(captures[1])) return null;
 
+    // If this is a system variable type, it may be an alias for an existing
+    // system symbol, in which case we will copy the documentation.
+    if (captures[2].startsWith("SV_")) {
+      let sym = getSymbolByName(document, captures[2]) as SymbolInfo;
+      if (sym) {
+        let doc = sym.documentation as vscode.MarkdownString;
+        if (doc === undefined) return null;
+
+        return new SymbolInfo(
+          captures[1],
+          sym.symbolType,
+          sym.detail,
+          sym.symbolNumber,
+          sym.symbolValue,
+          "#### This is an alias for " + sym.label + "\n\n" + doc.value,
+          captures.index
+        );
+      }
+    }
     let symbolType = getSymbolTypeFromString(captures[3]);
     if (!symbolType) return null;
 
@@ -162,7 +178,10 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
    * @param captures - An array of captured strings from micromatch.
    * @returns Newly created symbol info, or null if we could not create symbol info.
    */
-  private getSymbolInfoFromConstantVariable(captures: Array<string>) {
+  private getSymbolInfoFromConstantVariable(
+    document: vscode.TextDocument,
+    captures: RegExpExecArray
+  ) {
     // Ignore system variables here, we process them separately
     if (isSystemSymbolName(captures[1])) return null;
 
@@ -177,7 +196,8 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
       captures[2],
       0,
       parseInt(captures[2]),
-      symbolDoc
+      symbolDoc,
+      captures.index
     );
   }
   getTriesForDocument(document: vscode.TextDocument): FileTries {
