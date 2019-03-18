@@ -9,7 +9,7 @@ var textTokens = fs
   .toString()
   .split(/[\r\n]+/);
 let symbols: { name: string; documentation: string; kind: string }[] = [];
-textTokens.forEach(function(symbolName: string) {
+textTokens.forEach(symbolName => {
   if (symbolName.length == 0) return;
   symbols.push({ name: symbolName, documentation: "", kind: process.argv[3] });
 });

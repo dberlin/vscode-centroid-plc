@@ -4,7 +4,11 @@ import { FileTries } from "./FileTries";
 import machine_params from "./json/machine_parameters.json";
 import sv_system_variables from "./json/sv_system_variables.json";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
-import { getSymbolByName, isSystemSymbolName } from "./util";
+import {
+  getRegexFromWordArray,
+  getSymbolByName,
+  isSystemSymbolName
+} from "./util";
 import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
 
 const typedVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|(?:SV_.*?))(\d+))\s*(;.*)?$/gm;
@@ -38,7 +42,7 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
   protected processSymbolList(
     symList: { kind: string; documentation: string; name: string }[]
   ) {
-    symList.forEach((val, index, arr) => {
+    symList.forEach(val => {
       this.systemSymbols.push(
         new SymbolInfo(
           val.name,
@@ -93,13 +97,10 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     if (fileTries === undefined) return;
 
     let docText = document.getText();
-
     let stageSymbolArray = (fileTries as FileTries).getStageNames();
+
     if (stageSymbolArray.length > 0) {
-      let stageRegex = new RegExp(
-        "(?<=^\\s*)(" + stageSymbolArray.join("|") + ")(?=\\s*$)",
-        "mg"
-      );
+      let stageRegex = getRegexFromWordArray(stageSymbolArray);
       let lastStage = null;
       let matches;
       while ((matches = stageRegex.exec(docText))) {

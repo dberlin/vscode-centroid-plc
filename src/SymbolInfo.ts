@@ -17,12 +17,10 @@ export enum SymbolType {
   MessageOrConstant,
   BuiltInKeyword
 }
-export class SymbolInfo extends BaseSymbolInfo {
+export class SymbolInfo extends BaseSymbolInfo<SymbolType> {
   /* Which number symbol is it. All symbols of any type in centroid PLC are
   numbered instances of that type */
   symbolNumber: number;
-  /* What kind of symbol is it. */
-  symbolType: SymbolType;
 
   constructor(
     name: string,
@@ -39,10 +37,9 @@ export class SymbolInfo extends BaseSymbolInfo {
     } else if (type == SymbolType.BuiltInKeyword) {
       kind = vscode.CompletionItemKind.Function;
     }
-    super(name, kind, doc, declType, "", value, declPos);
+    super(name, type, kind, doc, declType, "", value, declPos);
 
     this.symbolNumber = number;
-    this.symbolType = type;
   }
 }
 const SymbolStringFromType: Map<SymbolType, string> = new Map([

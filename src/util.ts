@@ -72,3 +72,9 @@ export function getSymbolForPosition(
   if (!wordText) return null;
   return getSymbolByName(document, wordText);
 }
+
+// Generate a regular expression that matches any of the words in the passed-in
+// array
+export function getRegexFromWordArray(wordArray: string[]) {
+  return new RegExp("(?<=^\\s*)(" + wordArray.join("|") + ")(?=\\s*$)", "mg");
+}
