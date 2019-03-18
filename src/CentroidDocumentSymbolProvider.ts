@@ -19,24 +19,27 @@ export class CentroidDocumentSymbolProvider
     // name starts and the stage ends) to where the name starts and ends and the
     // stage starts and ends.
 
-    return stageSymbols.map((val, idx, arr) => {
-      let originalPos = document.positionAt(val.symbolDefPos);
-      let symRange = new vscode.Range(
-        originalPos.with(undefined, 0),
-        document.positionAt(val.symbolDefEndPos)
-      );
-      let symNameRange = new vscode.Range(
-        originalPos,
-        originalPos.with(undefined, originalPos.character + val.label.length)
-      );
+    return <vscode.DocumentSymbol[]>stageSymbols
+      .map((val, idx, arr) => {
+        if (val.symbolDefPos === -1) return null;
+        let originalPos = document.positionAt(val.symbolDefPos);
+        let symRange = new vscode.Range(
+          originalPos.with(undefined, 0),
+          document.positionAt(val.symbolDefEndPos)
+        );
+        let symNameRange = new vscode.Range(
+          originalPos,
+          originalPos.with(undefined, originalPos.character + val.label.length)
+        );
 
-      return new vscode.DocumentSymbol(
-        val.label,
-        val.detail || "",
-        vscode.SymbolKind.Function,
-        symRange,
-        symNameRange
-      );
-    });
+        return new vscode.DocumentSymbol(
+          val.label,
+          val.detail || "",
+          vscode.SymbolKind.Function,
+          symRange,
+          symNameRange
+        );
+      })
+      .filter(obj => obj);
   }
 }
