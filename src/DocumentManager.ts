@@ -6,6 +6,7 @@ import * as vscode from "vscode";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
 import { isSystemSymbolName } from "./util";
 import { FileTries } from "./FileTries";
+import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
 
 const typedVariableWithComment: RegExp = new RegExp(
   "^\\s*([a-zA-Z0-9_]+)\\s*IS\\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_)([0-9]+))\\s*(;.*)?$",
@@ -34,14 +35,13 @@ function formatDocComment(comment: string) {
   return "### ".concat(comment.substring(1).trimLeft());
 }
 
-class DocumentSymbolManagerClass {
-  private tries: Map<string, FileTries> = new Map<string, FileTries>();
-  private systemSymbols: SymbolInfo[] = [];
+class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
   init(context: vscode.ExtensionContext) {
     this.processSymbolList(machine_params);
     this.processSymbolList(sv_system_variables);
+    super.init(context);
   }
-  private processSymbolList(
+  protected processSymbolList(
     symList: { kind: string; documentation: string; name: string }[]
   ) {
     symList.forEach((val, index, arr) => {
@@ -57,41 +57,15 @@ class DocumentSymbolManagerClass {
       );
     });
   }
-  // Normalize path of document filename
-  private normalizePathtoDoc(document: vscode.TextDocument) {
-    return path.normalize(vscode.workspace.asRelativePath(document.fileName));
-  }
 
-  private parseSymbolsUsingRegex(
-    fileTries: FileTries,
-    text: string,
-    regex: RegExp,
-    callback: {
-      (captures: string[]): SymbolInfo | null;
-    }
-  ) {
-    let captures: RegExpExecArray | null;
-    while ((captures = regex.exec(text))) {
-      let symbolInfo = callback(captures);
-      if (!symbolInfo) continue;
-      // Set the position we found it as
-      symbolInfo.symbolDeclPos = captures.index;
-      fileTries.add(symbolInfo);
-    }
-  }
   // Parse and add a document to our list of managed documents
   parseAndAddDocument(document: vscode.TextDocument) {
+    if (this.hasDocument(document)) return;
     let filename = this.normalizePathtoDoc(document);
-    if (this.tries.has(filename)) {
-      return;
-    }
     let fileTries = new FileTries();
     this.tries.set(filename, fileTries);
-    // Add system symbols.  In theory we should only do this once, but it takes
-    // no appreciable time/memory anyway
-    for (var sym of this.systemSymbols) {
-      fileTries.add(sym);
-    }
+    super.parseAndAddDocument(document);
+
     // Parse out all the symbols
     let docText = document.getText();
 
@@ -108,14 +82,25 @@ class DocumentSymbolManagerClass {
       this.getSymbolInfoFromConstantVariable
     );
     fileTries.freeze();
-    this.findStageSymbols(document, docText, fileTries);
+    this.findStageSymbols(document);
   }
-  private findStageSymbols(
-    document: vscode.TextDocument,
-    docText: string,
-    fileTries: FileTries
-  ) {
-    let stageSymbolArray = fileTries.getStageNames();
+  /**
+   * Find PLC stage symbols in our document.
+   *
+   * @param document - document to process
+   * @param fileTries
+   */
+  private findStageSymbols(document: vscode.TextDocument) {
+    let fileTries = this.getTriesForDocument(document);
+    console.assert(
+      fileTries !== undefined,
+      "Somehow could not find filetries!"
+    );
+    if (fileTries === undefined) return;
+
+    let docText = document.getText();
+
+    let stageSymbolArray = (fileTries as FileTries).getStageNames();
     if (stageSymbolArray.length > 0) {
       let stageRegex = new RegExp(
         "(?<=^\\s*)(" + stageSymbolArray.join("|") + ")(?=\\s*$)",
@@ -139,6 +124,7 @@ class DocumentSymbolManagerClass {
       if (lastStage) lastStage.symbolDefEndPos = docText.length;
     }
   }
+
   /**
    * Convert a capture array into a typed variable symbol.
    *
@@ -194,20 +180,8 @@ class DocumentSymbolManagerClass {
       symbolDoc
     );
   }
-  resetDocument(document: vscode.TextDocument) {
-    this.removeDocumentInternal(document);
-    this.parseAndAddDocument(document);
-  }
-  removeDocument(document: vscode.TextDocument) {
-    this.removeDocumentInternal(document);
-  }
-  private removeDocumentInternal(document: vscode.TextDocument) {
-    let filename = this.normalizePathtoDoc(document);
-    this.tries.delete(filename);
-  }
-  getTriesForDocument(document: vscode.TextDocument) {
-    let filename = this.normalizePathtoDoc(document);
-    return this.tries.get(filename);
+  getTriesForDocument(document: vscode.TextDocument): FileTries {
+    return super.getTriesForDocument(document) as FileTries;
   }
 }
 export const DocumentSymbolManager = new DocumentSymbolManagerClass();
