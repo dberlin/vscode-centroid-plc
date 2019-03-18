@@ -20,13 +20,15 @@ export class CentroidDocumentSymbolProvider
     // stage starts and ends.
 
     return <vscode.DocumentSymbol[]>stageSymbols
-      .map((val, idx, arr) => {
+      .map(val => {
         if (val.symbolDefPos === -1) return null;
         let originalPos = document.positionAt(val.symbolDefPos);
+        // Move the start to the beginning of the line
         let symRange = new vscode.Range(
           originalPos.with(undefined, 0),
           document.positionAt(val.symbolDefEndPos)
         );
+        // Move the name end to the end of the name
         let symNameRange = new vscode.Range(
           originalPos,
           originalPos.with(undefined, originalPos.character + val.label.length)

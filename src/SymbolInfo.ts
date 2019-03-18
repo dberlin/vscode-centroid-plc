@@ -1,5 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
+import { BaseSymbolInfo } from "./vscode-centroid-common/BaseSymbolInfo";
 
 export enum SymbolType {
   Word,
@@ -16,19 +17,12 @@ export enum SymbolType {
   MessageOrConstant,
   BuiltInKeyword
 }
-export class SymbolInfo extends vscode.CompletionItem {
-  /* Which number symbol is it. All symbols of any type in centroid PLC are numbered instances of that type */
+export class SymbolInfo extends BaseSymbolInfo {
+  /* Which number symbol is it. All symbols of any type in centroid PLC are
+  numbered instances of that type */
   symbolNumber: number;
-  /* If this is a constant symbol, what is the value. */
-  symbolValue: number;
   /* What kind of symbol is it. */
   symbolType: SymbolType;
-  /* What offset in the file did the symbol get declared at. */
-  symbolDeclPos: number;
-  /* What offset in the file did the symbol get defined at. */
-  symbolDefPos: number;
-  /* What offset in the file did the symbol end at (for stages). */
-  symbolDefEndPos: number;
 
   constructor(
     name: string,
@@ -45,15 +39,10 @@ export class SymbolInfo extends vscode.CompletionItem {
     } else if (type == SymbolType.BuiltInKeyword) {
       kind = vscode.CompletionItemKind.Function;
     }
-    super(name, kind);
-    this.documentation = new vscode.MarkdownString(doc);
-    this.detail = declType;
+    super(name, kind, doc, declType, "", value, declPos);
+
     this.symbolNumber = number;
     this.symbolType = type;
-    this.symbolValue = value;
-    this.symbolDeclPos = declPos;
-    this.symbolDefPos = -1;
-    this.symbolDefEndPos = -1;
   }
 }
 const SymbolStringFromType: Map<SymbolType, string> = new Map([
