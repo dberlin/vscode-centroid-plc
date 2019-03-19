@@ -155,7 +155,7 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
       }
     }
     let symbolType = getSymbolTypeFromString(captures[3]);
-    if (!symbolType) return null;
+    if (symbolType === undefined) return null;
 
     let possibleComment = !captures[5] ? "" : captures[5].trim();
     let symbolDoc = isComment(possibleComment)
@@ -167,7 +167,8 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
       captures[2],
       parseInt(captures[4]),
       0,
-      symbolDoc
+      symbolDoc,
+      captures.index
     );
   }
 
