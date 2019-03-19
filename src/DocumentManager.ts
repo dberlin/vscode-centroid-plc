@@ -34,10 +34,10 @@ function formatDocComment(comment: string) {
 }
 
 class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
-  init(context: vscode.ExtensionContext) {
+  constructor() {
+    super();
     this.processSymbolList(machine_params);
     this.processSymbolList(sv_system_variables);
-    super.init(context);
   }
   protected processSymbolList(
     symList: { kind: string; documentation: string; name: string }[]
