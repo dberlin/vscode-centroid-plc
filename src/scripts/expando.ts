@@ -7,9 +7,9 @@ let helpList: string[][] = JSON.parse(
   fs.readFileSync(process.argv[2]).toString()
 );
 // These are simple ranges
-let rangeRegex = new RegExp("_([0-9]+)-([0-9]+)");
+let rangeRegex = /_(\d+)-(\d+)/;
 // These are wildcards that represent the axis names
-let wildRegex = new RegExp("_(\\?)_");
+let wildRegex = /_(\?)_/;
 let axisNames = ["X", "Y", "Z", "A", "B", "C", "U", "V", "W"];
 let expandedResults = [];
 let captures;
@@ -52,7 +52,7 @@ for (var helpItem of helpList) {
       });
     }
   } else {
-    let helpNames = helpItem[0].split(new RegExp("\\s"));
+    let helpNames = helpItem[0].split(/\s/);
     for (var helpName of helpNames) {
       expandedResults.push({
         name: helpName,

@@ -13,7 +13,7 @@ if (process.argv.length < 3) {
   console.log("usage: ts-node parsehelp.ts <language.msg file>");
   process.exit(0);
 }
-let parameterRegexp = new RegExp("P([0-9]+)_LABEL =(.*?)spa:", "gsm");
+let parameterRegexp = /P(\d+)_LABEL =(.*?)spa:/gms;
 let textTokens = fs.readFileSync(process.argv[2]).toString();
 let symbols = [];
 let captures: RegExpExecArray | null;

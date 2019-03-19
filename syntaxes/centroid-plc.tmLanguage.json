@@ -61,7 +61,7 @@
       "patterns": [
         {
           "name": "entity.name.type",
-          "match": "\\b((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_PLC_FUNCTION_|SV_PC_KEYBOARD_KEY_|SV_SKIN_EVENT_|SV_M94_M95_)[0-9]+)\\b"
+          "match": "\\b((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_PLC_FUNCTION_|SV_PC_KEYBOARD_KEY_|SV_SKIN_EVENT_|SV_M94_M95_)\\d+)\\b"
         }
       ]
     },
@@ -133,7 +133,7 @@
       "patterns": [
         {
           "name": "meta.var.expr",
-          "match": "([a-zA-Z0-9_]+)\\s+(IS)\\s+(((?i:W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_PLC_FUNCTION_|SV_PC_KEYBOARD_KEY_|SV_SKIN_EVENT_|SV_M94_M95_)[0-9]+)|([0-9]+|TRUE|FALSE))",
+          "match": "([a-zA-Z0-9_]+)\\s+(IS)\\s+(((?i:W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_PLC_FUNCTION_|SV_PC_KEYBOARD_KEY_|SV_SKIN_EVENT_|SV_M94_M95_)\\d+)|(\\d+|TRUE|FALSE))",
           "captures": {
             "1": { "name": "variable.name.centroid-plc" },
             "2": { "name": "keyword.other.centroid-plc" },
@@ -147,7 +147,7 @@
       "patterns": [
         {
           "name": "support.variable.centroid-plc",
-          "match": "(SV_[A-Z_]+(_[0-9]+)*|MPG_AXIS_[0-9]+)"
+          "match": "(SV_[A-Z_]+(_[0-9]+)*|MPG_AXIS_\\d+)"
         }
       ]
     },
@@ -163,7 +163,7 @@
       "patterns": [
         {
           "name": "constant.numeric.centroid-plc",
-          "match": "(?:[0-9]+|(?i:true|false))"
+          "match": "(?:\\d+|(?i:true|false))"
         }
       ]
     },
@@ -171,7 +171,7 @@
       "patterns": [
         {
           "name": "constant.numeric.centroid-plc",
-          "match": "[0-9]+\\.[0-9]+"
+          "match": "\\d+\\.\\d+"
         }
       ]
     },
