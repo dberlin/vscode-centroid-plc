@@ -5,6 +5,10 @@ All notable changes to the "centroid-plc" extension will be documented in this f
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.5] - 2019-03-21
+### Fixed
+- Syntax highlighting improved
+
 ## [0.3.4] - 2019-03-18
 ### Fixed
 - W type symbols were broken in some cases.

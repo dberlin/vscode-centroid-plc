@@ -69,7 +69,7 @@
       "patterns": [
         {
           "name": "keyword.control.centroid-plc",
-          "match": "\\b(IF|THEN|ELSE|JMP)\\b"
+          "match": "\\b(?i:IF|THEN|ELSE|JMP)\\b"
         }
       ]
     },
@@ -77,7 +77,7 @@
       "patterns": [
         {
           "name": "keyword.other.bitops.centroid-plc",
-          "match": "\\b(SET|RST|WTB|BTW|BITSET|BITRST|BITTST|LSHIFT|RSHIFT)\\b"
+          "match": "\\b(?i:SET|RST|WTB|BTW|BITSET|BITRST|BITTST|LSHIFT|RSHIFT)\\b"
         }
       ]
     },
@@ -85,7 +85,7 @@
       "patterns": [
         {
           "name": "keyword.other.math.centroid-plc",
-          "match": "\\b(SIN|COS|ASIN|ACOS|TAN|ABS|POW|SQRT|DIST2|DIST3|ATAN2)\\b"
+          "match": "\\b(?i:SIN|COS|ASIN|ACOS|TAN|ABS|POW|SQRT|DIST2|DIST3|ATAN2)\\b"
         }
       ]
     },
@@ -133,7 +133,7 @@
       "patterns": [
         {
           "name": "meta.var.expr",
-          "match": "([a-zA-Z0-9_]+)\\s+(IS)\\s+(((?i:W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_PLC_FUNCTION_|SV_PC_KEYBOARD_KEY_|SV_SKIN_EVENT_|SV_M94_M95_)\\d+)|(\\d+|TRUE|FALSE))",
+          "match": "((?i:[A-Z0-9_]+))\\s+((?i:IS))\\s+(((?i:W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|SV_PLC_FUNCTION_|SV_PC_KEYBOARD_KEY_|SV_SKIN_EVENT_|SV_M94_M95_)\\d+)|(\\d+|TRUE|FALSE))",
           "captures": {
             "1": { "name": "variable.name.centroid-plc" },
             "2": { "name": "keyword.other.centroid-plc" },
@@ -147,7 +147,7 @@
       "patterns": [
         {
           "name": "support.variable.centroid-plc",
-          "match": "(SV_[A-Z_]+(_[0-9]+)*|MPG_AXIS_\\d+)"
+          "match": "(?i:SV_[A-Z_]+(_[0-9]+)*|MPG_AXIS_\\d+)"
         }
       ]
     },
@@ -155,7 +155,7 @@
       "patterns": [
         {
           "name": "variable.name.centroid-plc",
-          "match": "([a-zA-z][a-zA-Z0-9_]+)"
+          "match": "(?i:[A-Z][A-Z0-9_]+)"
         }
       ]
     },

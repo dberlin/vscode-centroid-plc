@@ -19,11 +19,11 @@ export function normalizeSymbolName(name: string) {
  * @param sym - Symbol to check
  */
 export function isSystemSymbol(sym: SymbolInfo) {
-  return sym.label.startsWith("SV_");
+  return isSystemSymbolName(sym.label);
 }
 
 export function isSystemSymbolName(symName: string) {
-  return symName.startsWith("SV_");
+  return symName.toUpperCase().startsWith("SV_");
 }
 
 /**
