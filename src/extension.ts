@@ -5,8 +5,9 @@ import { CentroidDeclarationProvider } from "./CentroidDeclarationProvider";
 import { CentroidDefinitionProvider } from "./CentroidDefinitionProvider";
 import { CentroidDocumentSymbolProvider } from "./CentroidDocumentSymbolProvider";
 import { CentroidHoverProvider } from "./CentroidHoverProvider";
-import { CentroidReferenceProvider } from "./vscode-centroid-common/CentroidReferenceProvider";
+import { CentroidPLCFormattingProvider } from "./CentroidPLCFormattingProvider";
 import { DocumentSymbolManager } from "./DocumentManager";
+import { CentroidReferenceProvider } from "./vscode-centroid-common/CentroidReferenceProvider";
 
 const centroidScheme = { language: "centroid-plc", scheme: "file" };
 
@@ -34,6 +35,13 @@ export function activate(context: vscode.ExtensionContext) {
       new CentroidDefinitionProvider()
     )
   );
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider(
+      centroidScheme,
+      new CentroidPLCFormattingProvider()
+    )
+  );
+
   context.subscriptions.push(
     vscode.languages.registerDocumentSymbolProvider(
       centroidScheme,
