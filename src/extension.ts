@@ -5,7 +5,7 @@ import { CentroidDeclarationProvider } from "./CentroidDeclarationProvider";
 import { CentroidDefinitionProvider } from "./CentroidDefinitionProvider";
 import { CentroidDocumentSymbolProvider } from "./CentroidDocumentSymbolProvider";
 import { CentroidHoverProvider } from "./CentroidHoverProvider";
-import { CentroidReferenceProvider } from "./CentroidReferenceProvider";
+import { CentroidReferenceProvider } from "./vscode-centroid-common/CentroidReferenceProvider";
 import { DocumentSymbolManager } from "./DocumentManager";
 
 const centroidScheme = { language: "centroid-plc", scheme: "file" };
