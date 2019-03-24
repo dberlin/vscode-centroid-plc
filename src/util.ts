@@ -78,3 +78,27 @@ export function getSymbolForPosition(
 export function getRegexFromWordArray(wordArray: string[]) {
   return new RegExp(`(?<=^\\s*)(${wordArray.join("|")})(?=\\s*$)`, "mg");
 }
+
+/**
+ * Return a regular expression that matches any of the input regular expressions
+ * @param args - Regular expressions to combine
+ */
+export function RegExpAny(...args: RegExp[]) {
+  let components: string[] = [];
+  let flags = new Map();
+  for (let i = 0; i < args.length; i++) {
+    components.push(args[i].source);
+    for (let flag of args[i].flags.split("")) {
+      flags.set(flag, flag);
+    }
+  }
+  let newFlags = [];
+  for (let key of flags.keys()) {
+    newFlags.push(key);
+  }
+  let combined = new RegExp(
+    `(?:${components.join(")|(?:")})`,
+    newFlags.join("")
+  );
+  return combined;
+}

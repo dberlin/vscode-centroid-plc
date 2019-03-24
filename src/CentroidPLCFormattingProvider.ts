@@ -1,8 +1,12 @@
 import * as vscode from "vscode";
 import formatting_tokens from "./json/formatting_tokens.json";
-const languageKeywords = new RegExp(
-  `(;.*$)|(?<=\\b)(${formatting_tokens.join("|")})(?=\\b)`,
-  "mgi"
+import { RegExpAny } from "./util.js";
+let stringRegexp = /("(?:\\["\\]|[^\n"\\])*")/gim;
+let commentRegexp = /(;.*$)/gim;
+const languageKeywords = RegExpAny(
+  stringRegexp,
+  commentRegexp,
+  new RegExp(`(?<=\\b)(${formatting_tokens.join("|")})(?=\\b)`, "mgi")
 );
 
 export class CentroidPLCFormattingProvider
@@ -23,8 +27,8 @@ export class CentroidPLCFormattingProvider
     let docText = document.getText();
     while ((matches = languageKeywords.exec(docText))) {
       // Skip comments
-      if (matches[1]) continue;
-      let matchStr = matches[2];
+      if (matches[1] || matches[2]) continue;
+      let matchStr = matches[3];
 
       // Special case true and false
       if (matchStr.toUpperCase() === "TRUE") {
@@ -55,9 +59,10 @@ export class CentroidPLCFormattingProvider
     options: vscode.FormattingOptions,
     token: vscode.CancellationToken
   ): vscode.ProviderResult<vscode.TextEdit[]> {
+    console.time("Fixing keywords");
     let upperCaseEdits = this.fixKeywordCase(document);
+    console.timeEnd("Fixing keywords");
     let results: vscode.TextEdit[] = [];
-
     return results.concat(upperCaseEdits);
   }
 }
