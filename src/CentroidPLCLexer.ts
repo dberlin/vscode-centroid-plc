@@ -1,14 +1,6 @@
 // Lexer for Centroid PLC Code
 
-import {
-  createToken,
-  TokenType,
-  Lexer,
-  Parser,
-  IToken,
-  ILexingError,
-  IRecognitionException
-} from "chevrotain";
+import { createToken, Lexer, TokenType } from "chevrotain";
 
 const WhiteSpace = createToken({
   name: "WhiteSpace",
@@ -60,7 +52,7 @@ const Assignment = createToken({
 });
 const Identifier = createToken({
   name: "Identifier",
-  pattern: /[a-zA-Z_\d]+/
+  pattern: /[a-zA-Z_][a-zA-Z_\d]*/
 });
 
 const mathCalls = [
@@ -99,7 +91,7 @@ const keywordList = [
 export const Keywords = keywordList.map(val => {
   return createToken({ name: val, pattern: new RegExp(val, "i") });
 });
-const allTokens: TokenType[] = [
+export const allTokens: TokenType[] = [
   WhiteSpace,
   Comment,
   Strings,
@@ -116,4 +108,6 @@ const allTokens: TokenType[] = [
   .concat(Keywords)
   .concat([Identifier, FPNumber, Number]);
 
-export let CentroidPLCLexer = new Lexer(allTokens);
+export function createPLCLexer() {
+  return new Lexer(allTokens);
+}

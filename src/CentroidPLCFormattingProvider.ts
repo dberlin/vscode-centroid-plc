@@ -1,24 +1,35 @@
 import * as vscode from "vscode";
 import formatting_tokens from "./json/formatting_tokens.json";
-import { Keywords, CentroidPLCLexer } from "./CentroidPLCLexer.js";
+import { Keywords, createPLCLexer } from "./CentroidPLCLexer.js";
 import { IToken } from "chevrotain";
+
+const systemVariableTokens = new Set(formatting_tokens);
+const keywordTokens = new Set(Keywords.map(kw => kw.name));
 
 export class CentroidPLCFormattingProvider
   implements vscode.DocumentFormattingEditProvider {
+  private CentroidPLCLexer = createPLCLexer();
   private getRangeForMatch(document: vscode.TextDocument, token: IToken) {
     return new vscode.Range(
       document.positionAt(token.startOffset),
       document.positionAt(token.endOffset as number)
     );
   }
+  private isKeywordOrSystemVar(token: IToken) {
+    if (!token.tokenType) return false;
+    return (
+      (token.tokenType.name == "Identifier" &&
+        systemVariableTokens.has(token.image.toUpperCase())) ||
+      keywordTokens.has(token.tokenType.name)
+    );
+  }
   private fixKeywordCase(document: vscode.TextDocument) {
-    const KeywordSet = new Set(Keywords.map(kw => kw.name));
     let edits = [];
     const docText = document.getText();
-    const lexerResults = CentroidPLCLexer.tokenize(docText);
+    const lexerResults = this.CentroidPLCLexer.tokenize(docText);
     if (lexerResults.errors.length != 0) return [];
     for (let token of lexerResults.tokens) {
-      if (token.tokenType && KeywordSet.has(token.tokenType.name)) {
+      if (this.isKeywordOrSystemVar(token)) {
         const matchStr = token.image;
         if (!token.endOffset) continue;
         if (matchStr.toUpperCase() === "TRUE") {

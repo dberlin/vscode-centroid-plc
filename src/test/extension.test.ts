@@ -10,13 +10,14 @@ import * as assert from "assert";
 // as well as import your extension to test it
 import * as vscode from "vscode";
 import * as extension from "../extension";
-import { CentroidPLCLexer } from "../CentroidPLCLexer";
+import { createPLCLexer } from "../CentroidPLCLexer";
 import * as fs from "fs";
 import * as path from "path";
 let testFilePath = path.join(__dirname + "/../../testfiles/");
 
 suite("Extension Tests", () => {
   test("Source code lexing", async function() {
+    let CentroidPLCLexer = createPLCLexer();
     for (let fileName of fs.readdirSync(testFilePath)) {
       const docText = fs
         .readFileSync(path.join(testFilePath + fileName))
