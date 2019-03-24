@@ -1,0 +1,40 @@
+;/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+; File:        minimal.src  
+; Programmer:  Drew Gear 
+; Date:        13-MAY-2010 
+; Purpose:     Most Basic PLC to allow full system navigation
+; Requires:    none  
+; $Id: minimal.src 844 2017-10-26 13:23:33Z keith $
+;/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+KbCycleStart_M       IS MEM400 ; "alt" + "s"
+
+;=============================================================================
+;                   SYSTEM VARIABLES
+;=============================================================================
+;--System variables:  Keyboard jogging functions
+Kb_s                  IS SV_PC_KEYBOARD_KEY_61
+Kb_L_Alt              IS SV_PC_KEYBOARD_KEY_94
+Kb_R_Alt              IS SV_PC_KEYBOARD_KEY_96
+DoCycleCancel         IS SV_PLC_FUNCTION_1
+DoCycleStart          IS SV_PLC_FUNCTION_2
+
+Kb_Escape               IS SV_PC_KEYBOARD_KEY_1 ;
+
+;*****************************************************************************
+;                  Program Start
+;*****************************************************************************
+IF Kb_s && (Kb_R_Alt || Kb_L_Alt) THEN (KbCycleStart_M)
+IF KbCycleStart_M THEN (DoCycleStart)
+
+;Send cycle start and cancel jog panel and keyboard keys to PC
+IF (Kb_Escape) && SV_PROGRAM_RUNNING THEN (DoCycleCancel)
+
+;--set Feedrate Override to 100%
+IF 1==1 THEN SV_PLC_FEEDRATE_KNOB = 100
+
+;--set Spindle Override to 100%
+IF 1==1 THEN SV_PLC_SPINDLE_KNOB = 100
+
+;--clear E-Stop
+IF 1==1 THEN RST SV_STOP, RST SV_STALL_ERROR

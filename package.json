@@ -57,6 +57,7 @@
     "devDependencies": {
         "@types/mocha": "^5.2.6",
         "@types/node": "^10.14.3",
+        "chevrotain": "^4.3.1",
         "js-yaml": "^3.13.0",
         "mocha": "^6.0.2",
         "tslint": "^5.14.0",

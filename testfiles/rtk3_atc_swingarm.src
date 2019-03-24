@@ -1,0 +1,2348 @@
+;  File:           rtk3_atc_swingarm.src
+;  Programmer:     Lee Johnston 
+;  Date:           Apr 2 2010
+;  RevISion Date:  April 26th 2010
+;  Purpose:        Swingarm ATC Program for OPTIC4/RTK3/MPU11
+;  Requires:       MPU11 + RTK3 + Optic4           
+;  $Id: rtk3_atc_swingarm.src 460 2010-10-04 16:01:47Z johnp $
+;       LDJ - Apr 26 2010  Added bit to flip arm sensor inputs - P 178 bit 7
+;		LDJ - Apr  2 2010  Rewrite of PLC program for swingarm machines    
+;
+;=============================================================================
+;                   CONSTANT DEFINITIONS
+;=============================================================================
+;                       IS 770; (2+256*3)
+;                       IS 1026;(2+256*4)
+AXIS1_INFLT 	        IS 1282;(2+256*5) Fiber to MPU11 from axIS drive has a problem
+AXIS2_INFLT 	        IS 1538;(2+256*6) 
+AXIS3_INFLT 	        IS 1794;(2+256*7) 
+AXIS4_INFLT 	        IS 2050;(2+256*8) 
+AXIS5_INFLT 	        IS 2306;(2+256*9) 
+AXIS6_INFLT 	        IS 2562;(2+256*10) 
+AXIS7_INFLT 	        IS 2818;(2+256*11) 
+AXIS8_INFLT 	        IS 3074;(2+256*12)
+
+AXIS1_OUTFLT 	        IS 3330;(2+256*13) Fiber to axIS drive from MPU11 has a problem
+AXIS2_OUTFLT 	        IS 3586;(2+256*14) 
+AXIS3_OUTFLT 	        IS 3842;(2+256*15) 
+AXIS4_OUTFLT 	        IS 4098;(2+256*16) 
+AXIS5_OUTFLT 	        IS 4354;(2+256*17) 
+AXIS6_OUTFLT 	        IS 4610;(2+256*18) 
+AXIS7_OUTFLT 	        IS 4866;(2+256*19) 
+AXIS8_OUTFLT 	        IS 5122;(2+256*20) 
+AXIS_FLT_CLR 	        IS 5378;(2+256*21)  
+PLC_INFLT               IS 5634;(2+256*22)  
+PLC_OUTFLT              IS 5890;(2+256*23)  
+PLC_FLT_CLR 	        IS 6146;(2+256*24)
+
+SPINDLE_FAULT_MSG       IS 12802;(2+256*50)
+SPINDLE_FAULT_CLR_MSG   IS 13058;(2+256*51)
+LUBE_FAULT_MSG          IS 13314;(2+256*52)
+LUBE_FAULT_CLR_MSG      IS 13570;(2+256*53)
+PROBE_FAULT_MSG         IS 13826;(2+256*54)
+PROBE_FAULT_CLR_MSG     IS 14082;(2+256*55)      
+NO_FAULT_MSG            IS 25345;(1+256*99)
+
+FALSE                  	IS 0
+
+BAD_FAULT_MSG           IS 25602;(2+256*100)
+                  
+;----------------------------------------
+;        PLC Input Definitions
+;----------------------------------------
+; Logic 1 = CLOSED SWITCH, 0 = Open 
+
+;// INP1 - INP768 Physical PLC inputs
+Ax1_MinusLimitOk        IS INP1
+Ax1_PlusLimitOk         IS INP2
+Ax2_MinusLimitOk        IS INP3
+Ax2_PlusLimitOk         IS INP4
+Ax3_MinusLimitOk        IS INP5
+Ax3_PlusLimitOk         IS INP6
+Ax4_MinusLimitOk        IS INP7
+Ax4_PlusLimitOk         IS INP8
+;                       IS INP9
+;                       IS INP10
+EStopOk                 IS INP11   ; 1 = ok
+;                       IS INP12   ; Was Servo fault
+TT1Input                IS INP13
+ProbeInput              IS INP14
+ProbeDetected           IS INP15   ; 1 = probe 
+; NA on RTK3            IS INP16   ; Was PLC OK
+;       	            IS INP17
+LubeOk                  IS INP18   ; 1 = OK 
+ZeroSpeed               IS INP19   ; Was 0 Speed
+;                       IS INP20   ; Was At Speed
+OrientComplete          IS INP21   ; 1 = Oriented
+ToolClamped             IS INP22   ;
+ToolUnclamped           IS INP23   ;
+ToolRelease             IS INP24   ;
+SpindleInverterFault    IS INP25   ; 1 = ok
+ToolCounter             IS INP26   ; 
+PotUp                   IS INP27   ;
+PotDown                 IS INP28   ;
+;                       IS INP29   ; Was Tool Coolant pressure sw
+RotaryNotHome           IS INP30   ;
+RotaryClamped           IS INP31   ;
+AirPressureOk           IS INP32   ;
+ArmAtClampInput         IS INP34    
+ArmAtStopInput          IS INP35
+ArmAtHomeInput          IS INP36
+ChillerOk               IS INP37
+;----------------------------------------------------
+; M-Function bits are no longer mapped as PLC inputs
+; 33-48.  M-Function bits are now mapped as system 
+; variables.  See system variables section
+;----------------------------------------------------
+;                       INP33-INP48
+;----------------------------------------------------
+; Jog panel inputs are no longer mapped as PLC inputs
+; 49-??.  All jJog panel inputs are now mapped as 
+; INP833-INP1088 and can be referenced as such.  
+; Alternatively, jog panel inputs can also be 
+; referenced using JPI1 through JPI256 (INP833-JPI256)
+;-----------------------------------------------------
+;                       INP49-58, INP63 ->....
+; INP 59-62 moved to 34-37
+
+;-------------------------------------------------------------------------------
+;// INP769 - INP784 Reserved for MPU11 onboard connections, only 4 present now
+;// The names given below are not "official" standard wiring yet.
+;-------------------------------------------------------------------------------
+MechnicalProbe        IS INP769
+DSPProbe              IS INP770
+ProbeDetect           IS INP771
+ProbeAux              IS INP772
+MPG_Inc_X_1           IS INP773
+MPG_Inc_X_10          IS INP774
+MPG_Inc_X_100         IS INP775
+MPG_AXIS_1            IS INP776
+MPG_AXIS_2            IS INP777
+MPG_AXIS_3            IS INP778
+MPG_AXIS_4            IS INP779
+MPG_AXIS_5            IS INP780
+MPG_AXIS_6            IS INP781
+MPG_AXIS_7            IS INP782
+MPG_AXIS_8            IS INP783
+
+;----------------------------------------
+;       PLC Output Definitions
+;----------------------------------------
+;// OUT1 - OUT768 Physical PLC inputs
+NoFaultOut              IS OUT1    ;
+LubeOut                 IS OUT2    ;
+FloodOut                IS OUT3    ;
+MIStOut                 IS OUT4    ;
+MagMotorMinusOut        IS OUT5    ; Tool Magazine NC/NO relay 1 = Minus Dir
+PotUpOut                IS OUT6    ;
+ToolUnclampOut          IS OUT7    ;
+AirBlowOut              IS OUT8    ;
+PotDownOut              IS OUT9    ;
+OrientRequestOut        IS OUT10   ;
+SpindleChillerOut       IS OUT11   ;
+CoolingFanOut           IS OUT12
+SpindleDirectionOut     IS OUT13   ; NO/NC contact 1 = CCW
+SpindleEnableOut        IS OUT14   ;
+InverterResetOut        IS OUT15   ;
+
+;----------------------------------------
+; For legacy PLC/Drivesthe DAC output 
+; for spindle spindle control continue
+; to be mapped through PLC "Outputs"
+; 17-28
+;----------------------------------------
+SpindleDAC_OutputBit0   IS OUT17
+SpindleDAC_OutputBit1   IS OUT18
+SpindleDAC_OutputBit2   IS OUT19
+SpindleDAC_OutputBit3   IS OUT20
+SpindleDAC_OutputBit4   IS OUT21
+SpindleDAC_OutputBit5   IS OUT22
+SpindleDAC_OutputBit6   IS OUT23
+SpindleDAC_OutputBit7   IS OUT24
+SpindleDAC_OutputBit8   IS OUT25
+SpindleDAC_OutputBit9   IS OUT26
+SpindleDAC_OutputBit10  IS OUT27
+SpindleDAC_OutputBit11  IS OUT28
+;---End Spindle DAC mapping---------------
+Auger1FwdOut            IS OUT29   ;
+ClampOut                IS OUT30
+MagMotorEnableOut       IS OUT31   ; 
+RedLightOut             IS OUT32
+GreenLightOut           IS OUT33   ;
+AmberLightOut           IS OUT34   ;
+WorkLightOut            IS OUT35   ;
+Auger1RevOut     		IS OUT36   ;
+ArmMotorOut             IS OUT37   ;
+P170bit2                IS OUT38   ;
+P170bit3                IS OUT39   ;
+;                       IS OUT40   ;
+;-----------------------------------------
+; Outputs 41-48 Are no longer hard coded for 
+; echoing the BCD Tool number.  To echo a 
+; tool number for dISplay in the CNC10 
+; software system variable SV_PLC_Carousel_Position 
+; should be used.  IF it IS desired that physical 
+; outputs be used to echo a tool number, WTB can 
+; be used.
+;-----------------------------------------
+;                       IS OUT41    
+;                       IS OUT42   
+;                       IS OUT43   
+;                       IS OUT44   
+;                       IS OUT45   
+;                       IS OUT46   
+;                       IS OUT47   
+;                       IS OUT48   
+;-----------------------------------------
+; Jog panel LED'snputs are no longer mapped as PLC 
+; out outputs 49-???.  All jog panel LED's are now mapped 
+; as OUT833-OUT1088 and can be referenced as such.  
+; Alternatively, jog panel LED's can also be 
+; referenced using JPO1 through JPO256 (OUT833-OUT1088)
+;-----------------------------------------
+;                       IS OUT49
+;                       IS OUT50
+;                       IS OUT51    
+;                       IS OUT52   
+;                       IS OUT53   
+;                       IS OUT54   
+;                       IS OUT55   
+;                       IS OUT56   
+;                       IS OUT57   
+;                       IS OUT58   
+;-----------------------------------------
+P170bit4                IS OUT59   ;
+Auger2FwdOut            IS OUT60   ;
+Auger2RevOut            IS OUT61   ;
+ThroughCoolantOut       IS OUT62   ;
+;-----------------------------------------
+
+MPG_LED_OUT               IS OUT769
+
+;---------------------------------------------------
+;             MEMory Definitions
+;---------------------------------------------------
+true                    IS MEM1
+;false                  IS MEM2
+JogIncr                 IS MEM3
+OnAtPowerUp             IS MEM4
+ToolReleaseReq          IS MEM5
+Doing_M6		        IS MEM6
+DoingIndex              IS MEM7
+IndexFault              IS MEM8
+ArmMovingToStop         IS MEM9 
+ResetPLCOperationInProgress IS MEM10
+ProgramRunning          IS MEM11
+CountingFlag            IS MEM12
+EchoDSP                 IS MEM13
+ManIndexRequest			IS MEM14
+SpindlEStopKeyPressed   IS MEM15
+SpindleStartKeyPressed  IS MEM16
+SpindleCWKeyPressed     IS MEM17
+SpindleCCWKeyPressed    IS MEM18
+PLCOperationInProgress  IS MEM19
+MZ_REQ                  IS MEM20  ;
+END_REQ                 IS MEM21  ;
+HU_REQ                  IS MEM22  ;
+HD_REQ                  IS MEM23  ;
+DoingRotate             IS MEM24  ;
+Calc_B1					IS MEM25
+Calc_B2					IS MEM26
+Tool_NoISe_Fault        IS MEM27 
+ProbeFaultMEM           IS MEM28
+ProbeFaultOccuredMEM    IS MEM29
+
+M13Attempted            IS MEM30
+
+ATCCountMEM				IS MEM31
+ATCRotateMEM			IS MEM32
+
+ArmAtClampMEM           IS MEM33    
+ArmAtStopMEM            IS MEM34
+ArmAtHoMEMem            IS MEM35
+
+AutoSpindleMode         IS MEM36
+ManualSpindleMode       IS MEM37
+AutoStart               IS MEM38
+AutoStop                IS MEM39
+SpindleStart            IS MEM40
+SpindlEStop             IS MEM41
+SpindlePause            IS MEM42
+ManualSpindleDirectionCW IS MEM43
+SpindleHighRange        IS MEM44
+ArmSync1                IS MEM45
+ArmSync2                IS MEM46
+LubeMEM                 IS MEM47
+PLCBus_online           IS MEM48
+PLCFaultMEM				IS MEM49
+ProbeFault              IS MEM50
+SpinDacUpperBit8        IS MEM51 
+SpinDacUpperBit9        IS MEM52
+SpinDacUpperBit10       IS MEM53
+SpinDacUpperBit11       IS MEM54
+ArmCycleComplete        IS MEM55
+OrientRequested         IS MEM56
+PotDownRequest          IS MEM57
+PotUpRequest            IS MEM58 
+ReadyToExchangeTools    IS MEM59
+Aux11LEDMEM             IS MEM60           
+ATC_Fault               IS MEM61
+TOOL_NUMBER_Fault      IS MEM62
+PLC_CAROUSEL_POSITION_Fault IS MEM63
+CoolantPauseOnToolCheck IS MEM64
+LowAirFault             IS MEM65
+LubeFaultMEM               IS MEM66
+SpindleFault            IS MEM67
+CncProgramRunning       IS MEM68
+KbSelectSpindleCWMEM    IS MEM69
+KbSelectSpindleCCWMEM   IS MEM70
+SpinAutoToManStop       IS MEM71
+tempbit					IS MEM72
+singleblockMEM          IS MEM73 
+SpindleOn               IS MEM78
+SpindleCCWDir           IS MEM79
+CNC_Program_Running     IS MEM80
+ManFlood                IS MEM83
+ManMISt                 IS MEM84
+PreToolChangeOrientMem  IS MEM85
+
+SpindleDAC_Bit8Image    IS MEM200
+SpindleDAC_Bit9Image    IS MEM201
+SpindleDAC_Bit10Image   IS MEM202
+SpindleDAC_Bit11Image   IS MEM203
+SpindleDAC_Bit12Image   IS MEM204
+SpindleDAC_Bit13Image   IS MEM205
+SpindleDAC_Bit14Image   IS MEM206
+SpindleDAC_Bit15Image   IS MEM207
+PromptMEM               IS MEM208  
+
+;-----------------------------------
+; *** P178 Aux parameter mapping ***
+; The following MEMory bits are still mapped to Parameter 178
+;-----------------------------------
+
+LubeNONC             IS MEM300  ; P178 Bit 0  (1)
+SpindleNONC          IS MEM301  ; P178 Bit 1  (2)
+AirSignalNONC        IS MEM302  ; P178 Bit 2  (4)
+ToolCounterNONC      IS MEM303  ; P178 Bit 3  (8)
+ServoFaultNONC       IS MEM304  ; P178 Bit 4  (16)
+ZeroSpeedNONC        IS MEM305  ; P178 Bit 5  (32)
+OrientCompleteNONC   IS MEM306  ; P178 Bit 6  (64)
+ArmInputsToggle      IS MEM307  ; P178 Bit 7  (128)
+ReverseClamp         IS MEM308  ; P178 Bit 8  (256)
+SpinRangeNONC        IS MEM309  ; P178 Bit 9  (512)
+ChillerFaultNONC     IS MEM310  ; P178 Bit 10 (1024)
+DoorSWNONC           IS MEM311  ; P178 Bit 11 (2048)
+ToolThruNONC         IS MEM312  ; P178 Bit 12 (4096)
+;uP178Bit13          IS MEM313  ; P178 Bit 13 (8192)
+;uP178Bit14          IS MEM314  ; P178 Bit 14 (16384)
+;uP178Bit15          IS MEM315  ; P178 Bit 15 (32768)
+
+;----------------------------------------------------------------
+; Jog panel keys are referenced as JPI1 through JPI256. Alternatively, 
+; jog panel inputs can also be referenced as INP1057-INP1312.
+;----------------------------------------------------------------
+
+; Definitions follow JOGBOARD layout top to bottom, left to right
+
+SpindlePlusKey        IS JPI1  ; Row  1 Column 1
+SpindleAutoManualKey  IS JPI2  ; Row  1 Column 2
+Aux1Key               IS JPI3  ; Row  1 Column 3
+Aux2Key               IS JPI4  ; Row  1 Column 4
+Aux3Key               IS JPI5  ; Row  1 Column 5 
+
+Spindle100PercentKey  IS JPI6  ; Row  2 Column 1
+SpindleCWKey          IS JPI7  ; Row  2 Column 2
+Aux4Key               IS JPI8  ; Row  2 Column 3 
+Aux5Key               IS JPI9  ; Row  2 Column 4
+Aux6Key               IS JPI10 ; Row  2 Column 5
+
+SpindleMinusKey       IS JPI11 ; Row  3 Column 1
+SpindleCCWKey         IS JPI12 ; Row  3 Column 2
+WorkLightKey          IS JPI13 ; Row  3 Column 3
+ToolIndexDnKey        IS JPI14 ; Row  3 Column 4
+ToolIndexUpKey        IS JPI15 ; Row  3 Column 5
+
+SpindlEStopKey        IS JPI16 ; Row  4 Column 1
+SpindleStartKey       IS JPI17 ; Row  4 Column 2
+UnusedR4C3Key         IS JPI18 ; Row  4 Column 3
+UnusedR4C4Key         IS JPI19 ; Row  4 Column 4
+UnusedR4C5Key         IS JPI20 ; Row  4 Column 5
+
+CoolantAutoManualKey  IS JPI21 ; Row  5 Column 1
+CoolantFloodKey       IS JPI22 ; Row  5 Column 2
+CoolantMIStKey        IS JPI23 ; Row  5 Column 3
+Aux11Key              IS JPI24 ; Row  5 Column 4
+ATCOverrideKey         IS JPI25 ; Row  5 Column 5
+
+IncrContKey           IS JPI26  ; Row  6 Column 1
+x1JogKey              IS JPI27  ; Row  6 Column 2
+x10JogKey             IS JPI28  ; Row  6 Column 3
+x100JogKey            IS JPI29  ; Row  6 Column 4
+MPGKey                IS JPI30  ; Row  6 Column 5
+
+Ax4PlusJogKey         IS JPI31  ; Row  7 Column 1
+UnusedR7C2Key         IS JPI32  ; Row  7 Column 2
+Ax2PlusJogKey         IS JPI33  ; Row  7 Column 3
+UnusedR7C4Key         IS JPI34  ; Row  7 Column 4
+Ax3PlusJogKey         IS JPI35  ; Row  7 Column 5
+
+UnusedR8C1Key         IS JPI36  ; Row  8 Column 1
+Ax1MinusJogKey        IS JPI37  ; Row  8 Column 2
+FastSlowKey           IS JPI38  ; Row  8 Column 3
+Ax1PlusJogKey         IS JPI39  ; Row  8 Column 4
+UnusedR8C5Key         IS JPI40  ; Row  8 Column 5
+
+Ax4MinusJogKey        IS JPI41  ; Row  9 Column 1
+UnusedR9C2Key         IS JPI42  ; Row  9 Column 2
+Ax2MinusJogKey        IS JPI43  ; Row  9 Column 3
+UnusedR9C4Key         IS JPI44  ; Row  9 Column 4
+Ax3MinusJogKey        IS JPI45  ; Row  9 Column 5
+
+CycleCancelKey        IS JPI46  ; Row 10 Column 1
+SingleBlockKey        IS JPI47  ; Row 10 Column 2
+ToolCheckKey          IS JPI48  ; Row 10 Column 3
+FeedHoldKey           IS JPI49  ; Row 10 Column 4
+CycleStartKey         IS JPI50  ; Row 10 Column 5
+
+;----------------------------------------------------------------
+;                    Feedrate Override Knob
+;----------------------------------------------------------------
+JpFeedOrKnobBit0      IS JPI193
+JpFeedOrKnobBit1      IS JPI194
+JpFeedOrKnobBit2      IS JPI195
+JpFeedOrKnobBit3      IS JPI196
+JpFeedOrKnobBit4      IS JPI197
+JpFeedOrKnobBit5      IS JPI198
+JpFeedOrKnobBit6      IS JPI199
+JpFeedOrKnobBit7      IS JPI200
+JpFeedOrKnobBit8      IS JPI201
+JpFeedOrKnobBit9      IS JPI202
+JpFeedOrKnobBit10     IS JPI203
+JpFeedOrKnobBit11     IS JPI204
+JpFeedOrKnobBit12     IS JPI205
+JpFeedOrKnobBit13     IS JPI206
+JpFeedOrKnobBit14     IS JPI207
+JpFeedOrKnobBit15     IS JPI208
+
+;----------------------------------------------------------------
+;                 Jog Panel Output Definitions 
+;       Jog Panel LED's can be addressed as JPO1 - JPO256  
+;                              OR 
+;                       OUT833 - OUT1088 
+;----------------------------------------------------------------
+; Definitions follow JOGBOARD layout top to bottom, left to right
+
+SpindlePlusLED        IS JPO1  ; Row  1 Column 1
+SpindleAutoManualLED  IS JPO2  ; Row  1 Column 2
+Aux1LED               IS JPO3  ; Row  1 Column 3
+Aux2LED               IS JPO4  ; Row  1 Column 4
+Aux3LED               IS JPO5  ; Row  1 Column 5 
+
+Spindle100PercentLED  IS JPO6  ; Row  2 Column 1
+SpindleCWLED          IS JPO7  ; Row  2 Column 2
+Aux4LED               IS JPO8  ; Row  2 Column 3 
+Aux5LED               IS JPO9  ; Row  2 Column 4
+Aux6LED               IS JPO10 ; Row  2 Column 5
+
+SpindleMinusLED       IS JPO11 ; Row  3 Column 1
+SpindleCCWLED         IS JPO12 ; Row  3 Column 2
+WorklightLED          IS JPO13 ; Row  3 Column 3
+Aux8LED               IS JPO14 ; Row  3 Column 4
+Aux9LED               IS JPO15 ; Row  3 Column 5
+
+SpindlEStopLED        IS JPO16 ; Row  4 Column 1
+SpindleStartLED       IS JPO17 ; Row  4 Column 2
+UnusedR4C3LED         IS JPO18 ; Row  4 Column 3
+UnusedR4C4LED         IS JPO19 ; Row  4 Column 4
+UnusedR4C5LED         IS JPO20 ; Row  4 Column 5
+
+CoolantAutoManualLED  IS JPO21 ; Row  5 Column 1
+CoolantFloodLED       IS JPO22 ; Row  5 Column 2
+CoolantMIStLED        IS JPO23 ; Row  5 Column 3
+Aux11LED              IS JPO24 ; Row  5 Column 4
+UnusedR5C5LED         IS JPO25 ; Row  5 Column 5
+
+IncrContLED           IS JPO26  ; Row  6 Column 1
+x1JogLED              IS JPO27  ; Row  6 Column 2
+x10JogLED             IS JPO28  ; Row  6 Column 3
+x100JogLED            IS JPO29  ; Row  6 Column 4
+MPGLED                IS JPO30  ; Row  6 Column 5
+
+Ax4PlusJogLED         IS JPO31  ; Row  7 Column 1
+UnusedR7C2LED         IS JPO32  ; Row  7 Column 2
+Ax2PlusJogLED         IS JPO33  ; Row  7 Column 3
+UnusedR7C4LED         IS JPO34  ; Row  7 Column 4
+Ax3PlusJogLED         IS JPO35  ; Row  7 Column 5
+
+UnusedR8C1LED         IS JPO36  ; Row  8 Column 1
+Ax1MinusJogLED        IS JPO37  ; Row  8 Column 2
+FastSlowLED           IS JPO38  ; Row  8 Column 3
+Ax1PlusJogLED         IS JPO39  ; Row  8 Column 4
+UnusedR8C5LED         IS JPO40  ; Row  8 Column 5
+
+Ax4MinusJogLED        IS JPO41  ; Row  9 Column 1
+UnusedR9C2LED         IS JPO42  ; Row  9 Column 2
+Ax2MinusJogLED        IS JPO43  ; Row  9 Column 3
+UnusedR9C4LED         IS JPO44  ; Row  9 Column 4
+Ax3MinusJogLED        IS JPO45  ; Row  9 Column 5
+
+CycleCancelLED        IS JPO46  ; Row 10 Column 1
+SingleBlockLED        IS JPO47  ; Row 10 Column 2
+
+; FOR JOGBRD REV??????, the LED outputs do not match Key inputs
+; The PLC program should activate all three of these when
+; it wants to turn on FeedHoldLED so that future hardware changes
+; to put them in the same order as their corresponding inputs will work.
+ToolCheckLED          IS JPO50  ; Row 10 Column 3
+FeedHoldLED           IS JPO48  ; Row 10 Column 4
+CycleStartLED         IS JPO49  ; Row 10 Column 5
+
+;-------------------------------------------------------------------------------
+;                     ---------SYSTEM VARIABLES--------    
+;
+; For a complete lISt of System Variables and their functions, please see the 
+; MPU11 PLC manual.
+;-------------------------------------------------------------------------------
+
+; MPU11 based systems provide the PLC with the ability to read/write to a 
+; limited number of "System Variables".  While the use of System Variables 
+; greatly expands PLC functionality, it comes with additional reponsibility on 
+; the part of the PLC programmer.  Functionality that was once implemented as 
+; default behavior such as jogging, spindle speed, feedrate override, spindle 
+; gear ranges etc... IS now implemented through System Variables in the PLC 
+; program.  It IS now the sole responsibilty of the PLC program to provide a 
+; method to jog an axIS, override the spindle speed or feedrates or even map a 
+; jog panel keypress to a specIFic function.  Pressing a jog key or Aux key 
+; won't DO anything unless the PLC assigns an action to the keypress.  All jog 
+; panel functions MUST be explicitly implemented in the PLC program. 
+;                                 ----IMPORTANT----  
+; Menu navigation in the CNC software requires that the escape key or Cycle 
+; Cancel key IS used to back out of menus and screens.  You must use the PLC 
+; program to map a jog panel key and/or a keyboard key to the Cycle Cancel 
+; System Variable (SV_PLC_FUNCTION_1) in order to use the control.  The 
+; following lines map the escape key and Jog Panel Cycle Cancel key to produce a
+; Cycle Cancel event:
+
+; IF (CycleCancelKey || KbCycleCancel) THEN (DoCycleCancel)
+; The above line assumes that you have declared: KbCycleCancel  IS SV_PC_FUNCTION_1 
+;                                                CycleCancelKey IS JPI1
+;                                                DoCycleCancel  IS SV_PLC_FUNCTION_1 
+
+;   Some of the information made available to the PLC through System Variables: 
+; 1. Encoder positions: SV_MPU11_ABS_POS_1 - SV_MPU11_ABS_POS_7
+; 2. Parameter values: SV_MACHINE_PARAMETER_1 - SV_MACHINE_PARAMETER_199
+; 3. Spindle Speed command (override factored in): SV_PC_COMMANDED_SPINDLE_SPEED
+; 4. Keyboard jog commands: SV_PC_FUNCTION_1 - SV_PC_FUNCTION_127     
+; 5. ...
+
+;   Some of the functionality controlled by the PLC through System Variables:
+; 1. AxIS jogging: SV_PLC_FUNCTION_12 - SV_PLC_FUNCTION_23
+; 2. Spindle speed: SV_PLC_SPINDLE_SPEED -provides nearly unlimited gear ranges
+; 3. Feedrate (through override knob): SV_PLC_FEEDRATE_KNOB
+; 4. Custom debounce, invert/force inputs: SV_PLC_DEBOUNCE_1 - SV_PLC_DEBOUNCE_64            
+; 5. ...
+
+;----------------------------------------------------------------------------------------
+;			*** Direct Accessed System Variables
+; The following System Variables are directly accessed in thIS PLC program.
+; They are lISted here to enable you to easilly search and find them
+;----------------------------------------------------------------------------------------
+;
+; SV_STOP_REASON 			- ThIS IS used to get any stop reasons from CNC11/MPU11
+; SV_TOOL_NUMBER 			- Requested Tool Number during Tool Change, M107 sets thIS
+; SV_ATC_CAROUSEL_POSITION	- Startup carousel bin position, sent on CNC software startup
+; SV_ATC_TOOL_IN_SPINDLE	- Tool in spindle during machine startup
+; SV_PLC_CAROUSEL_POSITION 	- Reported carousel bin number, reported by the PLC program
+;
+;----------------------------------------------------------------------------------------
+
+;-------------------------------------------------------------
+;      System Variable Definions - Jog panel functions
+;-------------------------------------------------------------
+;Invalid              IS SV_PLC_FUNCTION_0
+DoCycleCancel         IS SV_PLC_FUNCTION_1
+DoCycleStart          IS SV_PLC_FUNCTION_2
+DoToolCheck           IS SV_PLC_FUNCTION_3
+SelectSingleBlock     IS SV_PLC_FUNCTION_4
+SelectX1JogInc        IS SV_PLC_FUNCTION_5
+SelectX10JogInc       IS SV_PLC_FUNCTION_6
+SelectX100JogInc      IS SV_PLC_FUNCTION_7
+SelectUserJogInc      IS SV_PLC_FUNCTION_8
+SelectIncContJog      IS SV_PLC_FUNCTION_9
+SelectFastSlowJog     IS SV_PLC_FUNCTION_10
+SelectMpgMode         IS SV_PLC_FUNCTION_11
+DoAx1PlusJog          IS SV_PLC_FUNCTION_12
+DoAx1MinusJog         IS SV_PLC_FUNCTION_13
+DoAx2PlusJog          IS SV_PLC_FUNCTION_14
+DoAx2MinusJog         IS SV_PLC_FUNCTION_15
+DoAx3PlusJog          IS SV_PLC_FUNCTION_16
+DoAx3MinusJog         IS SV_PLC_FUNCTION_17
+DoAx4PlusJog          IS SV_PLC_FUNCTION_18
+DoAx4MinusJog         IS SV_PLC_FUNCTION_19
+DoAx5PlusJog          IS SV_PLC_FUNCTION_20
+DoAx5MinusJog         IS SV_PLC_FUNCTION_21 
+DoAx6PlusJog          IS SV_PLC_FUNCTION_22
+DoAx6MinusJog         IS SV_PLC_FUNCTION_23
+DoAux1Key             IS SV_PLC_FUNCTION_24
+DoAux2Key             IS SV_PLC_FUNCTION_25
+DoAux3Key             IS SV_PLC_FUNCTION_26
+DoAux4Key             IS SV_PLC_FUNCTION_27
+DoAux5Key             IS SV_PLC_FUNCTION_28
+DoAux6Key             IS SV_PLC_FUNCTION_29
+DoWorkLightKey        IS SV_PLC_FUNCTION_30
+DoAux8Key             IS SV_PLC_FUNCTION_31
+DoAux9Key             IS SV_PLC_FUNCTION_32
+;DoAux10Key           IS SV_PLC_FUNCTION_33 
+SelectRapidOverride   IS SV_PLC_FUNCTION_34
+SelectManAutoSpindle  IS SV_PLC_FUNCTION_35
+DoSpindleStart        IS SV_PLC_FUNCTION_37
+DoSpindlEStop         IS SV_PLC_FUNCTION_38
+PlotRequest 		  IS SV_PLC_FUNCTION_39
+DoAux12Key            IS SV_PLC_FUNCTION_40
+SelectCoolantMan      IS SV_PLC_FUNCTION_41
+SelectCoolantAuto     IS SV_PLC_FUNCTION_42
+SelectCoolantFlood    IS SV_PLC_FUNCTION_43
+SelectCoolantMISt     IS SV_PLC_FUNCTION_44
+DoFeedHold            IS SV_PLC_FUNCTION_45
+SelectSpindleCCW      IS SV_PLC_FUNCTION_98          
+SelectSpindleCW       IS SV_PLC_FUNCTION_99
+SelectCoolantAutoManual IS SV_PLC_FUNCTION_104          
+DoIncreaseSpindleOr   IS SV_PLC_FUNCTION_106         
+DoDecreaseSpindleOr   IS SV_PLC_FUNCTION_107
+SelectSpinOr100       IS SV_PLC_FUNCTION_108
+;-------------------------------------------------------------
+;                System Variable Definions -mISc 
+;-------------------------------------------------------------
+SpindlePos            IS SV_MPU11_ABS_POS_4 
+MDIMode               IS SV_MDI_MODE
+Stop                  IS SV_STOP
+
+;-------------------------------------------------------------
+;                System Variable Definions -M functions
+;-------------------------------------------------------------
+M3                    IS SV_M94_M95_1 ;(Spindle CW)
+M4                    IS SV_M94_M95_2 ;(Spindle CCW)
+M8                    IS SV_M94_M95_3 ;(Flood On)
+M10                   IS SV_M94_M95_4 ;(Rotary Clamp)
+M7                    IS SV_M94_M95_5 ;(MISt)
+M6                    IS SV_M94_M95_6 ;(ToolChange)
+M80                   IS SV_M94_M95_7 ;(Tool Tru Tool Coolant)
+MZ_ACK                IS SV_M94_M95_8 ;(Move Z Ack) 
+;M0_M1                IS SV_M94_M95_9 ;
+M60                   IS SV_M94_M95_9 ;
+M18                   IS SV_M94_M95_10;(Set ATC Home)
+M19                   IS SV_M94_M95_11;(Spindle Orient)
+Pre_M6                IS SV_M94_M95_12;(Pre M6)
+M13                   IS SV_M94_M95_13;(ArmCycle)
+M14                   IS SV_M94_M95_14;(Pot Down)
+M15                   IS SV_M94_M95_15;(Pot Up)
+
+;----------------------------------------------------------------
+;  System variables:  Keyboard jogging functions 
+;----------------------------------------------------------------
+;-------------------------------------------------------------------------------
+; Keyboard Jogging Keys - The System Variables in thIS section inform the PLC 
+; that a PC keyboard keypress has occured.  Keep in mind that some key presses 
+; only come down while the keyboard jogging screen IS enabled (alt-j) and that 
+; NONE of these keys not perform ANY default actions unless programmed to do so.
+; The assignments provided below are for reference only.  For an example of 
+; mapping a keyboard key press to an MPU11 action, see the logic assigned to 
+; KbCycleStart or KbCycleCancel.    
+;
+;*** Note:
+;***		As of CNC11 V3.00 Beta rev 48, all keypresses are sent down as individual keys
+;			Therefore for Cycle Start you would look for (Kb_Jog_Enable && Kb_Alt && Kb_S)
+;--------------------------------------------------------------------------------
+
+;Kb_a					IS SV_PC_KEYBOARD_KEY_
+;Kb_b					IS SV_PC_KEYBOARD_KEY_
+;Kb_c					IS SV_PC_KEYBOARD_KEY_
+;Kb_d					IS SV_PC_KEYBOARD_KEY_
+;Kb_e					IS SV_PC_KEYBOARD_KEY_
+;Kb_f					IS SV_PC_KEYBOARD_KEY_
+;Kb_g					IS SV_PC_KEYBOARD_KEY_
+;Kb_h					IS SV_PC_KEYBOARD_KEY_
+;Kb_i					IS SV_PC_KEYBOARD_KEY_
+;Kb_j					IS SV_PC_KEYBOARD_KEY_
+;Kb_k					IS SV_PC_KEYBOARD_KEY_
+;Kb_l					IS SV_PC_KEYBOARD_KEY_
+;Kb_m					IS SV_PC_KEYBOARD_KEY_
+;Kb_n					IS SV_PC_KEYBOARD_KEY_
+;Kb_o					IS SV_PC_KEYBOARD_KEY_
+;Kb_p					IS SV_PC_KEYBOARD_KEY_
+;Kb_q					IS SV_PC_KEYBOARD_KEY_
+;Kb_r					IS SV_PC_KEYBOARD_KEY_
+;Kb_s					IS SV_PC_KEYBOARD_KEY_
+;Kb_t					IS SV_PC_KEYBOARD_KEY_
+;Kb_u					IS SV_PC_KEYBOARD_KEY_				
+;Kb_v					IS SV_PC_KEYBOARD_KEY_
+;Kb_w					IS SV_PC_KEYBOARD_KEY_
+;Kb_x					IS SV_PC_KEYBOARD_KEY_
+;Kb_y					IS SV_PC_KEYBOARD_KEY_
+;Kb_z					IS SV_PC_KEYBOARD_KEY_	
+;Kb_ShIFt				IS SV_PC_KEYBOARD_KEY_
+;Kb_Alt					IS SV_PC_KEYBOARD_KEY_
+;Kb_Ctrl				IS SV_PC_KEYBOARD_KEY_
+;Kb_Ins					IS SV_PC_KEYBOARD_KEY_
+;Kb_Home				IS SV_PC_KEYBOARD_KEY_
+;Kb_PgDown				IS SV_PC_KEYBOARD_KEY_
+;Kb_PgUp				IS SV_PC_KEYBOARD_KEY_
+;Kb_Del					IS SV_PC_KEYBOARD_KEY_
+;Kb_Back				IS SV_PC_KEYBOARD_KEY_
+
+;Kb_Tab					IS SV_PC_KEYBOARD_KEY_
+;Kb_Up					IS SV_PC_KEYBOARD_KEY_
+;Kb_Down				IS SV_PC_KEYBOARD_KEY_
+;Kb_Left				IS SV_PC_KEYBOARD_KEY_
+;Kb_Right				IS SV_PC_KEYBOARD_KEY_
+;Kb_Esc					IS SV_PC_KEYBOARD_KEY_
+;Kb_F1					IS SV_PC_KEYBOARD_KEY_
+;Kb_F2					IS SV_PC_KEYBOARD_KEY_
+;Kb_F3					IS SV_PC_KEYBOARD_KEY_
+;Kb_F4					IS SV_PC_KEYBOARD_KEY_
+;Kb_F5					IS SV_PC_KEYBOARD_KEY_
+;Kb_F6					IS SV_PC_KEYBOARD_KEY_
+;Kb_F7					IS SV_PC_KEYBOARD_KEY_
+;Kb_F8					IS SV_PC_KEYBOARD_KEY_
+;Kb_F9					IS SV_PC_KEYBOARD_KEY_
+;Kb_F10					IS SV_PC_KEYBOARD_KEY_
+;Kb_F11					IS SV_PC_KEYBOARD_KEY_
+;Kb_F12					IS SV_PC_KEYBOARD_KEY_
+;Kb_Print_Screen                IS SV_PC_KEYBOARD_KEY_
+;Kb_Scroll_Lock                 IS SV_PC_KEYBOARD_KEY_
+;Kb_Break                       IS SV_PC_KEYBOARD_KEY_
+
+;Kb_Num_Lock			IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_Slash			IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_Star			IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_Hyphen			IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_0				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_1				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_2				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_3				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_4				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_5				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_6				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_7				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_8				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_9				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_Del				IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_Plus			IS SV_PC_KEYBOARD_KEY_
+;Kb_Num_Enter			IS SV_PC_KEYBOARD_KEY_
+
+;Kb_L_Sq_Bracket		IS SV_PC_KEYBOARD_KEY_
+;Kb_R_Sq_Bracket		IS SV_PC_KEYBOARD_KEY_
+;Kb_L_Rnd_Bracket		IS SV_PC_KEYBOARD_KEY_
+;Kb_R_Rnd_Bracket		IS SV_PC_KEYBOARD_KEY_
+;Kb_L_Curly_Bracket		IS SV_PC_KEYBOARD_KEY_
+;Kb_R_Curly_Bracket		IS SV_PC_KEYBOARD_KEY_
+;Kb_Hypen				IS SV_PC_KEYBOARD_KEY_	
+;Kb_Equals				IS SV_PC_KEYBOARD_KEY_
+;Kb_Comma				IS SV_PC_KEYBOARD_KEY_
+;Kb_Period				IS SV_PC_KEYBOARD_KEY_
+
+
+KbCycleCancel            IS SV_PC_FUNCTION_1 ; alt s
+KbCycleStart             IS SV_PC_FUNCTION_2 ; escape
+KbToolCheck              IS SV_PC_FUNCTION_3 ; alt o
+KbSelectSingleBlock      IS SV_PC_FUNCTION_4 ;   
+KbSelectX1JogInc         IS SV_PC_FUNCTION_5 ; , or .  
+KbSelectX10JogInc        IS SV_PC_FUNCTION_6 ; , or . 
+KbSelectX100JogInc       IS SV_PC_FUNCTION_7 ; , or .
+KbSelectIncContJog       IS SV_PC_FUNCTION_9 ; ||
+KbSelectFastSlowJog      IS SV_PC_FUNCTION_10; '
+KbSelectMpgMode          IS SV_PC_FUNCTION_11; alt w
+KbDoAx1PlusJog           IS SV_PC_FUNCTION_12; >
+KbDoAx1MinusJog          IS SV_PC_FUNCTION_13; <
+KbDoAx2PlusJog           IS SV_PC_FUNCTION_14; up arrow
+KbDoAx2MinusJog          IS SV_PC_FUNCTION_15; dn arrow
+KbDoAx3PlusJog           IS SV_PC_FUNCTION_16; page up
+KbDoAx3MinusJog          IS SV_PC_FUNCTION_17; page dn
+KbDoAux1Key              IS SV_PC_FUNCTION_24; ctrl F1
+KbDoAux2Key              IS SV_PC_FUNCTION_25; ctrl F2
+KbDoAux3Key              IS SV_PC_FUNCTION_26; ctrl F3
+KbDoAux4Key              IS SV_PC_FUNCTION_27; ctrl F4
+KbDoAux5Key              IS SV_PC_FUNCTION_28; ctrl F5
+KbDoAux6Key              IS SV_PC_FUNCTION_29; ctrl F6
+KbDoWorklightKey         IS SV_PC_FUNCTION_30; ctrl F7
+KbDoAux8Key              IS SV_PC_FUNCTION_31; ctrl F8
+KbDoAux9Key              IS SV_PC_FUNCTION_32; ctrl F9
+KbDoAux10Key             IS SV_PC_FUNCTION_33; ctrl F10
+KbSelectRapidOverride    IS SV_PC_FUNCTION_34;
+KbSelectManAutoSpindle   IS SV_PC_FUNCTION_35; alt a toggles
+KbDoSpindleStart         IS SV_PC_FUNCTION_37; alt r, alt q
+KbDoSpindlEStop          IS SV_PC_FUNCTION_38; alr r, alt q
+KbSelectBrakeOnOff       IS SV_PC_FUNCTION_39; ctrl F11-Aux 11
+KbSelectCoolantOnOff     IS SV_PC_FUNCTION_40; ctrl F12-Aux12
+KbSelectCoolantMan       IS SV_PC_FUNCTION_41; alt e, alt c
+KbSelectCoolantAuto      IS SV_PC_FUNCTION_42; alt y 
+KbSelectCoolantFlood     IS SV_PC_FUNCTION_43; alt c
+KbSelectCoolantMISt      IS SV_PC_FUNCTION_44; alt e
+KbDoFeedHold             IS SV_PC_FUNCTION_45; space
+KbSelectSpindleCCW       IS SV_PC_FUNCTION_98; alt q
+KbSelectSpindleCW        IS SV_PC_FUNCTION_99; alt r
+KbSelectManAutoCoolant     IS SV_PC_FUNCTION_104
+KbDoIncreaseSpindleOr    IS SV_PC_FUNCTION_106; [
+KbDoDecreaseSpindleOr    IS SV_PC_FUNCTION_107; ]
+KbSelectSpinOr100        IS SV_PC_FUNCTION_108; 
+
+;----------------------------------------------------
+;           Word Definitions (int32)
+;----------------------------------------------------
+Bin_Position        IS W1      ;
+Wanted_Bin          IS W2
+Max_Bins            IS W3      ;
+DIStance            IS W4      ;
+AsyncMsg            IS W5
+      ;
+Error_Code          IS W6
+LastErrorCode_W     IS W7
+MotorDir            IS W8      ; 1 = CW, -1 = CCW
+PLCBus_Ext_Dev_En   IS W9
+OldM107Bin          IS W10      ;
+NewM107Bin          IS W11      ;
+LubeWord            IS W12
+LubeOnTime          IS W13
+LubeOff_Time        IS W14
+LubeOffX100         IS W15
+P178Bits            IS W16	; NC/NO Switch functions
+P177Bits            IS W17     	; Fault Override 
+TotalTime           IS W18
+PresetTime          IS W19
+
+P171Word	    IS W21     	; For  1 / 2 Selection
+P170bits            IS W21
+FLT_Code            IS W22
+P176Word            IS W23 	; Air Blow Timer 
+P175Word            IS W24 	; Spindle Chiller Timer
+
+Knob                IS W25
+SpindleDACDebug     IS W26
+PcSpinSpd           IS W27
+Feedrate_Knob       IS W28
+Lube_Acc_Timer      IS W29
+SpindleSpeedModIFier  IS W30
+temp32              IS W31
+Inputs_33_36        IS W32
+
+;-----------------------------------------------------
+;           Word Definitions cont. (int64)
+;-----------------------------------------------------
+SpinStopChk           IS dw1  
+Speed                 IS dw2
+
+;-----------------------------------------------------
+;           Word Definitions cont. (f32)
+;-----------------------------------------------------
+SpindleRangeMultiplier    IS fw1
+
+
+;-----------------------------------------------------
+;            One Shot Definitions
+;-----------------------------------------------------
+IncrContPD              IS PD1
+SlowFastPD              IS PD2
+MpgPD                   IS PD3
+SingleBlockPD           IS PD4 
+FeedHoldPD              IS PD5
+SpindleAutoManPD        IS PD6
+Spindle100PercentPD     IS PD7
+KbSelectSpindleCWPD     IS PD8
+KbSelectSpindleCCWPD    IS PD9
+x1JogPD                 IS PD10
+x10JogPD                IS PD11
+x100JogPD               IS PD12
+Aux11KeyPD              IS PD13
+WorklightKeyPD          IS PD14
+CoolantAutoManualPD     IS PD15
+CoolantFloodPD          IS PD16
+CoolantMIStPD           IS PD17 
+ToolCheckPD             IS PD18
+PR_LUBE_1SHOT           IS PD19
+Lube_Timer_1Shot        IS PD20
+
+M19_1Shot           IS PD23     ; M19
+M18_1Shot           IS PD33
+M13_1Shot           IS PD35
+StopReason_1Shot    IS PD50
+
+;------------------------------------------------------
+;             Timer Definitions
+;------------------------------------------------------
+AirTimer_T               IS T1
+LubeOff_T                IS T2
+LubeOff_Timer_T          IS T3
+LubeOnTimer_T            IS T4
+ATC_OrientLost_T         IS T5
+StopReason_T             IS T7
+P176_T                   IS T8
+Car_Enable_T             IS T9
+ATC_Orient_T1            IS T10
+ATC_Unclamp_T1           IS T14
+ATC_Rotate_T1            IS T16
+ATC_Rotate_T2            IS T17
+ATC_Count_T1             IS T18
+ATC_Count_T2             IS T19
+ATC_Clamp_T1             IS T20
+ATC_PotDown_T1           IS T22
+ATC_End_T1               IS T25
+ATC_MoveZAxis_T1         IS T26
+ATC_ARM_HTC_T1           IS T28
+ATC_AHTCWS_T1            IS T29
+ATC_PotUp_T1             IS T30
+ATC_ARM_D180U_T1         IS T31
+ATC_AD1UWS_T1            IS T32
+ATC_ARM_CTH_T1           IS T33
+ATC_ACTHWS_T1            IS T34
+Chiller_Off_T            IS T35
+Tool_Thru_Coolant_T		 IS T36
+
+;--------------------------------------------------
+;             Stage Definitions
+;--------------------------------------------------
+InitialStage            	IS STG1
+LoadCNC11ParametersStage    IS STG2
+LubeMonitorStage            IS STG3
+AxesEnableStage         	IS STG4
+JogPanelStage               IS STG5
+MainStage               	IS STG6
+ATCMainStage          		IS STG7
+SetErrorStage               IS STG8  
+BadErrorStage               IS STG9
+
+ATC_InitialStage            IS STG10
+ATC_CheckStageRotateStage   IS STG11
+ATC_ReadyStage              IS STG12
+ATC_MoveZAxisStage          IS STG13
+ATC_OrientStage             IS STG14
+ATC_PotDownStage            IS STG15
+ATC_ArmAtHomeToClampStage   IS STG16
+ATC_AHTCWaitStopStage       IS STG17
+ATC_UnclampStage            IS STG18
+ATC_ArmDown180UpStage       IS STG19
+ATC_AD1UWaitStopStage       IS STG20
+ATC_ClampStage              IS STG21
+ATC_ArmAtClampToHomeStage   IS STG22
+ATC_ACTHWaitStopStage       IS STG23
+ATC_PotUpStage              IS STG24
+ATC_EndStage                IS STG25
+ATC_AcceptStage             IS STG26
+ATC_CheckStage              IS STG27
+
+ATC_DoM19Stage              IS STG28
+ATC_MonitorM19Stage         IS STG29
+
+ATC_DoToolIndexUpStage      IS STG30
+ATC_DoToolIndexDnStage      IS STG31
+ATC_RotateStage             IS STG32
+ATC_CountStage            	IS STG33
+ATC_DoneRotateStage         IS STG34
+ATC_SetDirectionStage       IS STG35
+ATC_M13ArmRotateStage       IS STG36
+M13_ArmWaitStopStage        IS STG37
+
+;*****************************************************************************
+;                  PLC Program Start - Definitions done, start program loop
+;*****************************************************************************
+
+;---------------------------------------
+            InitialStage
+;---------------------------------------
+		 
+IF 1==1 THEN SET true,
+        SET OnAtPowerUp, 
+        SET AxesEnableStage,
+	SET JogPanelStage,
+        SET MainStage, 
+        SET LubeMonitorStage, 
+        SET LoadCNC11ParametersStage,
+        Error_Code = NO_FAULT_MSG,
+        RST BadErrorStage, 
+        RST SetErrorStage,
+	RST ATC_RotateStage,
+		SET ATCMainStage,
+		SET ATC_InitialStage,
+		Bin_Position 		= SV_ATC_CAROUSEL_POSITION,
+		Wanted_Bin 			= Bin_Position,
+		Max_Bins 			= SV_MACHINE_PARAMETER_161,
+		OldM107Bin 			= Bin_Position,
+		NewM107Bin 			= Bin_Position,
+		Tool_Thru_Coolant_T = 5000,  ; Timer for PLC to check Tool_thru_coolant pressure.
+		AirTimer_T          = 500,    ; time that low air input must be on to cause fault
+		ATC_OrientLost_T    = 1000,    ; time that orient complete must be lost before fault
+		StopReason_T        = 500,    ; mISc timer used to load stop reason form CPU
+		Car_Enable_T       	= 100,    ; time to keep carousel motor off before rotating
+		ATC_Orient_T1      	= 60000,  ; max to orient spindle
+		ATC_Unclamp_T1     	= 2000,   ; max to unclamp tool
+		ATC_Rotate_T1      	= 2000,   ; max to see first tool counter input change
+		ATC_Rotate_T2      	= 50,     ; min to see first tool counter input change
+		ATC_Count_T1       	= 2000,   ; max to see second tool counter input change
+		ATC_Count_T2       	= 50,     ; min to see second tool counter input change
+		ATC_Clamp_T1       	= 5000,   ; max to clamp tool
+		ATC_PotDown_T1    	= 5000,   ; max to extend tool pot
+		ATC_End_T1         	= 5000,   ; max to finISh handshaking with M6 macro
+		ATC_MoveZAxis_T1 	= 10000,  ; max to move Z axIS to tool change height
+ 		ATC_ARM_HTC_T1     	= 2000,   ; max to move arm from home to clamp (for ArmAtStopMEM to go off)
+		ATC_AHTCWS_T1      	= 2000,   ; max to move arm from home to clamp (for ArmAtStopMEM and ArmAtClampMEM to be on)
+		ATC_PotUp_T1      	= 5000,   ; max to retract tool pot
+		ATC_ARM_D180U_T1   	= 2000,   ; max to move arm down, rotate 180, up (for ArmAtStopMEM to go off)
+		ATC_AD1UWS_T1      	= 2000,   ; max to move arm down, rotate 180, up (for ArmAtStopMEM and ArmAtClampMEM to be on)
+		ATC_ARM_CTH_T1     	= 2000,   ; max to move arm from clamp to home (for ArmAtStopMEM to go off)
+		ATC_ACTHWS_T1      	= 2000,   ; max to move arm from clamp to home (for ArmAtStopMEM and ArmAtHoMEMem to be on)
+		P176_T              = 2000    ; Unclamp / AirBlow Timer
+;;;;
+;;;;  START BENCHMARK TESTING TIMES
+;;;;
+; For production code comment out
+; all lines between START and END
+;   ATC_Orient_T1      = 6000,
+;   ATC_Unclamp_T1     = 2000,
+;   ATC_Rotate_T1      = 1000,
+;   ATC_Rotate_T2      = 35,
+;   ATC_Count_T1       = 1000,
+;   ATC_Count_T2       = 35,
+;   ATC_Clamp_T1       = 2000,
+;   ATC_PotDown_T1    = 2000,
+;   ATC_End_T1         = 2000,
+;   ATC_MoveZAxis_T1 = 3000,
+;   ATC_ARM_HTC_T1     = 2000,
+;   ATC_AHTCWS_T1      = 2000,
+;   ATC_PotUp_T1      = 2000,
+;   ATC_ARM_D180U_T1   = 2000,
+;   ATC_AD1UWS_T1      = 2000,
+;   ATC_ARM_CTH_T1     = 2000,
+;   ATC_ACTHWS_T1      = 2000,
+;;;;
+;;;;  END BENCHMARK TESTING TIMES
+;;;;		
+
+IF 1==1 THEN RST InitialStage
+
+; The LoadCNC11Paramaters section loads the contents of CNC11 P178 and P179 
+; into the PLC program.
+;----------------------------------------------------------------
+                      LoadCNC11ParametersStage
+;----------------------------------------------------------------
+IF true THEN LubeWord = SV_MACHINE_PARAMETER_179,           
+            LubeOff_Time = LubeWord, 
+            LubeOff_Time = LubeOff_Time / 100, 
+            LubeOffX100 = LubeOff_Time * 100,
+            LubeOnTime  = LubeWord - LubeOffX100
+
+;Convert LubeOff_Time to minutes and LubeOnTime to seconds
+IF true THEN LubeOff_Time = LubeOff_Time*60       ;*100
+            , LubeOnTime = LubeOnTime * 1000        ; sec to ms
+            , LubeOnTimer_T = LubeOnTime
+            , LubeOff_Timer_T = LubeOff_Time
+         
+;----------------------------------------------------------------
+                        LubeMonitorStage
+;----------------------------------------------------------------
+;  These Lube pumps are SET by CNC11 Machine Parameter 179,
+;  where the value IS between 0 - 65535
+;  and IS formatted as MMMSS
+;  Where MMM IS the Off Time in minutes
+;  and SS IS the On Time in seconds.
+;
+;  IF SS == 0 and MMM != 0, then Method 1 IS used for control.
+;  IF SS != 0 and MMM != 0, then Method 2 IS used for control.
+;  IF SS == 0 and MMM == 0, then Method 3 IS used for control.
+;
+; METHOD 1
+;
+;  On the start of SV_PROGRAM_RUNNING,
+;  the lube pump turns on.
+;
+;  The lube pump IS turned off when E_stop or
+;  a low lube condition exISts or when
+;  a program has NOT been running for MMM minutes.
+;
+;  ThIS type of control IS intended
+;  for lube pumps that have internal timers that either
+;  lube immediately when power IS applied and then start timing, or
+;  for pumps that wait until power has been on for the SET time
+;  before pumping.  The former type of pump will run out of lube oil quickly
+;  on short jobs IF lube IS only applied while SV_PROGRAM_RUNNING.
+;  The latter type of pump will never lube on short job runs IF lube power IS
+;  IS only applied while SV_PROGRAM_RUNNING. A short job IS defined
+;  as one which completes in less time than the internal lube timer
+;  IS SET to.
+;
+; METHOD 1
+;
+;  The lube turns on for SS seconds every MMM minutes.
+;
+;  Example 1.
+;    To SET the lube pump power to come on for 5 seconds
+;    every 10 minutes, SET P179 = 1005.
+;
+;  Example 2.
+;    To SET the lube pump power to come on for 30 seconds
+;    every 2 hours, SET P179 = 12090
+;
+; METHOD 2
+;
+;  The lube comes on whenever a program IS being run
+; (SV_PROGRAM_RUNNING IS on).  ThIS includes MDI mode.
+;
+
+IF SV_PROGRAM_RUNNING THEN (PR_Lube_1Shot)
+IF !SV_PROGRAM_RUNNING THEN (Lube_Timer_1Shot)
+IF SV_PROGRAM_RUNNING && !LubeOnTimer_T && LubeOnTime != 0 
+        THEN Lube_ACC_TIMER = Lube_Acc_Timer + 1
+        , TotalTime = LUBE_ACC_TIMER / 50
+IF TotalTime > LubeOff_Time THEN SET LubeOnTimer_T, (LubeMEM)
+IF ( PR_Lube_1Shot && ( LubeOnTime == 0 || LubeOff_Time == 0 ) ) ||
+   ( LubeMEM && LubeOnTime != 0 && LubeOff_Time != 0 ) THEN SET LubeOut
+IF LubeOut THEN SET LubeOff_Timer_T
+IF ( LubeOnTimer_T || (LubeOnTime == 0 && ! SV_PROGRAM_RUNNING))
+        THEN TotalTime = 0, RST LubeOut, RST LubeOnTimer_T, Lube_Acc_timer = 0
+
+;----------------------------------------------------------------
+                           JogPanelStage            
+;----------------------------------------------------------------
+;x1, x10, x100 functions        
+IF x1JogKey|| KbSelectX1JogInc THEN (x1JogPD)
+IF x1JogPD || OnAtPowerUp THEN SET x1JogLED,
+                               RST x10JogLED,
+                               RST x100JogLED   
+
+IF x10JogKey  || KbSelectX10JogInc THEN (x10JogPD)
+IF x10JogPD THEN RST x1JogLED,
+                SET x10JogLED,
+                RST x100JogLED   
+
+IF x100JogKey  || KbSelectX100JogInc THEN (x100JogPD)
+IF x100JogPD THEN RST x1JogLED,
+                  RST x10JogLED,
+                  SET x100JogLED   
+
+;                       Incr/Cont Mode
+IF IncrContKey || KbSelectIncContJog THEN (IncrContPD)
+;IF KbSelectIncContJog THEN (IncrContPD)
+IF (IncrContPD ^ IncrContLED) || OnAtPowerUp THEN (IncrContLED)
+
+
+;                   Toggle Slow/Fast Mode
+IF FastSlowKey || KbSelectFastSlowJog THEN (SlowFastPD)
+IF (SlowFastPD ^ FastSlowLED) || OnAtPowerUp THEN (FastSlowLED)
+
+IF WorklightKey || KbDoWorklightKey THEN (WorklightKeyPD)
+IF (WorklightKeyPD ^ WorklightLED) || OnAtPowerUp  THEN (WorklightLED), (WorklightOut)
+
+
+;                           MPG Functions
+;                 Turn on/off Jog Panel MPG LED 
+IF MPGKey || KbSelectMpgMode THEN (MpgPD)
+IF (MpgPD ^ MPGLED) THEN (MPGLED)
+
+
+;                          MPG 1 Enable
+IF MPG_AXIS_1 || MPG_AXIS_2 || MPG_AXIS_3 || MPG_AXIS_4 || 
+  MPG_AXIS_5 || MPG_AXIS_6 || MPG_AXIS_7 || MPG_AXIS_8 
+  THEN (SV_MPG_1_ENABLED)
+  
+
+;                   Turn on/off LED on the MPG
+IF (SelectMpgMode && SV_MPG_1_ENABLED) THEN (MPG_LED_OUT)
+
+;                     Select axIS to move
+IF MPG_AXIS_1 THEN SV_MPG_1_AXIS_SELECT = 1
+IF MPG_AXIS_2 THEN SV_MPG_1_AXIS_SELECT = 2
+IF MPG_AXIS_3 THEN SV_MPG_1_AXIS_SELECT = 3
+IF MPG_AXIS_4 THEN SV_MPG_1_AXIS_SELECT = 4
+
+;                   Select MPG 1 Multiplier
+IF (MPG_Inc_X_100) THEN SV_MPG_1_MULTIPLIER = 100
+IF (MPG_Inc_X_10) THEN  SV_MPG_1_MULTIPLIER = 10
+IF (MPG_Inc_X_1) THEN   SV_MPG_1_MULTIPLIER = 1
+  
+;            DISable "Windup" mode IF x100 selected
+IF (!MPG_Inc_X_100) THEN  (SV_MPG_1_WINDUP_MODE)
+  
+;---------------------------------------
+;       Single Block Mode
+;---------------------------------------
+IF SingleBlockKey || KbSelectSingleBlock THEN (SingleBlockPD)
+IF (SingleBlockPD ^ SingleBlockLED) THEN (SingleBlockLED)
+IF SingleBlockLED THEN (SelectSingleBlock)
+
+;---------------------------------------
+;           Toolcheck
+;---------------------------------------
+IF (ToolCheckKey || KbToolCheck) && EStopOk THEN (ToolCheckPD)
+IF ToolCheckPD THEN (DoToolCheck), SET CoolantPauseOnToolCheck
+
+;---------------------------------------
+;          Feed Hold Mode
+;---------------------------------------
+IF FeedHoldKey || KbDoFeedHold THEN (FeedHoldPD)
+IF FeedHoldPD && !FeedHoldLED THEN SET FeedHoldLED
+IF FeedHoldPD && FeedHoldLED && !SV_PROGRAM_RUNNING && !SV_MDI_MODE THEN RST FeedHoldLED
+IF FeedHoldLED && (DoCycleStart || DoCycleCancel || ToolCheckKey) THEN RST FeedHoldLED
+IF FeedHoldLED THEN SET DoFeedHold
+IF !FeedHoldLED THEN RST DoFeedHold
+
+;---------------------------------------
+;   Feedrate Override Section
+;---------------------------------------
+IF true THEN Feedrate_Knob = 0
+IF JpFeedOrKnobBit0 THEN Feedrate_Knob = Feedrate_Knob+1
+IF JpFeedOrKnobBit1 THEN Feedrate_Knob = Feedrate_Knob+2
+IF JpFeedOrKnobBit2 THEN Feedrate_Knob = Feedrate_Knob+4
+IF JpFeedOrKnobBit3 THEN Feedrate_Knob = Feedrate_Knob+8
+IF JpFeedOrKnobBit4 THEN Feedrate_Knob = Feedrate_Knob+16
+IF JpFeedOrKnobBit5 THEN Feedrate_Knob = Feedrate_Knob+32
+IF JpFeedOrKnobBit6 THEN Feedrate_Knob = Feedrate_Knob+64
+IF JpFeedOrKnobBit7 THEN Feedrate_Knob = Feedrate_Knob+128
+IF true THEN Feedrate_Knob = (Feedrate_Knob/127.5)*100
+IF Feedrate_Knob > SV_MACHINE_PARAMETER_39 THEN Feedrate_Knob = SV_MACHINE_PARAMETER_39
+
+; Override control bit for the feedrate override 1 == override control IS enabled
+; It is important that SV_PLC_FEEDRATE_KNOB be written only once per pass
+IF  (!SV_PC_OVERRIDE_CONTROL_FEEDRATE_OVERRIDE)   THEN Feedrate_Knob = 100
+
+;------Send the feedrate knob value to the pc---------
+;--------------------------
+;--***********************************
+;--*****SWAP THE SEMI-COLON BETWEEN THE NEXT TWO LINES TO SWITCH FROM KEYBOARD FEEDRATE OVERRIDE TO JOG PANEL FEEDRATE OVERRIDE
+;--***********************************
+;--------------------------
+IF true THEN SV_PLC_FEEDRATE_KNOB = Feedrate_Knob
+;IF true THEN SV_PLC_FEEDRATE_KNOB = SV_PC_FEEDRATE_PERCENTAGE
+
+;------Copy the feedrate override sent from the PC to the MPU11----------
+;ThIS IS the feedrate override that the mpu11 will use. Normally a number from 
+;0.0 -- 2.0, no limitations although V will not exceed Vmax. A negative number 
+;in here would be extremely bad.
+
+IF true THEN SV_PLC_FEEDRATE_OVERRIDE = SV_PC_FEEDRATE_PERCENTAGE/100.0
+
+;---------------------------------------------------------
+;  MPU11 Jog Panel Functions
+;---------------------------------------------------------
+IF (CycleCancelKey || KbCycleCancel) THEN (DoCycleCancel), RST CoolantPauseOnToolCheck
+;IF (!EstopOk) THEN (DoCycleCancel)
+IF (CycleStartKey  || KbCycleStart) THEN (DoCycleStart), RST CoolantPauseOnToolCheck
+IF (SingleBlockLED || KbSelectSingleBlock) THEN (SelectSingleBlock)               
+ 
+IF (Ax1PlusJogKey  || KbDoAx1PlusJog) THEN (DoAx1PlusJog)                  
+IF (Ax1MinusJogKey || KbDoAx1MinusJog) THEN (DoAx1MinusJog)                  
+IF (Ax2PlusJogKey  || KbDoAx2PlusJog) THEN (DoAx2PlusJog)                  
+IF (Ax2MinusJogKey || KbDoAx2MinusJog) THEN (DoAx2MinusJog)                  
+IF (Ax3PlusJogKey  || KbDoAx3PlusJog) THEN (DoAx3PlusJog)                  
+IF (Ax3MinusJogKey || KbDoAx3MinusJog) THEN (DoAx3MinusJog)                  
+IF Ax4PlusJogKey THEN (DoAx4PlusJog)                 
+IF Ax4MinusJogKey THEN (DoAx4MinusJog)
+
+IF x1JogLED                 THEN (SelectX1JogInc)                   
+IF x10JogLED                THEN (SelectX10JogInc)                  
+IF x100JogLED               THEN (SelectX100JogInc)                 
+IF IncrContLED              THEN (SelectIncContJog)            
+IF FastSlowLED              THEN (SelectFastSlowJog)            
+IF MPGLED                   THEN (SelectMpgMode)            
+
+IF CoolantMIStLED           THEN (SelectCoolantMISt)             
+
+IF CoolantAutoManualLED     THEN (SelectCoolantAutoManual)                    
+
+;----------------------------------------------
+;  Override Controls 
+;----------------------------------------------
+
+; Override control bit for the feed hold button  1 == override control IS enabled                                                    
+IF (!SV_PC_OVERRIDE_CONTROL_FEEDHOLD)             THEN RST FeedHoldLED,
+                                                  RST DoFeedHold
+                                               
+; Override Control states sent to the pc. They are a reflection of what we are actually using. 
+; These are currently ignored by cnc11.  In the future they may be used for dISplay purposes.
+; Override control bit for the feedrate override 1 == override control IS enabled sent to pc
+IF SV_PC_OVERRIDE_CONTROL_FEEDRATE_OVERRIDE THEN (SV_PLC_OVERRIDE_CONTROL_FEEDRATE_OVERRIDE)
+IF SV_PC_OVERRIDE_CONTROL_SPINDLE_OVERRIDE  THEN (SV_PLC_OVERRIDE_CONTROL_SPINDLE_OVERRIDE)
+IF SV_PC_OVERRIDE_CONTROL_FEEDHOLD          THEN (SV_PLC_OVERRIDE_CONTROL_FEEDHOLD)
+
+
+;--Automatic Coolant control
+
+IF CoolantAutoManualKey THEN (CoolantAutoManualPD)
+IF (CoolantAutoManualLED ^ CoolantAutoManualPD) || OnAtPowerUp THEN (CoolantAutoManualLED), (SelectCoolantAutoManual)
+
+;coolant on and off functionality
+;When switching from Auto to Manual mode, turn off coolant
+
+;--Flood coolant control
+
+IF CoolantFloodKey THEN (CoolantFloodPD) 
+IF (ManFlood ^ (!CoolantAutoManualLED && CoolantFloodPD)) && !CoolantAutoManualLED && !SV_STOP THEN (ManFlood)
+IF !SV_STOP && ((M8 && CoolantAutoManualLED) || (ManFlood && !CoolantAutoManualLED)) THEN (FloodOut), (CoolantFloodLED), (SelectCoolantFlood)
+  
+;--MISt coolant control
+
+IF CoolantMIStKey THEN (CoolantMIStPD)
+IF (ManMISt ^ (!CoolantAutoManualLED && CoolantMIStPD)) && !CoolantAutoManualLED && !SV_STOP THEN (ManMISt)
+IF !SV_STOP && ((M7 && CoolantAutoManualLED) || (ManMISt && !CoolantAutoManualLED)) THEN (MIStOut), (CoolantMIStLED), (SelectCoolantMISt)
+
+;-------------------------------------------------------------
+;                 Spindle Control
+;-------------------------------------------------------------
+; JOGBOARD SPINDLE CONTROL
+; Spindle Auto Mode / Manual mode toggles via Auto/Man jog panel key
+; CW/CCW jog keys determine spindle direction in manual mode
+; M3/M4  system variables determine spindle direction in Auto mode
+; Spindle can be stopped and restarted in auto mode using stop/start jog keys 
+;-------------------------------------------------------------
+IF !SV_PROGRAM_RUNNING THEN RST M3, RST M4 
+IF M3 || M4 THEN (AutoStart)
+IF !AutoStart THEN (AutoStop)
+
+;--------------Toggle Auto/Manual Spindle Mode-----------------
+IF SpindleAutoManualKey || KbSelectManAutoSpindle THEN (SpindleAutoManPD)
+IF SpindleAutoManPD && !SpindleAutoManualLED THEN SV_PLC_SPINDLE_KNOB = 100 ;set the override value to 100% whenever auto mode IS entered
+IF SpindleAutoManPD && SpindleAutoManualLED THEN SV_PLC_SPINDLE_KNOB = 10   ;set the override value to 10% whenever manual mode IS entered
+IF (SpindleAutoManPD ^ SpindleAutoManualLED) || OnAtPowerUp THEN (AutoSpindleMode), (SpindleAutoManualLED)
+IF !AutoSpindleMode THEN (ManualSpindleMode)
+
+;----------------------Start the spindle-----------------------
+IF KbSelectSpindleCW && !SpindleAutoManualLED THEN (KbSelectSpindleCWPD)
+IF (KbSelectSpindleCWPD ^ KbSelectSpindleCWMEM)  && ManualSpindleMode THEN (KbSelectSpindleCWMEM)
+IF KbSelectSpindleCCW && !SpindleAutoManualLED THEN (KbSelectSpindleCCWPD)
+IF (KbSelectSpindleCCWPD ^ KbSelectSpindleCCWMEM) && ManualSpindleMode THEN (KbSelectSpindleCCWMEM)
+
+IF (ManualSpindleMode && (SpindleStartKey || KbSelectSpindleCWMEM || KbSelectSpindleCCWMEM)) || (AutoSpindleMode && AutoStart && !SpindlePause) THEN (SpindleStart)
+
+;--Cause probe fault IF probe detected and spindle requested to start
+
+IF ((SpindleEnableOut || SpindleStart) && ProbeDetect) THEN SET ProbeFaultMEM, SET ProbeFaultOccuredMEM
+IF !((SpindleEnableOut || SpindleStart) && ProbeDetect) THEN RST ProbeFaultMEM
+
+IF ProbeFaultMEM THEN Error_Code = PROBE_FAULT_MSG, SET SV_STOP, SET SetErrorStage
+IF !ProbeFaultMEM && ProbeFaultOccuredMEM THEN Error_Code = PROBE_FAULT_CLR_MSG, SET SetErrorStage, RST ProbeFaultOccuredMEM
+
+;------- Pause the spindle (allow stop/start in auto mode) --------------------
+IF AutoSpindleMode && ((SpindlePause && !SpindleStartKey && SV_PROGRAM_RUNNING) || (!SpindlePause && SpindlEStopKey && SpindleEnableOut)) THEN (SpindlePause)
+
+;---------- Stop the spindle ------------------------------
+; Stop spindle IF switching from auto to manual mode
+;----------------------------------------------------------
+IF SpindleAutoManualLED && SpindleAutoManPD THEN SET SpinAutoToManStop, RST M3, RST M4
+IF !SpindleEnableOut || !EStopOk THEN RST SpinAutoToManStop
+IF SpindlEStopKey || 
+	(ManualSpindleMode && (!KbSelectSpindleCWMEM && !KbSelectSpindleCCWMEM)) || 
+	SV_STOP || 
+	SpinAutoToManStop || 
+	(AutoSpindleMode && AutoStop) || 
+	(AutoSpindleMode && SpindleEnableOut && SpindleAutoManPD) 
+	THEN (SpindlEStop)
+            
+;-----Tell CNC11 the control IS in Auto Spindle mode------
+IF AutoSpindleMode THEN (SelectManAutoSpindle)
+
+;----Turn on the LED for the direction of the spindle and tell CNC11-----
+IF (ManualSpindleMode && KbSelectSpindleCCWMEM) || (AutoSpindleMode && M4)
+  THEN (SpindleCCWLED), (SelectSpindleCCW), (SpindleDirectionOut)
+
+IF (ManualSpindleMode && KbSelectSpindleCWMEM) || (AutoSpindleMode && M3)
+  THEN (SpindleCWLED), (SelectSpindleCW)
+
+;-----Turn on spindle and tell CNC11---------------
+IF (SpindleEnableOut || SpindleStart) && !SpindlEStop && !SpinAutoToManStop 
+  THEN (SpindleEnableOut)
+
+IF SpindleEnableOut THEN (DoSpindleStart)
+IF !SpindleEnableOut  THEN (DoSpindlEStop) 
+
+;-----------------------------------------------
+; SPINDLE OVERRIDE CONTROL (+, -, and 100% keys)
+;-----------------------------------------------
+IF SpindlePlusKey || KbDoIncreaseSpindleOr THEN SV_PLC_SPINDLE_KNOB = SV_PLC_SPINDLE_KNOB + 1  
+IF SpindleMinusKey || KbDoDecreaseSpindleOr  THEN SV_PLC_SPINDLE_KNOB = SV_PLC_SPINDLE_KNOB - 1  
+IF Spindle100PercentKey || OnAtPowerUp THEN SV_PLC_SPINDLE_KNOB = 100 
+IF !AutoSpindleMode && !SpindleAutoManualLED && SpindleAutoManPD THEN SV_PLC_SPINDLE_KNOB = 100
+   
+IF SV_PLC_SPINDLE_KNOB < 1  THEN SV_PLC_SPINDLE_KNOB = 1
+IF SV_PLC_SPINDLE_KNOB > 200 THEN SV_PLC_SPINDLE_KNOB = 200
+
+IF SV_PLC_SPINDLE_KNOB == 100 THEN 
+  (Spindle100PercentLED),
+  (SelectSpinOr100)
+
+IF SV_PLC_SPINDLE_KNOB < 100 THEN
+  (SpindleMinusLed),
+  (DoDecreaseSpindleOr )
+ 
+IF SV_PLC_SPINDLE_KNOB > 100 THEN
+  (SpindlePlusLed), 
+  (DoIncreaseSpindleOr)
+
+;-------Output 12-bit DAC value.-----------
+
+;  Determine the range multiplier according to high-low range input.
+;  IF in low range, the Machine Parameter 65 IS the ratio.
+;
+;  A 16-bit DAC value IS received from the PC, so a divISion by 16 
+;  scales to a 12-bit DAC value.
+;
+;  Example calculations.  
+;  Assume control configuration:
+;    Max spindle speed   4240  
+;    Min spindle speded   150 
+;  P65 = 0.1234
+;  Spindle Override at 100%.
+; 
+
+IF 1==1 THEN PcSpinSpd = SV_PC_DAC_SPINDLE_SPEED
+
+IF true THEN temp32 = ((SV_PC_DAC_SPINDLE_SPEED / 16))
+
+IF temp32 > 4095 THEN temp32 = 4095
+IF temp32 < 0    THEN temp32 = 0
+
+; Use the WTB command to write out the lower eight bits
+; Divide by 256 to shIFt by 8 to access the upper bits
+; Use the WTB command to write the upper 8 bits to a temporary location
+; since a WTB directly to the output location would overwrite four bits.
+; Echo the upper four bits to the DAC output
+ 
+IF true THEN
+   SpindleDACDebug = temp32,
+   WTB temp32 SpindleDAC_OutputBit0,
+   temp32 = temp32 / 256,
+   wtb temp32 SpindleDAC_Bit8Image   
+
+IF SpindleDAC_Bit8Image  THEN (SpindleDAC_OutputBit8)
+IF SpindleDAC_Bit9Image  THEN (SpindleDAC_OutputBit9)
+IF SpindleDAC_Bit10Image THEN (SpindleDAC_OutputBit10)
+IF SpindleDAC_Bit11Image THEN (SpindleDAC_OutputBit11)
+
+;----------------------------------------------------------------
+                     AxesEnableStage
+;----------------------------------------------------------------
+
+IF (SV_PC_POWER_AXIS_1) THEN (SV_ENABLE_AXIS_1)
+IF (SV_PC_POWER_AXIS_2) THEN (SV_ENABLE_AXIS_2)
+IF (SV_PC_POWER_AXIS_3) THEN (SV_ENABLE_AXIS_3)
+IF (SV_PC_POWER_AXIS_4) THEN (SV_ENABLE_AXIS_4)
+IF (SV_PC_POWER_AXIS_5) THEN (SV_ENABLE_AXIS_5)
+IF (SV_PC_POWER_AXIS_6) THEN (SV_ENABLE_AXIS_6)
+IF (SV_PC_POWER_AXIS_7) THEN (SV_ENABLE_AXIS_7)
+IF (SV_PC_POWER_AXIS_8) THEN (SV_ENABLE_AXIS_8)
+
+;read the status bits
+
+IF TRUE THEN PLCBus_Ext_Dev_En = SV_PC_CYCLONE_STATUS_1 % 65535
+IF TRUE THEN PLCBus_Ext_Dev_En = ((PLCBus_Ext_Dev_En / 32) % 2)
+;IF SV_PLC_BUS_ONLINE THEN (PLCBus_online)
+
+;IF ((!PLCBus_online) || (PLCBus_Ext_Dev_En == FALSE)) THEN 
+;			SET SV_STOP
+;			, SET PLCFaultMEM
+;			, Error_Code = PLC_FAULT_MSG
+;			, SET SetErrorStage ;1+256*33     ;9033 INTERNAL PLC FAULT 1+33*256
+			
+;IF !((!PLCBus_online) || (PLCBus_Ext_Dev_En == FALSE)) && PLCFaultMEM THEN 
+;			;RST PLCFaultMEM
+;			 Error_Code = NO_FAULT_MSG
+;			, SET SetErrorStage ;clear error flag
+
+;IF !(PLCFaultMEM || SV_STALL_ERROR) THEN set SV_MASTER_ENABLE
+
+IF !SV_STOP && !SV_STALL_ERROR THEN set SV_MASTER_ENABLE
+
+		
+		
+;****************************************
+            MainStage
+;****************************************
+
+IF SV_PROGRAM_RUNNING THEN (CNC_Program_Running)
+
+IF true THEN SET SelectRapidOverride
+
+;read parameter 178 and check the Lube NO/NC state
+IF true THEN P178Bits = SV_MACHINE_PARAMETER_178
+        , WTB P178Bits LubeNONC
+
+; Set the sv_plc_carousel position to the current internal plc bin number,
+; the CNC software will then read thIS to update it's internal bin position 
+; (reported by Alt-K)
+IF true THEN SV_PLC_CAROUSEL_POSITION = Bin_Position
+
+;--EStop functionality
+;SET and reSET SV_STOP IF E-Stop occurs
+IF !EStopOk THEN SET SV_STOP, RST SetErrorStage
+;do not reSET SV_STOP IF a drive or PLC fault occurs
+IF EstopOk && !(ProbeFaultMEM) THEN RST SV_STOP
+
+;--clear stall errors IF Estop pushed in
+IF !EStopOk && SV_STALL_ERROR THEN RST SV_STALL_ERROR
+
+;--clear drive fault errors IF Estop pushed in and there are errors to clear
+;IF !EstopOk && (DriveComFLTin_MEM || DriveComFLTout_MEM) THEN (ErrCLRMEM)
+
+;--SET/Clear Spindle Drive Fault
+IF (SpindleInverterFault^SpindleNONC) && !SV_STOP THEN Error_Code = SPINDLE_FAULT_MSG, SET SpindleFault, SET SV_STOP, SET SetErrorStage
+IF !EStopOk && (SpindleFault && !SpindleInverterFault^SpindleNONC) THEN 
+      (InverterReSETOut), 
+      RST SpindleFault, 
+      Error_Code = SPINDLE_FAULT_CLR_MSG
+	  
+IF !EStopOk && (!SpindleInverterFault^SpindleNONC) THEN (InverterReSETOut)
+
+;--SET/Clear Low Lube fault
+IF EStopOk && (!LubeOk^LubeNONC) && !SV_PROGRAM_RUNNING THEN SET LubeFaultMEM,Error_Code = LUBE_FAULT_MSG, SET SV_STOP, SET SetErrorStage
+;only unlatch IF the lube fault IS cleared
+IF !EstopOK && (LubeFaultMEM && LubeOk^LubeNONC) THEN RST LubeFaultMEM, Error_Code = LUBE_FAULT_CLR_MSG	
+
+; -------------------------------------
+; Reset Tool Change sequence:
+
+IF !EstopOk THEN RST Doing_M6, RST M6
+
+IF EStopOK then (NoFaultOut)
+
+IF EStopOK && !SV_STOP && !Doing_M6 && !M6 THEN SET ATC_InitialStage
+
+IF (EstopOk &&!SV_STOP) && Pre_M6 THEN SET PreToolChangeOrientMem
+IF !EstopOk || SV_STOP THEN RST PreToolChangeOrientMem
+
+IF !EstopOK THEN Error_Code = NO_FAULT_MSG
+
+; -------------------------------------
+; Reset Tool Change Timers if EStop condition or SV_STOP set:
+IF !EstopOk || SV_STOP THEN RST AirTimer_T,
+		RST ATC_OrientLost_T,
+		RST StopReason_T,
+		RST Car_Enable_T,
+		RST ATC_Orient_T1,
+		RST ATC_Unclamp_T1,
+		RST ATC_Rotate_T1,
+		RST ATC_Rotate_T2,
+		RST ATC_Count_T1,
+		RST ATC_Count_T2,
+		RST ATC_Clamp_T1,
+		RST ATC_PotDown_T1,
+		RST ATC_End_T1,
+		RST ATC_MoveZAxis_T1,
+		RST ATC_ARM_HTC_T1,
+		RST ATC_AHTCWS_T1,
+		RST ATC_PotUp_T1,
+		RST ATC_ARM_D180U_T1,
+		RST ATC_AD1UWS_T1,
+		RST ATC_ARM_CTH_T1,
+		RST ATC_ACTHWS_T1,
+		RST P176_T
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;     Rotary Clamp Section
+;
+;
+; Set clamp (reverse IF parameter IS set)
+;
+IF M10 THEN SET ClampOut
+IF !M10 THEN RST ClampOut
+
+;----------------------------------------------------------------
+;    Reset these M-codes IF not in CNC Program Running mode
+;----------------------------------------------------------------
+IF !SV_PROGRAM_RUNNING THEN 
+        RST M3,
+        RST M4,
+        RST M8,
+        RST M7		
+
+;----------------------------------------------
+; Status Lights
+;----------------------------------------------
+
+IF !SV_Stop then (GreenLightOut) 
+IF SV_Stop then (RedLightOut)
+
+;IF (!ProgramRunning || (ProgramRunning && PromptMEM)) && !SV_Stop then (AmberLightOut)
+
+;-----------------------------------------------
+; XOR (Invert) Arm Inputs According to P178 bit7
+;--------------------------------------------------
+
+IF (ArmAtClampInput ^ ArmInputsToggle) THEN (ArmAtClampMEM)    
+IF (ArmAtStopInput ^ ArmInputsToggle) THEN (ArmAtStopMEM)
+IF (ArmAtHomeInput ^ ArmInputsToggle) THEN (ArmAtHoMEMem)
+
+IF true THEN RST OnAtPowerUp 
+
+
+; *********** RESET INITIAL STAGE ********
+; *********** TESTING ONLY!!!!!!! ********
+
+IF (Aux4Key && Aux5Key && Aux6Key) THEN SET InitialStage
+IF !EstopOk THEN RST ATCCountMEM, RST ATCRotateMEM
+
+;-------------------------
+     ATCMainStage
+;-------------------------
+
+;----------------------------------------------------------------------------
+;----------------------------------------------------------------------------
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  Understanding the tool change sequence
+;
+;  State of arm sensors through one cycle
+;
+;  The clamp positions are when the arm IS grabbing both
+;  the tool in the spindle and the tool in the extended carousel pot.
+;
+;  Between Clamp1 and Clamp2 the arm moves down, rotates ~180 degrees
+;  and then moves up, thus exchanging the tool in the spindle with the
+;  one in the extended tool pot holder.
+;
+;  To move the arm from one position to another:
+;    - Turn ArmMotorOut ON and wait for ArmAtStopMEM OFF  (see A below)
+;    - Wait for ArmAtStopMEM ON and turn ArmMotorOut OFF  (see B below)
+;    - VerIFy arm sensors for intended position, i.e.,
+;        ArmAtStopMEM and ArmAtHoMEMem  (IF home position)  (see H below)
+;        ArmAtStopMEM and ArmAtClampMEM (IF clamp position) (see C1 and C2 below)
+;
+;   Note that there IS no definitive way to dIStinguISh between Clamp1 and
+;   Clamp2 states.
+;
+;              Home        Clamp1        Clamp2          Home
+;
+;               H     A  B   C1     A  B   C2     A  B   H
+;  Arm_Home   ----+                                   +----
+;                 |                                   |  
+;                 +-----------------------------------+  
+;                                                             
+;  Arm_Stop   ------+   +---------+   +---------+   +------
+;                   |   |         |   |         |   |    
+;                   +---+         +---+         +---+    
+;                                                             
+;                         +-----+       +-----+            
+;  Arm_Clamp              |     |       |     |            
+;             ------------+     +-------+     +-------------
+;               H     A  B   C1     A  B   C2     A  B   H
+;
+;  The entire tool change sequence:
+;  Starting from the Arm Home position with tool clamped
+;  and pot retracted:
+;
+;    - Move Z axIS to tool change height
+;    - Orient spindle
+;    - Extend tool pot
+;    - Move arm to clamp1 position
+;    - Unclamp tool
+;    - Move arm to clamp2 position (exchange the tool in spindle and tool in pot)
+;    - Clamp tool
+;    - Move arm to home
+;    - Retract tool pot
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+IF true THEN SV_PLC_CAROUSEL_POSITION = Bin_Position
+
+IF ToolRelease && (ZeroSpeed ^ ZeroSpeedNONC ) && !CNC_program_running
+   && !Doing_M6 && EStopOk THEN SET ToolUnclampOut, SET AirBlowOut
+IF !ToolRelease && !Doing_M6 THEN RST ToolUnclampOut, RST AirBlowOut
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  Pot Down 
+;
+IF M14 then (PotDownOut)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  Pot Up 
+;
+IF M15 then (PotUpOut)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Low Air
+;
+IF AirPressureOk ^ AirSignalNONC THEN SET AirTimer_T
+IF AirTimer_T && Doing_M6
+   then Error_Code = 10753, ;1 + 256*42, ; LOW AIR FAULT
+	set SetErrorStage
+
+IF M18 THEN (M18_1Shot)
+IF M18_1Shot THEN Bin_Position = 1,
+	Wanted_Bin = Bin_Position,
+	AsyncMsg = 9986, ;2 + 256*39, ; --- ATC Initialized ---
+	msg AsyncMsg,
+	AsyncMsg = 0
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   M19 Orient Spindle
+;
+IF M19 THEN (M19_1Shot)
+IF M19_1Shot THEN SET ATC_DoM19Stage
+IF !M19 THEN RST ATC_DoM19Stage, RST OrientRequestOut
+
+;IF M19 && !ToolUnclamped  
+;   then Error_Code = 11009, ;1 + 256*43, ; M19 FAULT TOOL CLAMPED
+;        set SetErrorStage
+
+IF M13 THEN (M13_1Shot)
+IF M13_1Shot && ATCOverrideKey
+  THEN SET ATC_M13ArmRotateStage, SET M13Attempted
+
+IF 1==1 && SV_PC_SOFTWARE_READY THEN (StopReason_1Shot)
+IF StopReason_1Shot THEN SET StopReason_T
+
+;; Handle tool pre-fetch being sent down from CNC11
+;; txxx M107
+
+IF StopReason_T THEN NewM107Bin = SV_TOOL_NUMBER
+IF NewM107Bin != OldM107Bin && !DoingRotate && !Doing_M6
+   && NewM107Bin >= 1 && NewM107Bin <= Max_Bins
+   THEN
+     Wanted_Bin = NewM107Bin, OldM107Bin = NewM107Bin,
+     SET DoingRotate, SET ATC_SetDirectionStage
+
+IF ToolIndexUpKey && !CNC_program_running && !DoingIndex
+  && StopReason_T
+  THEN SET DoingIndex,
+       SET ATC_DoToolIndexUpStage
+
+IF ToolIndexDnKey && !CNC_program_running && !DoingIndex
+  && StopReason_T
+  THEN SET DoingIndex,
+       SET ATC_DoToolIndexDnStage
+
+;IF ToolIndexUpKey && !CNC_program_running && !DoingIndex
+;  THEN SET DoingIndex,
+;       SET ATC_DoToolIndexUpStage
+
+;IF ToolIndexDnKey && !CNC_program_running && !DoingIndex
+;  THEN SET DoingIndex,
+;       SET ATC_DoToolIndexDnStage
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Check for running a job and
+; not doing an M6 tool change
+; and ATC signals not in correct state.
+;
+; Note that since the carousel must rotate
+; to the next tool while a job IS running
+; that the ToolCounter sensor IS only
+; checked when not doing the rotation.
+;
+IF CNC_program_running && !Doing_M6 && !ATCOverrideKey &&
+   (
+     !ArmAtHoMEMem || ArmAtClampMEM || !ArmAtStopMEM ||
+     ToolUnclamped || !ToolClamped ||
+     PotDown || !PotUp ||
+     (!DoingRotate && (!ToolCounter ^ ToolCounterNONC))
+   )
+  then (tempbit)
+
+IF tempbit && !ArmAtHoMEMem
+   then Error_Code = 257   ;1 + 256*1 ; ATC NOT READY: ArmAtHoMEMem INP
+
+IF tempbit && ArmAtClampMEM
+   then Error_Code = 513   ;1 + 256*2 ; ATC NOT READY: ArmAtClampMEM INP
+
+IF tempbit && !ArmAtStopMEM
+   then Error_Code = 769   ;1 + 256*3 ; ATC NOT READY: ArmAtStopMEM INP
+
+IF tempbit && ToolUnclamped
+   then Error_Code = 1025  ;1 + 256*4 ; ATC NOT READY: ToolUnclamped INP
+
+IF tempbit &&  !ToolClamped
+   then Error_Code = 1281  ;1 + 256*5 ; ATC NOT READY: ToolClamped INP
+
+IF tempbit && PotDown
+   then Error_Code = 1537  ;1 + 256*6 ; ATC NOT READY: PotDown INP
+
+IF tempbit && !PotUp
+   then Error_Code = 1793  ;1 + 256*7 ; ATC NOT READY: PotUp INP
+
+IF tempbit && (!ToolCounter ^ ToolCounterNONC)
+   then Error_Code = 2049  ;1 + 256*8 ; ATC NOT READY: ToolCounter INP
+
+IF tempbit then RST tempbit,
+		SET SetErrorStage
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Stop condition - reset
+;   all solenoids and ATC stages
+;
+IF Stop then
+;
+;  Reset Stages Involved in DoingToolChange
+;
+   RST OrientRequestOut,
+   RST ATC_DoToolIndexUpStage,
+   RST ATC_DoToolIndexDnStage,
+   RST ATC_M13ArmRotateStage,
+   RST M13_ArmWaitStopStage,
+   RST ATC_CheckStageRotateStage,
+   RST ATC_ReadyStage,
+   RST ATC_MoveZAxisStage,
+   RST ATC_PotDownStage,
+   RST ATC_OrientStage,
+   RST ATC_ArmAtHomeToClampStage,
+   RST ATC_AHTCWaitStopStage,
+   RST ATC_UnclampStage,
+   RST ATC_ArmDown180UpStage,
+   RST ATC_AD1UWaitStopStage,
+   RST ATC_ClampStage,
+   RST ATC_ArmAtClampToHomeStage,
+   RST ATC_ACTHWaitStopStage,
+   RST ATC_PotUpStage,
+   RST ATC_EndStage,
+   RST ATC_AcceptStage,
+   RST ATC_SetDirectionStage,
+   RST ATC_RotateStage,
+   RST ATC_DoneRotateStage,
+   RST ATC_CountStage,
+   RST ATC_CheckStage,
+;
+;  Turn Off Solenoids and Motors
+;
+   RST PotUpOut,
+   RST PotDownOut,
+   RST ArmMotorOut,
+   RST ToolUnclampOut,
+   RST AirBlowOut,
+   RST MagMotorEnableOut,
+;
+;  Reset Tool Change Status Flags
+;
+   RST Doing_M6,
+   RST DoingRotate,
+   RST DoingIndex,
+   RST M13Attempted
+   
+
+;--------------------
+     ATC_InitialStage
+;--------------------
+IF true then
+   RST END_Req,
+   RST MZ_Req,
+   RST Doing_M6
+
+IF M6 then JMP ATC_CheckStageRotateStage
+
+;--------------------
+     ATC_CheckStageRotateStage
+;--------------------
+IF true THEN Wanted_Bin = SV_TOOL_NUMBER
+
+IF Wanted_Bin != Bin_Position && !DoingRotate
+   then SET DoingRotate, SET ATC_SetDirectionStage
+
+IF !DoingRotate && !MagMotorEnableOut then JMP ATC_ReadyStage
+
+;--------------------
+     ATC_ReadyStage
+;--------------------
+IF true then RST AirBlowOut,
+	     RST ArmMotorOut,
+	     RST MagMotorEnableOut,
+	     RST ToolUnclampOut,
+	     RST PotDownOut,
+	     RST PotUpOut
+
+IF !MZ_ACK && M6 
+   then JMP ATC_MoveZAxisStage,
+	SET Doing_M6,
+	(tempbit)
+
+IF MZ_ACK
+  then Error_Code = 2561  ;1 + 256*10 ; ATC NOT READY: MZ_ACK
+
+IF !tempbit then jmp SetErrorStage
+
+
+;--------------------
+     ATC_MoveZAxisStage
+;--------------------
+IF true then set MZ_Req,
+	     SET ATC_MoveZAxis_T1
+
+IF MZ_ACK && M6 &&
+   ArmAtHoMEMem && !ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   !PotDown && PotUp  &&
+   (ToolCounter ^ ToolCounterNONC)
+   then JMP ATC_OrientStage, RST ATC_MoveZAxis_T1
+
+IF ATC_MoveZAxis_T1
+   then Error_Code = 2817, ;1 + 256*11 ; ATC_MoveZAxisStage TIMEOUT
+	jmp SetErrorStage, RST ATC_MoveZAxis_T1
+
+
+;--------------------------
+     ATC_OrientStage
+;--------------------------
+IF true then RST MZ_REQ,
+	     SET OrientRequestOut,
+	     SET ATC_Orient_T1
+IF !M19 then RST OrientRequestOut
+
+IF !MZ_ACK && M6 &&
+   ArmAtHoMEMem && !ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   !PotDown && PotUp  &&
+   (ToolCounter ^ ToolCounterNONC) &&
+   (OrientComplete ^ OrientCompleteNONC)
+   then JMP ATC_PotDownStage, RST ATC_Orient_T1
+
+IF ATC_Orient_T1
+   then Error_Code = 3073, ;1 + 256*12, ; ATC_OrientStage TIMEOUT
+	jmp SetErrorStage, RST ATC_Orient_T1
+
+
+
+;--------------------------
+     ATC_PotDownStage
+;--------------------------
+IF true then SET PotDownOut,
+	     SET ATC_PotDown_T1
+
+IF !MZ_ACK && M6 &&
+   ArmAtHoMEMem && !ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC) &&
+   (OrientComplete ^ OrientCompleteNONC)
+   then JMP ATC_ArmAtHomeToClampStage, RST ATC_PotDown_T1
+
+IF ATC_PotDown_T1
+   then Error_Code = 3329, ;1 + 256*13 ; ATC_PotDownStage TIMEOUT
+	jmp SetErrorStage, RST ATC_PotDown_T1
+
+IF !OrientComplete ^ OrientCompleteNONC
+   then Error_Code = 3585, ;1 + 256*14 ; ATC_PotDownStage ORIENT LOST
+	jmp SetErrorStage, RST ATC_PotDown_T1
+
+
+;--------------------------
+     ATC_ArmAtHomeToClampStage
+;--------------------------
+IF true then RST PotDownOut,
+	     SET ArmMotorOut,
+	     SET ATC_ARM_HTC_T1
+
+IF !MZ_ACK && M6 &&
+   !ArmAtHoMEMem && !ArmAtClampMEM && !ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC) &&
+   (OrientComplete ^ OrientCompleteNONC)
+   then JMP ATC_AHTCWaitStopStage, RST ATC_ARM_HTC_T1
+
+IF ArmAtClampMEM
+   then Error_Code = 3841, ;1 + 256*15 ; ATC_AHTC CLAMP WITHOUT STOP
+	JMP SetErrorStage,
+	RST ArmMotorOut, RST ATC_ARM_HTC_T1
+
+IF ATC_ARM_HTC_T1
+   then Error_Code = 4097, ;1 + 256*16 ; ATC_ARM_TO_CLAMP TIMEOUT
+	jmp SetErrorStage, RST ATC_ARM_HTC_T1
+
+;--------------------------
+     ATC_AHTCWaitStopStage
+;--------------------------
+IF true then SET ATC_AHTCWS_T1
+
+IF !MZ_ACK && M6 &&
+   !ArmAtHoMEMem && ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC) &&
+   (OrientComplete ^ OrientCompleteNONC)
+   then JMP ATC_UnclampStage
+
+IF ArmAtStopMEM then RST ArmMotorOut, RST ATC_AHTCWS_T1
+
+IF ATC_AHTCWS_T1
+   then Error_Code = 4353, ;1 + 256*17 ; ATC_AHTCWaitStopStage TIMEOUT
+	jmp SetErrorStage, RST ATC_AHTCWS_T1
+
+IF (ArmAtHoMEMem || ArmAtClampMEM) && !ArmAtStopMEM
+   then Error_Code = 4609, ;1 + 256*18 ; ARM HOME/CLAMP NO STOP
+	JMP SetErrorStage,
+	RST ArmMotorOut, RST ATC_AHTCWS_T1
+
+;--------------------------
+     ATC_UnclampStage
+;--------------------------
+IF true then RST ArmMotorOut,
+	     SET ToolUnclampOut,
+           SET AirBlowOut,  
+	     SET ATC_Unclamp_T1
+	     
+
+IF !MZ_ACK && M6 &&
+   !ArmAtHoMEMem && ArmAtClampMEM && ArmAtStopMEM &&
+   ToolUnclamped && !ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC)
+   then SET P176_T
+
+IF (P176_T && ToolUnclamped && !ToolClamped)then JMP ATC_ArmDown180UpStage, RST ATC_Unclamp_T1
+
+IF ATC_Unclamp_T1
+   then Error_Code = 4865, ;1 + 256*19 ; ATC_UnclampStage TIMEOUT
+	JMP SetErrorStage, RST ATC_Unclamp_T1
+
+;--------------------------
+     ATC_ArmDown180UpStage
+;--------------------------
+IF true then SET ArmMotorOut,
+	     SET ATC_ARM_D180U_T1
+
+IF !MZ_ACK && M6 &&
+   !ArmAtHoMEMem && !ArmAtClampMEM && !ArmAtStopMEM &&
+   ToolUnclamped && !ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC)
+   then JMP ATC_AD1UWaitStopStage, RST ATC_ARM_D180U_T1
+
+IF ATC_ARM_D180U_T1
+   then Error_Code = 5121, ;1 + 256*20 ; ATC_ARM_D180U TIMEOUT
+	JMP SetErrorStage, RST ATC_ARM_D180U_T1
+
+IF !ToolUnclamped || ToolClamped
+   then Error_Code = 7937, ;1 + 256*31 ; ATC_ARM_D180U CLAMP FAULT
+	JMP SetErrorStage,
+	RST ArmMotorOut, RST ATC_ARM_D180U_T1
+
+
+;--------------------------
+     ATC_AD1UWaitStopStage
+;--------------------------
+IF true then SET ATC_AD1UWS_T1
+
+IF !MZ_ACK && M6 &&
+   !ArmAtHoMEMem && ArmAtClampMEM && ArmAtStopMEM &&
+   ToolUnclamped && !ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC)
+   then JMP ATC_ClampStage, RST ATC_AD1UWS_T1
+
+IF ArmAtStopMEM then RST ArmMotorOut, RST ATC_AD1UWS_T1
+
+IF ATC_AD1UWS_T1
+   then Error_Code = 5377, ;1 + 256*21 ; ATC_ARM_D1UWS TIMEOUT
+	JMP SetErrorStage, RST ATC_AD1UWS_T1
+
+IF (ArmAtHoMEMem || ArmAtClampMEM) && !ArmAtStopMEM
+   then Error_Code = 5633, ;1 + 256*22 ; ARM HOME/CLAMP NO STOP
+	JMP SetErrorStage,
+	RST ArmMotorOut, RST ATC_AD1UWS_T1
+
+IF !ToolUnclamped || ToolClamped
+   then Error_Code = 8193, ;1 + 256*32 ; ATC_ARM_D1UWS CLAMP FAULT
+	JMP SetErrorStage,
+	RST ArmMotorOut, RST ATC_AD1UWS_T1
+
+;--------------------------
+     ATC_ClampStage
+;--------------------------
+IF true then RST ArmMotorOut,
+	     RST ToolUnclampOut, RST AirBlowOut,
+	     SET ATC_Clamp_T1
+
+
+IF !MZ_ACK && M6 &&
+   !ArmAtHoMEMem && ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC)
+   then JMP ATC_ArmAtClampToHomeStage, RST ATC_Clamp_T1
+
+
+IF ATC_Clamp_T1
+   then Error_Code = 5889, ;1 + 256*23 ; ATC_ClampStage TIMEOUT
+	JMP SetErrorStage, RST ATC_Clamp_T1
+
+
+;--------------------------
+     ATC_ArmAtClampToHomeStage
+;--------------------------
+IF true then SET ArmMotorOut,
+	     SET ATC_ARM_CTH_T1
+
+IF !MZ_ACK && M6 &&
+   !ArmAtHoMEMem && !ArmAtClampMEM && !ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC)
+   then JMP ATC_ACTHWaitStopStage, RST ATC_ARM_CTH_T1
+
+IF ATC_ARM_CTH_T1
+   then Error_Code = 6145, ;1 + 256*24 ; ATC_ARM_CTH TIMEOUT
+	JMP SetErrorStage, RST ATC_ARM_CTH_T1
+
+IF ArmAtHoMEMem
+   then Error_Code = 6401, ;1 + 256*25 ; ATC_ACTH HOME NO STOP
+	JMP SetErrorStage,
+	RST ArmMotorOut, RST ATC_ARM_CTH_T1
+
+;--------------------------
+     ATC_ACTHWaitStopStage
+;--------------------------
+IF true then SET ATC_ACTHWS_T1
+
+IF !MZ_ACK && M6 &&
+   ArmAtHoMEMem && !ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   PotDown && !PotUp &&
+   (ToolCounter ^ ToolCounterNONC)
+   then JMP ATC_PotUpStage, RST ATC_ACTHWS_T1
+
+IF ATC_ACTHWS_T1
+   then Error_Code = 6657, ;1 + 256*26 ; ATC_ARM_HTCWS TIMEOUT
+	JMP SetErrorStage, RST ATC_ACTHWS_T1
+
+IF ArmAtStopMEM then RST ArmMotorOut, RST ATC_ACTHWS_T1
+
+IF (ArmAtHoMEMem || ArmAtClampMEM) && !ArmAtStopMEM
+   then Error_Code = 6913, ;1 + 256*27 ; ARM HOME/CLAMP NO STOP
+	JMP SetErrorStage,
+	RST ArmMotorOut, RST ATC_ACTHWS_T1
+
+;--------------------------
+     ATC_PotUpStage
+;--------------------------
+IF true then RST ArmMotorOut,
+	     SET PotUpOut,
+	     SET ATC_PotUp_T1
+
+IF !MZ_ACK && M6 &&
+   ArmAtHoMEMem && !ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   !PotDown && PotUp &&
+   (ToolCounter ^ ToolCounterNONC)
+   then JMP ATC_EndStage, RST ATC_PotUp_T1
+
+IF ATC_PotUp_T1
+   then Error_Code = 7169, ;1 + 256*28 ; ATC_PotUpStage TIMEOUT
+	JMP SetErrorStage, RST ATC_PotUp_T1
+
+;--------------------------
+     ATC_EndStage
+;--------------------------
+IF true then RST PotUpOut, 
+             RST OrientRequestOut,
+	     RST SpindleEnableOut,
+	     SET END_Req,
+	     RST Doing_M6,
+	     SET ATC_End_T1
+
+IF !MZ_ACK && !M6 &&
+   ArmAtHoMEMem && !ArmAtClampMEM && ArmAtStopMEM &&
+   !ToolUnclamped && ToolClamped &&
+   !PotDown && PotUp &&
+   (ToolCounter ^ ToolCounterNONC) &&
+   (OrientComplete ^ OrientCompleteNONC)
+   then JMP ATC_AcceptStage, RST ATC_End_T1
+
+IF ATC_End_T1
+   then Error_Code = 7425, ;1 + 256*29 ; ATC_EndStage TIMEOUT
+	JMP SetErrorStage, RST ATC_End_T1
+
+
+;--------------------------
+     ATC_AcceptStage
+;--------------------------
+IF true then RST END_Req,
+	     JMP ATC_InitialStage
+
+;--------------------
+   ATC_SetDirectionStage
+;--------------------
+IF true then SET Car_enable_T
+
+IF Wanted_Bin >= Bin_Position
+   then DIStance = Wanted_Bin - Bin_Position,  (Calc_B1)
+
+IF Bin_Position > Wanted_Bin
+   then DIStance = Bin_Position - Wanted_Bin,  (Calc_B2)
+
+IF Calc_B1 && DIStance <= Max_Bins/2 then MotorDir = 1
+IF Calc_B1 && DIStance >  Max_Bins/2
+   then MotorDir = -1,
+	DIStance = Max_Bins - DIStance
+
+IF Calc_B2 && DIStance <= Max_Bins/2 then MotorDir = -1
+IF Calc_B2 && DIStance >  Max_Bins/2
+   then MotorDir = 1,
+	DIStance = Max_Bins - DIStance
+
+IF MotorDir < 0 THEN SET MagMotorMinusOut
+IF MotorDir > 0 THEN RST MagMotorMinusOut
+
+IF DIStance != 0 && Car_Enable_T then jmp ATC_RotateStage, RST Car_enable_T
+IF DIStance == 0 then jmp ATC_DoneRotateStage, RST Car_enable_T
+
+;--------------------
+   ATC_RotateStage
+;--------------------
+IF true then SET MagMotorEnableOut,
+	     SET ATC_Rotate_T1,
+	     SET ATCRotateMEM
+;	     SET ATC_Rotate_T2
+;
+; Wait until the tool sensor changes state.
+;
+;IF (!ToolCounter ^ ToolCounterNONC) &&
+;   (ATC_Rotate_T2 || (Tool_NoISe_Fault && DoingIndex))
+;     then jmp ATC_CountStage
+
+IF (!ToolCounter ^ ToolCounterNONC)
+	then jmp ATC_CountStage, RST ATC_Rotate_T1, RST ATC_Rotate_T2
+
+
+;IF (!ToolCounter ^ ToolCounterNONC) && !ATC_Rotate_T2 && !Tool_NoISe_Fault
+;   then Error_Code = 8449, ;1 + 256*33, ; ATC TOOL COUNTER NOISE
+;	set Tool_NoISe_Fault,
+;	jmp SetErrorStage, RST ATC_Rotate_T1, RST ATC_Rotate_T2
+
+IF ATC_Rotate_T1
+   then Error_Code = 8705, ;1 + 256*34, ; ATC TOOL COUNTER TIMEOUT
+	jmp SetErrorStage, RST ATC_Rotate_T1, RST ATC_Rotate_T2
+
+IF PotDown || !PotUp
+   then Error_Code = 8961, ;1 + 256*35, ; ATC_RotateStage POT FAULT
+	jmp SetErrorStage,
+	RST MagMotorEnableOut, RST ATC_Rotate_T1, RST ATC_Rotate_T2
+
+;--------------------
+   ATC_CountStage
+;--------------------
+IF true then SET ATC_Count_T1,
+		SET ATCCountMEM,
+	     SET ATC_Count_T2
+;
+; We wait until the tool sensor changes state.
+;
+IF (ToolCounter ^ ToolCounterNONC)
+   then jmp ATC_CheckStage, RST ATC_Count_T1, RST ATC_Count_T2 
+
+;IF (ToolCounter ^ ToolCounterNONC)
+;   then jmp ATC_CheckStage, RST ATC_Count_T1, RST ATC_Count_T2 
+
+
+;IF (ToolCounter ^ ToolCounterNONC) && !ATC_Count_T2
+;   then Error_Code = 9217, ;1 + 256*36, ; ATC TOOL COUNTER NOISE
+;	set Tool_NoISe_Fault,
+;	jmp SetErrorStage, RST ATC_Count_T1, RST ATC_Count_T2 
+
+IF ATC_Count_T1
+   then Error_Code = 9473, ;1 + 256*37, ; ATC TOOL COUNTER TIMEOUT
+	jmp SetErrorStage, RST ATC_Count_T1, RST ATC_Count_T2 
+
+IF PotDown || !PotUp
+   then Error_Code = 9729, ;1 + 256*38, ; ATC_CountStage POT FAULT
+	jmp SetErrorStage,
+	RST MagMotorEnableOut, RST ATC_Count_T1, RST ATC_Count_T2 
+	
+;--------------------
+   ATC_CheckStage
+;--------------------
+
+IF MagMotorMinusOut  && MagMotorEnableOut then Bin_Position = Bin_Position - 1
+IF !MagMotorMinusOut && MagMotorEnableOut then Bin_Position = Bin_Position + 1
+IF Bin_Position > Max_Bins then Bin_position = 1
+IF Bin_Position < 1        then Bin_Position = Max_Bins
+
+IF DIStance > 0 THEN DIStance = DIStance - 1
+
+IF true then jmp ATC_DoneRotateStage
+
+;--------------------
+   ATC_DoneRotateStage
+;--------------------
+
+IF DoingIndex && Tool_NoISe_Fault
+   then AsyncMsg = 10242, ;2 + 256*40, ; Tool Counter Fault Cleared
+	msg AsyncMsg,
+	AsyncMsg = 0,
+	rst Tool_NoISe_Fault
+
+
+IF Bin_Position == Wanted_Bin
+   then RST MagMotorEnableOut,
+	RST DoingIndex,
+	RST DoingRotate,
+	RST ATC_DoneRotateStage
+
+
+IF Bin_Position != Wanted_Bin
+   then jmp ATC_RotateStage
+
+;----------------------
+     ATC_DoToolIndexUpStage
+;----------------------
+
+IF true THEN Wanted_Bin = Bin_Position + 1,
+	     JMP ATC_SetDirectionStage
+
+IF Wanted_Bin > Max_Bins THEN Wanted_Bin = 1
+
+;----------------------
+     ATC_DoToolIndexDnStage
+;----------------------
+
+IF true THEN Wanted_Bin = Bin_Position - 1,
+	     JMP ATC_SetDirectionStage
+
+IF Wanted_Bin < 1 THEN Wanted_Bin = Max_Bins
+
+;--------------------
+     ATC_M13ArmRotateStage
+;--------------------
+IF true then SET ArmMotorOut
+IF !ArmAtStopMEM then JMP M13_ArmWaitStopStage
+
+;--------------------
+     M13_ArmWaitStopStage
+;--------------------
+IF ArmAtStopMEM then RST ArmMotorOut,
+		 RST M13_ArmWaitStopStage
+
+
+;-----------------------------
+   ATC_DoM19Stage
+;-----------------------------
+IF CNC_Program_running THEN (OrientRequestOut)
+
+IF !CNC_Program_running
+   then Error_Code = 11265, ;1 + 256*44, ; M19 STOPPED
+	jmp SetErrorStage 
+
+IF (OrientComplete ^ OrientCompleteNONC) THEN JMP ATC_MonitorM19Stage
+
+IF !M19  THEN RST ATC_DoM19Stage,
+             RST OrientRequestOut
+
+;-----------------------------
+   ATC_MonitorM19Stage
+;-----------------------------
+
+IF (!OrientComplete ^ OrientCompleteNONC) then SET ATC_OrientLost_T
+ 
+IF ATC_OrientLost_T   then Error_Code = 11521, ;1 + 256*45, ; M19 ORIENT LOST
+	jmp SetErrorStage, RST ATC_OrientLost_T
+
+IF !M19 THEN RST ATC_MonitorM19Stage,
+	     RST OrientRequestOut, RST ATC_OrientLost_T
+		 
+;------------------------
+   SetErrorStage
+;------------------------
+IF !((Error_Code % 256 == 1) || (Error_Code % 256 == 2)) THEN JMP BadErrorStage
+IF true THEN SET SV_STOP, MSG Error_Code
+IF true THEN LastErrorCode_W = Error_Code
+IF (Error_Code == NO_FAULT_MSG) THEN RST SetErrorStage
+
+;-----------------------
+   BadErrorStage
+;-----------------------
+IF true THEN AsyncMsg = BAD_FAULT_MSG, MSG AsyncMsg, AsyncMsg = 0
+IF true THEN rst BadErrorStage

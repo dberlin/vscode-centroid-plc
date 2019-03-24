@@ -1,55 +1,47 @@
 import * as vscode from "vscode";
 import formatting_tokens from "./json/formatting_tokens.json";
-import { RegExpAny } from "./util.js";
-let stringRegexp = /("(?:\\["\\]|[^\n"\\])*")/gim;
-let commentRegexp = /(;.*$)/gim;
-const languageKeywords = RegExpAny(
-  stringRegexp,
-  commentRegexp,
-  new RegExp(`(?<=\\b)(${formatting_tokens.join("|")})(?=\\b)`, "mgi")
-);
+import { Keywords, CentroidPLCLexer } from "./CentroidPLCLexer.js";
+import { IToken } from "chevrotain";
 
 export class CentroidPLCFormattingProvider
   implements vscode.DocumentFormattingEditProvider {
-  private getRangeForMatch(
-    document: vscode.TextDocument,
-    matches: RegExpExecArray,
-    matchStr: string
-  ) {
+  private getRangeForMatch(document: vscode.TextDocument, token: IToken) {
     return new vscode.Range(
-      document.positionAt(matches.index),
-      document.positionAt(matches.index + matchStr.length)
+      document.positionAt(token.startOffset),
+      document.positionAt(token.endOffset as number)
     );
   }
   private fixKeywordCase(document: vscode.TextDocument) {
+    const KeywordSet = new Set(Keywords.map(kw => kw.name));
     let edits = [];
-    let matches;
-    let docText = document.getText();
-    while ((matches = languageKeywords.exec(docText))) {
-      // Skip comments
-      if (matches[1] || matches[2]) continue;
-      let matchStr = matches[3];
-
-      // Special case true and false
-      if (matchStr.toUpperCase() === "TRUE") {
-        if (matchStr !== "True") {
-          let range = this.getRangeForMatch(document, matches, matchStr);
-          edits.push(new vscode.TextEdit(range, "True"));
+    const docText = document.getText();
+    const lexerResults = CentroidPLCLexer.tokenize(docText);
+    if (lexerResults.errors.length != 0) return [];
+    for (let token of lexerResults.tokens) {
+      if (token.tokenType && KeywordSet.has(token.tokenType.name)) {
+        const matchStr = token.image;
+        if (!token.endOffset) continue;
+        if (matchStr.toUpperCase() === "TRUE") {
+          // Special case true and false
+          if (matchStr !== "True") {
+            let range = this.getRangeForMatch(document, token);
+            edits.push(new vscode.TextEdit(range, "True"));
+          }
+          continue;
+        } else if (matchStr.toUpperCase() === "FALSE") {
+          if (matchStr !== "False") {
+            let range = this.getRangeForMatch(document, token);
+            edits.push(new vscode.TextEdit(range, "False"));
+          }
+          continue;
         }
-        continue;
-      } else if (matchStr.toUpperCase() === "FALSE") {
-        if (matchStr !== "False") {
-          let range = this.getRangeForMatch(document, matches, matchStr);
-          edits.push(new vscode.TextEdit(range, "False"));
+        // Skip uppercasing if not necessary
+        let upperStr = matchStr.toUpperCase();
+        if (upperStr !== matchStr) {
+          let range = this.getRangeForMatch(document, token);
+          edits.push(new vscode.TextEdit(range, upperStr));
+          continue;
         }
-        continue;
-      }
-      // Skip uppercasing if not necessary
-      let upperStr = matchStr.toUpperCase();
-      if (upperStr !== matchStr) {
-        let range = this.getRangeForMatch(document, matches, matchStr);
-        edits.push(new vscode.TextEdit(range, upperStr));
-        continue;
       }
     }
     return edits;
