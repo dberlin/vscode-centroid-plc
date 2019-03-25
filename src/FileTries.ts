@@ -39,7 +39,7 @@ export class FileTries extends BaseFileTries {
    * @param symbolInfo - Symbol to add to tries.
    */
   add(symbolInfo: SymbolInfo) {
-    let name = symbolInfo.label;
+    const name = symbolInfo.label;
     if (symbolInfo.symbolType == SymbolType.MessageOrConstant) {
       this.constantSymbols.insert(name);
     } else {
@@ -70,11 +70,12 @@ export class FileTries extends BaseFileTries {
    * Return the symbols for all the stage variables in the trie;
    */
   getStageSymbols(): SymbolInfo[] {
-    let stageNames = this.getStageNames();
+    const stageNames = this.getStageNames();
     return stageNames.map(val => {
-      return <SymbolInfo>this.getSymbol(val);
+      return this.getSymbol(val) as SymbolInfo;
     });
   }
+
   getSymbol(label: string): SymbolInfo | null {
     return super.getSymbol(label) as SymbolInfo | null;
   }

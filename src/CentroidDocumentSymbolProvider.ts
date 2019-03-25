@@ -33,9 +33,9 @@ export class CentroidDocumentSymbolProvider
     vscode.SymbolInformation[] | vscode.DocumentSymbol[]
   > {
     // Get the stage symbols from the tries.
-    let fileTries = DocumentSymbolManager.getTriesForDocument(document);
+    const fileTries = DocumentSymbolManager.getTriesForDocument(document);
     if (!fileTries) return null;
-    let stageSymbols = fileTries.getStageSymbols();
+    const stageSymbols = fileTries.getStageSymbols();
 
     // Convert stage symbols to DocumentSymbols. We pretend they are functions
     // and do a little work to convert the symbol positions (which say where the
@@ -45,14 +45,14 @@ export class CentroidDocumentSymbolProvider
     return <vscode.DocumentSymbol[]>stageSymbols
       .map(val => {
         if (val.symbolDefPos === -1) return null;
-        let originalPos = document.positionAt(val.symbolDefPos);
+        const originalPos = document.positionAt(val.symbolDefPos);
         // Move the start to the beginning of the line
-        let symRange = new vscode.Range(
+        const symRange = new vscode.Range(
           originalPos.with(undefined, 0),
           document.positionAt(val.symbolDefEndPos)
         );
         // Move the name end to the end of the name
-        let symNameRange = new vscode.Range(
+        const symNameRange = new vscode.Range(
           originalPos,
           originalPos.with(undefined, originalPos.character + val.label.length)
         );

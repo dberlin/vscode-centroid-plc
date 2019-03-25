@@ -35,9 +35,9 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
     /* See if we have the symbol */
     let sym = getSymbolForPosition(document, position);
     if (sym) {
-      let hoverText = new vscode.MarkdownString();
+      const hoverText = new vscode.MarkdownString();
       let declString: string;
-      let symbolPos =
+      const symbolPos =
         sym.symbolDeclPos == -1
           ? document.positionAt(0)
           : document.positionAt(sym.symbolDeclPos);
@@ -62,8 +62,7 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
       hoverText.appendMarkdown(
         (<vscode.MarkdownString>sym.documentation).value
       );
-      let hover = new vscode.Hover(hoverText);
-      return hover;
+      return new vscode.Hover(hoverText);
     }
   }
 }

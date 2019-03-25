@@ -85,14 +85,12 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
   // Parse and add a document to our list of managed documents
   parseAndAddDocument(document: vscode.TextDocument) {
     if (this.hasDocument(document)) return;
-    let filename = this.normalizePathtoDoc(document);
-    let fileTries = new FileTries();
+    const filename = this.normalizePathtoDoc(document);
+    const fileTries = new FileTries();
     this.tries.set(filename, fileTries);
     super.parseAndAddDocument(document);
 
     // Parse out all the symbols
-    let docText = document.getText();
-
     this.parseSymbolsUsingRegex(
       fileTries,
       document,
@@ -115,18 +113,14 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
    * @param fileTries
    */
   private findStageSymbols(document: vscode.TextDocument) {
-    let fileTries = this.getTriesForDocument(document);
-    console.assert(
-      fileTries !== undefined,
-      "Somehow could not find filetries!"
-    );
+    const fileTries = this.getTriesForDocument(document);
     if (fileTries === undefined) return;
 
-    let docText = document.getText();
-    let stageSymbolArray = (fileTries as FileTries).getStageNames();
+    const docText = document.getText();
+    const stageSymbolArray = (fileTries as FileTries).getStageNames();
 
     if (stageSymbolArray.length > 0) {
-      let stageRegex = getRegexFromWordArray(stageSymbolArray);
+      const stageRegex = getRegexFromWordArray(stageSymbolArray);
       let lastStage = null;
       let matches;
       while ((matches = stageRegex.exec(docText))) {
@@ -164,7 +158,7 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     // If this is a system variable type, it may be an alias for an existing
     // system symbol, in which case we will copy the documentation.
     if (captures[2].startsWith("SV_")) {
-      let sym = getSymbolByName(document, captures[2]) as SymbolInfo;
+      const sym = getSymbolByName(document, captures[2]) as SymbolInfo;
       if (sym) {
         let doc = sym.documentation as vscode.MarkdownString;
         if (doc === undefined) return null;
@@ -180,11 +174,11 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
         );
       }
     }
-    let symbolType = getSymbolTypeFromString(captures[3]);
+    const symbolType = getSymbolTypeFromString(captures[3]);
     if (symbolType === undefined) return null;
 
-    let possibleComment = !captures[5] ? "" : captures[5].trim();
-    let symbolDoc = isComment(possibleComment)
+    const possibleComment = !captures[5] ? "" : captures[5].trim();
+    const symbolDoc = isComment(possibleComment)
       ? formatDocComment(possibleComment)
       : "";
     return new SymbolInfo(
@@ -213,14 +207,13 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     // Ignore system variables here, we process them separately
     if (isSystemSymbolName(captures[1])) return null;
 
-    let symbolType = SymbolType.MessageOrConstant;
-    let possibleComment = !captures[3] ? "" : captures[3].trim();
-    let symbolDoc = isComment(possibleComment)
+    const possibleComment = !captures[3] ? "" : captures[3].trim();
+    const symbolDoc = isComment(possibleComment)
       ? formatDocComment(possibleComment)
       : "";
     return new SymbolInfo(
       captures[1],
-      symbolType,
+      SymbolType.MessageOrConstant,
       captures[2],
       0,
       parseInt(captures[2]),

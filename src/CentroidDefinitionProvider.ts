@@ -33,7 +33,7 @@ export class CentroidDefinitionProvider implements vscode.DefinitionProvider {
   ): vscode.ProviderResult<
     vscode.Location | vscode.Location[] | vscode.LocationLink[]
   > {
-    let sym = getSymbolForPosition(document, position);
+    const sym = getSymbolForPosition(document, position);
     if (
       sym &&
       (sym.symbolDefPos !== -1 || sym.symbolDeclPos !== -1) &&
