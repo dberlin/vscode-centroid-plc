@@ -211,15 +211,15 @@ class CentroidPLCParser extends Parser {
   // A stage implementation
   // <stagename>
   private Stage = this.RULE("Stage", () => {
-    this.CONSUME(Identifier);
+    this.CONSUME(Identifier, { LABEL: "name" });
   });
   // A declaration
   // identifier IS (identifier | constant)
   // TODO: Gate the type properly
   private Declaration = this.RULE("Declaration", () => {
-    this.CONSUME1(Identifier);
+    this.CONSUME1(Identifier, { LABEL: "name" });
     this.CONSUME(IS);
-    this.SUBRULE(this.MathExpression);
+    this.SUBRULE(this.MathExpression, { LABEL: "type" });
     /*
     this.OR([
       { ALT: () => this.CONSUME(Number) },
