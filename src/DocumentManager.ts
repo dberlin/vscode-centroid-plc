@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 "use strict";
+import { CstNode, IToken } from "chevrotain";
 import * as vscode from "vscode";
+import { createPLCLexer, createPLCParser } from "./CentroidPLCParser";
 import { FileTries } from "./FileTries";
 import machine_params from "./json/machine_parameters.json";
 import sv_system_variables from "./json/sv_system_variables.json";
@@ -32,9 +34,10 @@ import {
   getSymbolByName,
   isSystemSymbolName
 } from "./util";
-
 import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
-import { createPLCParser } from "./CentroidPLCParser";
+
+// This is what the parser returns
+type ParserCst = CstNode | CstNode[];
 
 const typedVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|(?:SV_.*?))(\d+))\s*(;.*)?$/gm;
 const constantVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*(\d+|TRUE|FALSE)\\s*(;.*)?$/gim;
@@ -59,7 +62,10 @@ function formatDocComment(comment: string) {
 }
 
 class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
-  private PLCParser = createPLCParser();
+  static PLCLexer = createPLCLexer();
+  static PLCParser = createPLCParser();
+  static BaseCstVisitor = DocumentSymbolManagerClass.PLCParser.getBaseCstVisitorConstructorWithDefaults();
+
   constructor() {
     super();
     this.processSymbolList(machine_params);
@@ -104,40 +110,30 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
       this.getSymbolInfoFromConstantVariable
     );
     fileTries.freeze();
-    this.findStageSymbols(document);
+
+    const lexerResults = DocumentSymbolManagerClass.PLCLexer.tokenize(
+      document.getText()
+    );
+    DocumentSymbolManagerClass.PLCParser.input = lexerResults.tokens;
+    const cst = DocumentSymbolManagerClass.PLCParser.PLCProgram();
+
+    this.findStageSymbols(document, cst);
   }
   /**
    * Find PLC stage symbols in our document.
    *
-   * @param document - document to process
-   * @param fileTries
+   * @param document - document it is for
+   * @param cst - concrete syntax tree
    */
-  private findStageSymbols(document: vscode.TextDocument) {
+  private findStageSymbols(document: vscode.TextDocument, cst: ParserCst) {
     const fileTries = this.getTriesForDocument(document);
     if (fileTries === undefined) return;
-
-    const docText = document.getText();
     const stageSymbolArray = (fileTries as FileTries).getStageNames();
+    // Don't do work if there are no stages
+    if (stageSymbolArray.length == 0) return;
 
-    if (stageSymbolArray.length > 0) {
-      const stageRegex = getRegexFromWordArray(stageSymbolArray);
-      let lastStage = null;
-      let matches;
-      while ((matches = stageRegex.exec(docText))) {
-        let symbol = fileTries.getSymbol(matches[1]);
-        if (!symbol) continue;
-        symbol.symbolDefPos = matches.index;
-        if (lastStage) {
-          let originalPlace = document.positionAt(matches.index);
-          // Place the end of the last stage at the end of the line before this
-          // stage starts
-          lastStage.symbolDefEndPos =
-            document.offsetAt(originalPlace.with(undefined, 0)) - 1;
-        }
-        lastStage = symbol;
-      }
-      if (lastStage) lastStage.symbolDefEndPos = docText.length;
-    }
+    let stageVisitor = new StageVisitor(cst, document, fileTries);
+    stageVisitor.processStages();
   }
 
   /**
@@ -226,3 +222,41 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
   }
 }
 export const DocumentSymbolManager = new DocumentSymbolManagerClass();
+
+class StageVisitor extends DocumentSymbolManagerClass.BaseCstVisitor {
+  // Set of symbol tries to use for lookup
+  private cst: ParserCst;
+  private document: vscode.TextDocument;
+  private fileTries: FileTries;
+
+  constructor(cst: ParserCst, document: vscode.TextDocument, tries: FileTries) {
+    super();
+    this.cst = cst;
+    this.document = document;
+    this.fileTries = tries;
+    this.validateVisitor();
+  }
+  processStages() {
+    let stageStack: IToken[] = [];
+    this.visit(this.cst, stageStack);
+
+    let endPos = this.document.getText().length;
+    while (stageStack.length > 0) {
+      let stage = stageStack.pop() as IToken;
+      let symbol = this.fileTries.getSymbol(stage.image);
+      if (!symbol) continue;
+      // Symbol def starts with name starts
+      symbol.symbolDefPos = stage.startOffset;
+      symbol.symbolDefEndPos = endPos;
+      // New end position is the end of the line before ours.
+      endPos = stage.startOffset - (stage.startColumn as number) - 1;
+    }
+  }
+  // Only visit stages
+  protected Stage(ctx: any, stageStack: IToken[]) {
+    // Ignore the unnamed stages
+    if (!ctx.Identifier) return;
+    // Push the stage name token onto the stack
+    stageStack.push(ctx.Identifier[0]);
+  }
+}

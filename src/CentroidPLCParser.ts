@@ -189,43 +189,43 @@ export function createPLCLexer() {
 }
 
 type ORCache = { ALT: () => any }[] | undefined;
-class CentroidPLCParser extends Parser {
+export class CentroidPLCParser extends Parser {
   constructor() {
     super(allTokens);
     this.performSelfAnalysis();
   }
   public PLCProgram = this.RULE("PLCProgram", () => {
     this.AT_LEAST_ONE(() => {
-      this.SUBRULE(this.Line);
+      this.SUBRULE(this.Stage);
     });
   });
   private c1: ORCache;
-  // A single line of the program
-  private Line = this.RULE("Line", () => {
+  // A single stage of the program.  All things occur in a stage, some of them
+  // just are in the unnamed main stage
+  private Stage = this.RULE("Stage", () => {
+    // Stages may be unnamed
+    this.OPTION({
+      // Don't consume this if it is really a declaration
+      GATE: () => this.LA(2).tokenType != IS,
+      DEF: () => this.CONSUME(Identifier)
+    });
     this.OR([
-      { ALT: () => this.SUBRULE(this.Declaration) },
-      { ALT: () => this.SUBRULE(this.IfStatement) },
-      { ALT: () => this.SUBRULE(this.Stage) }
+      {
+        ALT: () => this.SUBRULE(this.Declaration)
+      },
+      {
+        ALT: () => this.SUBRULE(this.IfStatement)
+      }
     ]);
   });
-  // A stage implementation
-  // <stagename>
-  private Stage = this.RULE("Stage", () => {
-    this.CONSUME(Identifier, { LABEL: "name" });
-  });
+
   // A declaration
   // identifier IS (identifier | constant)
   // TODO: Gate the type properly
   private Declaration = this.RULE("Declaration", () => {
-    this.CONSUME1(Identifier, { LABEL: "name" });
+    this.CONSUME1(Identifier);
     this.CONSUME(IS);
-    this.SUBRULE(this.MathExpression, { LABEL: "type" });
-    /*
-    this.OR([
-      { ALT: () => this.CONSUME(Number) },
-      { ALT: () => this.CONSUME(FPNumber) },
-      { ALT: () => this.CONSUME2(Identifier) }
-    ]);*/
+    this.SUBRULE(this.MathExpression);
   });
   // If TruthExpression Then ActionExpression
   private IfStatement = this.RULE("IfStatement", () => {
