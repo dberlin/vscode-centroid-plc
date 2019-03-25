@@ -10,7 +10,7 @@ import * as assert from "assert";
 // as well as import your extension to test it
 import * as vscode from "vscode";
 import * as extension from "../extension";
-import { createPLCLexer } from "../CentroidPLCLexer";
+import { createPLCLexer, createPLCParser } from "../CentroidPLCParser";
 import * as fs from "fs";
 import * as path from "path";
 let testFilePath = path.join(__dirname + "/../../testfiles/");
@@ -28,6 +28,36 @@ suite("Extension Tests", () => {
         0,
         `Got lexer errors from ${fileName}, errors were ${JSON.stringify(
           lexingResults.errors,
+          null,
+          4
+        )}`
+      );
+    }
+  });
+  test("Source code parsing", async function() {
+    let CentroidPLCLexer = createPLCLexer();
+    let CentroidPLCParser = createPLCParser();
+    for (let fileName of fs.readdirSync(testFilePath)) {
+      const docText = fs
+        .readFileSync(path.join(testFilePath + fileName))
+        .toString();
+      const lexingResults = CentroidPLCLexer.tokenize(docText);
+      assert.equal(
+        lexingResults.errors.length,
+        0,
+        `Got lexer errors from ${fileName}, errors were ${JSON.stringify(
+          lexingResults.errors,
+          null,
+          4
+        )}`
+      );
+      CentroidPLCParser.input = lexingResults.tokens;
+      const cst = CentroidPLCParser.PLCProgram();
+      assert.equal(
+        CentroidPLCParser.errors,
+        0,
+        `Got parser errors from ${fileName}, errors were ${JSON.stringify(
+          CentroidPLCParser.errors,
           null,
           4
         )}`

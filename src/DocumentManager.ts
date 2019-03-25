@@ -11,6 +11,7 @@ import {
 } from "./util";
 
 import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
+import { createPLCParser } from "./CentroidPLCParser";
 
 const typedVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|(?:SV_.*?))(\d+))\s*(;.*)?$/gm;
 const constantVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*(\d+|TRUE|FALSE)\\s*(;.*)?$/gim;
@@ -35,6 +36,7 @@ function formatDocComment(comment: string) {
 }
 
 class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
+  private PLCParser = createPLCParser();
   constructor() {
     super();
     this.processSymbolList(machine_params);

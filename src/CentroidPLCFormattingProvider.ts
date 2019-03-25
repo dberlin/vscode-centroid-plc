@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import formatting_tokens from "./json/formatting_tokens.json";
-import { Keywords, createPLCLexer } from "./CentroidPLCLexer.js";
+import { Keywords, createPLCLexer } from "./CentroidPLCParser";
 import { IToken } from "chevrotain";
 
 const systemVariableTokens = new Set(formatting_tokens);
@@ -32,7 +32,7 @@ export class CentroidPLCFormattingProvider
       if (this.isKeywordOrSystemVar(token)) {
         const matchStr = token.image;
         if (!token.endOffset) continue;
-        if (matchStr.toUpperCase() === "TRUE") {
+        /* if (matchStr.toUpperCase() === "TRUE") {
           // Special case true and false
           if (matchStr !== "True") {
             let range = this.getRangeForMatch(document, token);
@@ -45,7 +45,7 @@ export class CentroidPLCFormattingProvider
             edits.push(new vscode.TextEdit(range, "False"));
           }
           continue;
-        }
+        }*/
         // Skip uppercasing if not necessary
         let upperStr = matchStr.toUpperCase();
         if (upperStr !== matchStr) {

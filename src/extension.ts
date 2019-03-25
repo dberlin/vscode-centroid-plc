@@ -13,8 +13,10 @@ const centroidScheme = { language: "centroid-plc", scheme: "file" };
 
 export function activate(context: vscode.ExtensionContext) {
   console.log("Activating!");
+  console.time("Initialize document manager");
   DocumentSymbolManager.init(context);
-
+  console.timeEnd("Initialize document manager");
+  console.time("Initialize subscriptions");
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider(
       centroidScheme,
@@ -62,7 +64,8 @@ export function activate(context: vscode.ExtensionContext) {
       new CentroidReferenceProvider()
     )
   );
-
+  console.timeEnd("Initialize subscriptions");
+  console.time("Parse documents");
   context.subscriptions.push(
     vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
       if (document.languageId === "centroid-plc") {
@@ -91,4 +94,5 @@ export function activate(context: vscode.ExtensionContext) {
       );
     }
   }
+  console.timeEnd("Parse documents");
 }
