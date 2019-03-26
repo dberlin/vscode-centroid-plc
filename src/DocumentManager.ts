@@ -23,20 +23,22 @@
  */
 "use strict";
 import { CstNode, ICstVisitor, IToken } from "chevrotain";
+import IntervalTree from "node-interval-tree";
 import * as vscode from "vscode";
 import { createPLCLexer, createPLCParser } from "./CentroidPLCParser";
 import { FileTries } from "./FileTries";
 import machine_params from "./json/machine_parameters.json";
 import sv_system_variables from "./json/sv_system_variables.json";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
-import { getSymbolByName, isSystemSymbolName } from "./util";
+import {
+  collectTextOfChildren,
+  getSymbolByName,
+  isSystemSymbolName
+} from "./util";
 import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
 
 // This is what the parser returns
 type ParserCst = CstNode | CstNode[];
-
-const typedVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|(?:SV_.*?))(\d+))\s*(;.*)?$/gm;
-const constantVariableWithComment = /^\s*([a-zA-Z0-9_]+)\s*IS\s*(\d+|TRUE|FALSE)\\s*(;.*)?$/gim;
 
 export function isStageSymbol(symbolInfo: SymbolInfo) {
   return (
@@ -93,28 +95,31 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     this.tries.set(filename, fileTries);
     super.parseAndAddDocument(document);
 
-    // Parse out all the symbols
-    this.parseSymbolsUsingRegex(
-      fileTries,
-      document,
-      typedVariableWithComment,
-      this.getSymbolInfoFromTypedVariable
-    );
-    this.parseSymbolsUsingRegex(
-      fileTries,
-      document,
-      constantVariableWithComment,
-      this.getSymbolInfoFromConstantVariable
-    );
-    fileTries.freeze();
-
     const lexerResults = this.PLCLexer.tokenize(document.getText());
     this.PLCParser.input = lexerResults.tokens;
     const cst = this.PLCParser.PLCProgram();
+    let commentRanges = new IntervalTree<IToken>();
+    for (let comment of lexerResults.groups["Comments"]) {
+      // Ignore comments that are whole line for now
+      if (comment.startColumn == 1) continue;
+      commentRanges.insert(
+        comment.startOffset,
+        comment.endOffset as number,
+        comment
+      );
+    }
+    let symbolVisitor = getSymbolVisitor(
+      this.BaseCstVisitor,
+      cst,
+      document,
+      fileTries,
+      commentRanges
+    );
+    symbolVisitor.processSymbols();
 
     this.findStageSymbols(document, cst);
-
     console.timeEnd("Parsing document and processing symbols");
+    fileTries.freeze();
   }
   /**
    * Find PLC stage symbols in our document.
@@ -138,100 +143,19 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     stageVisitor.processStages();
   }
 
-  /**
-   * Convert a capture array into a typed variable symbol.
-   *
-   * The current format of the capture array is an internal detail.
-   * @remarks This handles the X IS <type> style of variable
-   * @param captures - An array of captured strings from micromatch.
-   * @returns Newly created symbol info, or null if we could not create symbol info.
-   */
-  private getSymbolInfoFromTypedVariable(
-    document: vscode.TextDocument,
-    captures: RegExpExecArray
-  ) {
-    // Ignore system variables here, we process them separately
-    if (isSystemSymbolName(captures[1])) return null;
-
-    // If this is a system variable type, it may be an alias for an existing
-    // system symbol, in which case we will copy the documentation.
-    if (captures[2].startsWith("SV_")) {
-      const sym = getSymbolByName(document, captures[2]) as SymbolInfo;
-      if (sym) {
-        let doc = sym.documentation as vscode.MarkdownString;
-        if (doc === undefined) return null;
-
-        return new SymbolInfo(
-          captures[1],
-          sym.symbolType,
-          sym.detail,
-          sym.symbolNumber,
-          sym.symbolValue,
-          "#### This is an alias for " + sym.label + "\n\n" + doc.value,
-          captures.index
-        );
-      }
-    }
-    const symbolType = getSymbolTypeFromString(captures[3]);
-    if (symbolType === undefined) return null;
-
-    const possibleComment = !captures[5] ? "" : captures[5].trim();
-    const symbolDoc = isComment(possibleComment)
-      ? formatDocComment(possibleComment)
-      : "";
-    return new SymbolInfo(
-      captures[1],
-      symbolType,
-      captures[2],
-      parseInt(captures[4]),
-      0,
-      symbolDoc,
-      captures.index
-    );
-  }
-
-  /**
-   * Convert a capture array into a constant symbol.
-   *
-   * The current format of the capture array is an internal detail.
-   * @remarks This handles the X IS <value> style of variable
-   * @param captures - An array of captured strings from micromatch.
-   * @returns Newly created symbol info, or null if we could not create symbol info.
-   */
-  private getSymbolInfoFromConstantVariable(
-    document: vscode.TextDocument,
-    captures: RegExpExecArray
-  ) {
-    // Ignore system variables here, we process them separately
-    if (isSystemSymbolName(captures[1])) return null;
-
-    const possibleComment = !captures[3] ? "" : captures[3].trim();
-    const symbolDoc = isComment(possibleComment)
-      ? formatDocComment(possibleComment)
-      : "";
-    return new SymbolInfo(
-      captures[1],
-      SymbolType.MessageOrConstant,
-      captures[2],
-      0,
-      parseInt(captures[2]),
-      symbolDoc,
-      captures.index
-    );
-  }
   getTriesForDocument(document: vscode.TextDocument): FileTries {
     return super.getTriesForDocument(document) as FileTries;
   }
 }
 export const DocumentSymbolManager = new DocumentSymbolManagerClass();
 
-type visitor<T = {}> = new (...args: any[]) => ICstVisitor<any, any>;
+type ParseTreeVisitor = new (...args: any[]) => ICstVisitor<any, any>;
 
 // This is unfortunately ugly, but the base class used for the visitor is
 // dynamically defined, so we have to dynamically define the visitors.
 
 function getStageVisitor(
-  Base: visitor,
+  Base: ParseTreeVisitor,
   cst: ParserCst,
   document: vscode.TextDocument,
   fileTries: FileTries
@@ -277,4 +201,147 @@ function getStageVisitor(
       stageStack.push(ctx.Identifier[0]);
     }
   }(cst, document, fileTries);
+}
+
+function getSymbolVisitor(
+  Base: ParseTreeVisitor,
+  cst: ParserCst,
+  document: vscode.TextDocument,
+  fileTries: FileTries,
+  commentRanges: IntervalTree<IToken>
+) {
+  return new class SymbolVisitor extends Base {
+    // Set of symbol tries to use for lookup
+    private cst: ParserCst;
+    private document: vscode.TextDocument;
+    private variableTypeRegex = /((W|DW|FW|DFW|INP|JPI|MEM|OUT|JPO|STG|FSTG|T|PD|(?:SV_.*?))(\d+))/i;
+    constructor(
+      cst: ParserCst,
+      document: vscode.TextDocument,
+      tries: FileTries,
+      commentRanges: IntervalTree<IToken>
+    ) {
+      super();
+      this.cst = cst;
+      this.document = document;
+    }
+    processSymbols() {
+      this.visit(this.cst);
+    }
+
+    /**
+     * Given a line number, find comments that appear on that line. Because
+     * comments in the language go from the comment char to the end of the line,
+     * there can only be one comment per line.
+     *
+     * @param lineNum - line number to find comment for
+     */
+    private getCommentForLine(lineNum: number) {
+      let lineRange = this.document.lineAt(lineNum).range;
+      let searchResults = commentRanges.search(
+        document.offsetAt(lineRange.start),
+        document.offsetAt(lineRange.end)
+      );
+      if (searchResults.length == 0) return "";
+      return searchResults[0].image;
+    }
+    /**
+     * Given a symbol defined by a type or variable alias, process it.
+     * @param matches - Matched results from the @{variableTypeRegex}
+     * @param varNameToken - Token representing the variable name
+     * @param typeText - Text of the type
+     * @param symbolDoc - Documentation comment that goes with the symbol
+     */
+    private processTypedSymbol(
+      matches: RegExpExecArray,
+      varNameToken: IToken,
+      typeText: string,
+      symbolDoc: string
+    ) {
+      let varName = varNameToken.image;
+
+      // If this is a system variable type, it may be an alias for an existing
+      // system symbol, in which case we will copy the documentation.
+      if (isSystemSymbolName(typeText)) {
+        const sym = getSymbolByName(document, typeText) as SymbolInfo;
+        if (sym) {
+          let doc = sym.documentation as vscode.MarkdownString;
+          if (doc === undefined) return null;
+
+          let newSym = new SymbolInfo(
+            varName,
+            sym.symbolType,
+            sym.detail,
+            sym.symbolNumber,
+            sym.symbolValue,
+            "#### This is an alias for " + sym.label + "\n\n" + doc.value,
+            varNameToken.startOffset
+          );
+          fileTries.add(newSym);
+          return;
+        }
+      }
+      const symbolType = getSymbolTypeFromString(matches[2]);
+      if (symbolType === undefined) return;
+      let newSym = new SymbolInfo(
+        varName,
+        symbolType,
+        typeText,
+        parseInt(matches[3]),
+        0,
+        symbolDoc,
+        varNameToken.startOffset
+      );
+      fileTries.add(newSym);
+    }
+    /**
+     * Given a symbol defined by a constant or math expression, process it.
+     * @param varNameToken - Token representing the variable name
+     * @param typeText - Text of the type
+     * @param symbolDoc - Documentation comment that goes with the symbol
+     */
+    private processConstantSymbol(
+      varNameToken: IToken,
+      typeText: string,
+      symbolDoc: string
+    ) {
+      let varName = varNameToken.image;
+      let sym = new SymbolInfo(
+        varName,
+        SymbolType.MessageOrConstant,
+        typeText,
+        0,
+        parseInt(typeText),
+        symbolDoc,
+        varNameToken.startOffset
+      );
+      fileTries.add(sym);
+    }
+
+    /**
+     * Visit a declaration token type.
+     * @param ctx - Context from CST visitor
+     */
+    protected Declaration(ctx: any) {
+      let varNameToken = ctx.Identifier[0];
+      let varName = varNameToken.image;
+
+      if (isSystemSymbolName(varName)) return;
+      // The token line numbers are 1 based, the document ones are zero based
+      let lineNum = varNameToken.startLine - 1;
+      const possibleComment = this.getCommentForLine(lineNum).trimRight();
+
+      const symbolDoc = isComment(possibleComment)
+        ? formatDocComment(possibleComment)
+        : "";
+
+      let typeText = collectTextOfChildren(ctx.MathExpression[0]);
+      let matches;
+      if ((matches = this.variableTypeRegex.exec(typeText))) {
+        this.processTypedSymbol(matches, varNameToken, typeText, symbolDoc);
+      } else {
+        this.processConstantSymbol(varNameToken, typeText, symbolDoc);
+      }
+    }
+  }(cst, document, fileTries, commentRanges);
 }

@@ -96,12 +96,6 @@ export function getSymbolForPosition(
   return getSymbolByName(document, wordText);
 }
 
-// Generate a regular expression that matches any of the words in the passed-in
-// array
-export function getRegexFromWordArray(wordArray: string[]) {
-  return new RegExp(`(?<=^\\s*)(${wordArray.join("|")})(?=\\s*$)`, "mg");
-}
-
 /**
  * Return a regular expression that matches any of the input regular expressions
  * @param args - Regular expressions to combine
@@ -124,4 +118,27 @@ export function RegExpAny(...args: RegExp[]) {
     newFlags.join("")
   );
   return combined;
+}
+
+/**
+ * Collect the text of all child nodes and return it as a string
+ * @param ctx - Node to start from
+ */
+export function collectTextOfChildren(ctx: any) {
+  let stringResult = "";
+  if (ctx.image) stringResult = ctx.image;
+  if (ctx.children) {
+    for (let child of Object.values(ctx.children)) {
+      if (Array.isArray(child)) {
+        for (let entry of child) {
+          let tempResult = collectTextOfChildren(entry);
+          if (tempResult) stringResult += tempResult;
+        }
+      } else {
+        let tempResult = collectTextOfChildren(child);
+        if (tempResult) stringResult += tempResult;
+      }
+    }
+  }
+  return stringResult;
 }
