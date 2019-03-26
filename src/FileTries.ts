@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SymbolInfo, SymbolType } from "./SymbolInfo";
-import { BaseFileTries } from "./vscode-centroid-common/BaseFileTries";
 import { Trie } from "tiny-trie";
 import { isStageSymbol } from "./DocumentManager";
+import { SymbolInfo, SymbolType } from "./SymbolInfo";
+import { BaseFileTries } from "./vscode-centroid-common/BaseFileTries";
 
 export class FileTries extends BaseFileTries {
   private constantSymbols: Trie = new Trie();
