@@ -34,8 +34,9 @@ export class CentroidPLCFormattingProvider
   private CentroidPLCLexer = createPLCLexer();
   private getRangeForMatch(document: vscode.TextDocument, token: IToken) {
     return new vscode.Range(
+      // These are different kinds of ranges, hence the offsetting
       document.positionAt(token.startOffset),
-      document.positionAt(token.endOffset as number)
+      document.positionAt((token.endOffset as number) + 1)
     );
   }
   private isKeywordOrSystemVar(token: IToken) {
@@ -55,20 +56,6 @@ export class CentroidPLCFormattingProvider
       if (this.isKeywordOrSystemVar(token)) {
         const matchStr = token.image;
         if (!token.endOffset) continue;
-        /* if (matchStr.toUpperCase() === "TRUE") {
-          // Special case true and false
-          if (matchStr !== "True") {
-            let range = this.getRangeForMatch(document, token);
-            edits.push(new vscode.TextEdit(range, "True"));
-          }
-          continue;
-        } else if (matchStr.toUpperCase() === "FALSE") {
-          if (matchStr !== "False") {
-            let range = this.getRangeForMatch(document, token);
-            edits.push(new vscode.TextEdit(range, "False"));
-          }
-          continue;
-        }*/
         // Skip uppercasing if not necessary
         let upperStr = matchStr.toUpperCase();
         if (upperStr !== matchStr) {
