@@ -22,24 +22,22 @@
  * SOFTWARE.
  */
 
-import { createPLCLexer, createPLCParser } from "../CentroidPLCParser";
 import * as fs from "fs";
-let CentroidPLCLexer = createPLCLexer();
-let CentroidPLCParser = createPLCParser();
+import { createPLCLexerForText, createPLCParserForText } from "../util";
 if (process.argv.length < 3) {
   console.log("usage: ts-node testGrammar.ts <input file>");
   process.exit();
 }
 const docText = fs.readFileSync(process.argv[2]).toString();
-const lexingResults = CentroidPLCLexer.tokenize(docText);
-
-CentroidPLCParser.input = lexingResults.tokens;
-const cst = CentroidPLCParser.PLCProgram();
-if (CentroidPLCParser.errors.length != 0)
-  console.log(
-    `Got parser errors from ${process.argv[2]}, errors were ${JSON.stringify(
-      CentroidPLCParser.errors,
-      null,
-      4
-    )}`
-  );
+const lexer = createPLCLexerForText(docText);
+try {
+  lexer.getAllTokens();
+} catch (err) {
+  console.log(err);
+}
+const parser = createPLCParserForText(docText);
+try {
+  parser.plcProgram();
+} catch (err) {
+  console.log(err);
+}

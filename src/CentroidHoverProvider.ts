@@ -24,7 +24,8 @@
 "use strict";
 import * as vscode from "vscode";
 import { SymbolType } from "./SymbolInfo";
-import { getSymbolForPosition, isSystemSymbolName } from "./util";
+import { isSystemSymbolName } from "./util";
+import { getSymbolForPosition } from "./vscode-util";
 
 export class CentroidHoverProvider implements vscode.HoverProvider {
   public provideHover(

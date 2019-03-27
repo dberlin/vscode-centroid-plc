@@ -2,3 +2,10 @@ node_modules
 out
 .vscode-test
 **/.DS_Store
+src/CentroidPLC.interp
+src/CentroidPLC.tokens
+src/CentroidPLCLexer.interp
+src/CentroidPLCLexer.tokens
+src/CentroidPLCLexer.ts
+src/CentroidPLCListener.ts
+src/CentroidPLCVisitor.ts

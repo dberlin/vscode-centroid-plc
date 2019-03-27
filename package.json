@@ -1,70 +1,72 @@
 {
-    "name": "centroid-plc-language",
-    "displayName": "Centroid PLC Language",
-    "description": "Syntax highlighting for Centroid PLC language",
-    "bugs": {
-        "url": "https://github.com/dberlin/vscode-centroid-plc/issues"
-    },
-    "homepage": "https://github.com/dberlin/vscode-centroid-plc",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/dberlin/vscode-centroid-plc.git"
-    },
-    "publisher": "DanielBerlin",
-    "license": "Apache-2.0",
-    "version": "0.3.5",
-    "engines": {
-        "vscode": "^1.31.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "contributes": {
-        "languages": [
-            {
-                "id": "centroid-plc",
-                "aliases": [
-                    "Centroid PLC",
-                    "centroid-plc"
-                ],
-                "extensions": [
-                    ".src"
-                ],
-                "configuration": "./language-configuration.json"
-            }
+  "name": "centroid-plc-language",
+  "displayName": "Centroid PLC Language",
+  "description": "Syntax highlighting for Centroid PLC language",
+  "bugs": {
+    "url": "https://github.com/dberlin/vscode-centroid-plc/issues"
+  },
+  "homepage": "https://github.com/dberlin/vscode-centroid-plc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dberlin/vscode-centroid-plc.git"
+  },
+  "publisher": "DanielBerlin",
+  "license": "Apache-2.0",
+  "version": "0.3.5",
+  "engines": {
+    "vscode": "^1.31.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "centroid-plc",
+        "aliases": [
+          "Centroid PLC",
+          "centroid-plc"
         ],
-        "grammars": [
-            {
-                "language": "centroid-plc",
-                "scopeName": "source.centroidplc",
-                "path": "./syntaxes/centroid-plc.tmLanguage.json"
-            }
-        ]
-    },
-    "activationEvents": [
-        "*"
+        "extensions": [
+          ".src"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
-    "main": "./out/extension.js",
-    "scripts": {
-        "convert-yaml": "node src/scripts/yaml2js.js yaml/original_help_text.yaml > json/original_help_text.json",
-        "expand-json": "ts-node src/scripts/expando.ts json/original_help_text.json >src/json/sv_system_variables.json",
-        "vscode:prepublish": "npm run compile",
-        "compile": "npm run convert-yaml && npm run expand-json && tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "@types/mocha": "^5.2.6",
-        "@types/node": "^10.14.4",
-        "chevrotain": "^4.3.1",
-        "js-yaml": "^3.13.0",
-        "mocha": "^6.0.2",
-        "tslint": "^5.14.0",
-        "vscode": "^1.1.33"
-    },
-    "dependencies": {
-        "node-interval-tree": "^1.3.3",
-        "tiny-trie": "^0.2.6"
-    }
+    "grammars": [
+      {
+        "language": "centroid-plc",
+        "scopeName": "source.centroidplc",
+        "path": "./syntaxes/centroid-plc.tmLanguage.json"
+      }
+    ]
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "convert-yaml": "node src/scripts/yaml2js.js yaml/original_help_text.yaml > json/original_help_text.json",
+    "expand-json": "ts-node src/scripts/expando.ts json/original_help_text.json >src/json/sv_system_variables.json",
+    "vscode:prepublish": "npm run compile",
+    "compile": "npm run convert-yaml && npm run expand-json && npm run antlr && tsc -p ./",
+    "antlr": "antlr4ts -visitor -listener src/*.g4",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.14.4",
+    "antlr4ts-cli": "^0.5.0-alpha.3",
+    "js-yaml": "^3.13.0",
+    "mocha": "^6.0.2",
+    "tslint": "^5.14.0",
+    "vscode": "^1.1.33"
+  },
+  "dependencies": {
+    "antlr4ts": "^0.5.0-alpha.3",
+    "node-interval-tree": "^1.3.3",
+    "tiny-trie": "^0.2.6"
+  }
 }

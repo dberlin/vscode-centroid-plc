@@ -23,39 +23,37 @@
  */
 import * as vscode from "vscode";
 import formatting_tokens from "./json/formatting_tokens.json";
-import { Keywords, createPLCLexer } from "./CentroidPLCParser";
-import { IToken } from "chevrotain";
+import { createPLCLexerForText } from "./util.js";
+import { Token, Vocabulary } from "antlr4ts";
 
 const systemVariableTokens = new Set(formatting_tokens);
-const keywordTokens = new Set(Keywords.map(kw => kw.name));
 
 export class CentroidPLCFormattingProvider
   implements vscode.DocumentFormattingEditProvider {
-  private CentroidPLCLexer = createPLCLexer();
-  private getRangeForMatch(document: vscode.TextDocument, token: IToken) {
+  private getRangeForMatch(document: vscode.TextDocument, token: Token) {
     return new vscode.Range(
       // These are different kinds of ranges, hence the offsetting
-      document.positionAt(token.startOffset),
-      document.positionAt((token.endOffset as number) + 1)
+      document.positionAt(token.startIndex),
+      document.positionAt(token.stopIndex + 1)
     );
   }
-  private isKeywordOrSystemVar(token: IToken) {
-    if (!token.tokenType) return false;
+  private isKeywordOrSystemVar(token: Token, vocabulary: Vocabulary) {
     return (
-      (token.tokenType.name == "Identifier" &&
-        systemVariableTokens.has(token.image.toUpperCase())) ||
-      keywordTokens.has(token.tokenType.name)
+      (vocabulary.getDisplayName(token.type) === "Identifier" &&
+        systemVariableTokens.has((token.text as string).toUpperCase())) ||
+      /*keywordTokens.has(token.tokenType.name)*/ 0
     );
   }
   private fixKeywordCase(document: vscode.TextDocument) {
     let edits = [];
     const docText = document.getText();
-    const lexerResults = this.CentroidPLCLexer.tokenize(docText);
-    if (lexerResults.errors.length != 0) return [];
-    for (let token of lexerResults.tokens) {
-      if (this.isKeywordOrSystemVar(token)) {
-        const matchStr = token.image;
-        if (!token.endOffset) continue;
+    const lexer = createPLCLexerForText(docText);
+    let tokens = lexer.getAllTokens();
+    if (tokens.length == 0) return [];
+    for (let token of tokens) {
+      if (this.isKeywordOrSystemVar(token, lexer.vocabulary)) {
+        const matchStr = token.text as string;
+        if (token.stopIndex == -1) continue;
         // Skip uppercasing if not necessary
         let upperStr = matchStr.toUpperCase();
         if (upperStr !== matchStr) {

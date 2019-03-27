@@ -3,35 +3,45 @@
 // Hover to view descriptions of existing attributes.
 // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 {
-	"version": "0.2.0",
-    "configurations": [
-        
-        {
-            "name": "Run Extension",
-            "type": "extensionHost",
-            "request": "launch",
-            "runtimeExecutable": "${execPath}",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ],
-            "outFiles": [
-				"${workspaceFolder}/out/**/*.js"
-			],
-			"preLaunchTask": "npm: watch"
-        },
-        {
-            "name": "Extension Tests",
-            "type": "extensionHost",
-            "request": "launch",
-            "runtimeExecutable": "${execPath}",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}",
-                "--extensionTestsPath=${workspaceFolder}/out/test"
-            ],
-            "outFiles": [
-                "${workspaceFolder}/out/test/**/*.js"
-            ],
-            "preLaunchTask": "npm: watch"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test grammar",
+      "outFiles": ["${workspaceFolder}/out/**/*.js"],
+      "program": "${workspaceFolder}/src/scripts/testGrammar.ts",
+      "args": ["${input:filePrompt}"],
+      "preLaunchTask": "Watch code"
+    },
+    {
+      "name": "Run Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "outFiles": ["${workspaceFolder}/out/**/*.js"],
+      "preLaunchTask": "Watch code"
+    },
+    {
+      "name": "Extension Tests",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--extensionTestsPath=${workspaceFolder}/out/test"
+      ],
+      "outFiles": ["${workspaceFolder}/out/test/**/*.js"],
+      "preLaunchTask": "Watch code"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "filePrompt",
+      "description": "name of grammar input file",
+      "type": "promptString",
+      "default": "input.txt"
+    }
+  ]
 }

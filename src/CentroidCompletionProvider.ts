@@ -24,7 +24,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { DocumentSymbolManager } from "./DocumentManager";
-import { getWordForPosition } from "./util";
+import { getWordForPosition } from "./vscodeUtil";
 
 export class CentroidCompletionProvider
   implements vscode.CompletionItemProvider {
