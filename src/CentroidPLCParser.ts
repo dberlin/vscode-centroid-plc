@@ -33,7 +33,6 @@ import {
   TokenType,
   ISerializedGast
 } from "chevrotain";
-import serialized_grammar from "./json/grammar.json";
 
 /* A ton of token types, yay! */
 const WhiteSpace = createToken({
@@ -178,24 +177,27 @@ export class CentroidPLCParser extends Parser {
       this.SUBRULE(this.Stage);
     });
   });
-  private c1: ORCache;
-  // A single stage of the program.  All things occur in a stage, some of them
-  // just are in the unnamed main stage
+
   private Stage = this.RULE("Stage", () => {
-    // Stages may be unnamed
     this.OPTION({
-      // Don't consume this if it is really a declaration
+      // Ident IS is declaration, not stage
       GATE: () => this.LA(2).tokenType != IS,
       DEF: () => this.CONSUME(Identifier)
     });
-    this.OR([
-      {
-        ALT: () => this.SUBRULE(this.Declaration)
-      },
-      {
-        ALT: () => this.SUBRULE(this.IfStatement)
+    this.AT_LEAST_ONE({
+      // Chevrotain can't automatically compute lookahead for >1 token
+      GATE: () => this.LA(1).tokenType == IF || this.LA(2).tokenType == IS,
+      DEF: () => {
+        this.OR([
+          {
+            ALT: () => this.SUBRULE(this.Declaration)
+          },
+          {
+            ALT: () => this.SUBRULE(this.IfStatement)
+          }
+        ]);
       }
-    ]);
+    });
   });
 
   // A declaration
@@ -374,6 +376,6 @@ export class CentroidPLCParser extends Parser {
   });
 }
 
-export function createPLCParser() {
+export function createPLCParser(serialized_grammar?: ISerializedGast[]) {
   return new CentroidPLCParser(serialized_grammar);
 }
