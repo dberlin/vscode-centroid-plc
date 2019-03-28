@@ -24,7 +24,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { isSystemSymbol } from "./util";
-import { getSymbolForPosition } from "./vscodeUtil";
+import { getSymbolForPosition } from "./vscode-util";
 
 export class CentroidDefinitionProvider implements vscode.DefinitionProvider {
   provideDefinition(

@@ -27,7 +27,8 @@ import { CentroidPLCListener } from "./CentroidPLCListener";
 import { StageContext, DeclarationContext } from "./CentroidPLCParser";
 import { FileTries } from "./FileTries";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
-import { getSymbolByName, isSystemSymbolName } from "./util";
+import { isSystemSymbolName } from "./util";
+import { getSymbolByName } from "./vscode-util";
 import { CommonTokenStream, Token } from "antlr4ts";
 import { isComment, formatDocComment } from "./DocumentManager";
 
@@ -61,11 +62,19 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
         if (stop && comment[0].line == stop.line) symbolDoc = comment[0].text;
       }
     }
+
     let varName = context.Identifier().text as string;
+    // Don't process system symbols here, we already have symbolinfo for them.
     if (isSystemSymbolName(varName)) return;
+
+    // Format any comment we found.
     symbolDoc = isComment(symbolDoc) ? formatDocComment(symbolDoc) : "";
+
+    // Get the type part of the declaration
     let typeText = context.singleExpression().text;
     let matches;
+
+    // See if it's a type or something else
     if ((matches = this.variableTypeRegex.exec(typeText))) {
       this.processTypedSymbol(
         matches,
@@ -81,6 +90,8 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
       );
     }
   }
+
+  //
   public exitStage(context: StageContext) {
     let ident = context.Identifier();
     if (!ident) return;
