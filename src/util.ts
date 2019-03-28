@@ -105,13 +105,13 @@ export function collectTextOfChildren(ctx: any) {
 }
 
 export function createPLCLexerForText(text: string) {
-  let inputStream = new ANTLRInputStream(text);
+  const inputStream = new ANTLRInputStream(text);
   return new CentroidPLCLexer(inputStream);
 }
 export function createPLCParserForText(text: string) {
-  let lexer = createPLCLexerForText(text);
-  let tokenStream = new CommonTokenStream(lexer);
-  let parser = new CentroidPLCParser(tokenStream);
+  const lexer = createPLCLexerForText(text);
+  const tokenStream = new CommonTokenStream(lexer);
+  const parser = new CentroidPLCParser(tokenStream);
   parser.errorHandler = new BailErrorStrategy();
   parser.interpreter.setPredictionMode(PredictionMode.SLL);
   return parser;
