@@ -7,5 +7,8 @@ src/CentroidPLC.tokens
 src/CentroidPLCLexer.interp
 src/CentroidPLCLexer.tokens
 src/CentroidPLCLexer.ts
+src/CentroidPLCParser.interp
+src/CentroidPLCParser.tokens
+src/CentroidPLCParser.ts
 src/CentroidPLCListener.ts
 src/CentroidPLCVisitor.ts
