@@ -24,7 +24,8 @@
 import * as vscode from "vscode";
 import formatting_tokens from "./json/formatting_tokens.json";
 import { createPLCLexerForText } from "./util.js";
-import { Token, Vocabulary } from "antlr4ts";
+import { Token } from "antlr4ts";
+import { CentroidPLCLexer } from "./CentroidPLCLexer.js";
 
 const systemVariableTokens = new Set(formatting_tokens);
 
@@ -37,11 +38,12 @@ export class CentroidPLCFormattingProvider
       document.positionAt(token.stopIndex + 1)
     );
   }
-  private isKeywordOrSystemVar(token: Token, vocabulary: Vocabulary) {
+  private isKeywordOrSystemVar(token: Token) {
     return (
-      (vocabulary.getDisplayName(token.type) === "Identifier" &&
+      (token.type === CentroidPLCLexer.Identifier &&
         systemVariableTokens.has((token.text as string).toUpperCase())) ||
-      /*keywordTokens.has(token.tokenType.name)*/ 0
+      (token.type >= CentroidPLCLexer.MathCall &&
+        token.type <= CentroidPLCLexer.RSHIFT)
     );
   }
   private fixKeywordCase(document: vscode.TextDocument) {
@@ -51,7 +53,7 @@ export class CentroidPLCFormattingProvider
     let tokens = lexer.getAllTokens();
     if (tokens.length == 0) return [];
     for (let token of tokens) {
-      if (this.isKeywordOrSystemVar(token, lexer.vocabulary)) {
+      if (this.isKeywordOrSystemVar(token)) {
         const matchStr = token.text as string;
         if (token.stopIndex == -1) continue;
         // Skip uppercasing if not necessary

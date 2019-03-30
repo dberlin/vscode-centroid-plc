@@ -31,6 +31,7 @@ import { isSystemSymbolName } from "./util";
 import { getSymbolByName } from "./vscode-util";
 import { CommonTokenStream, Token } from "antlr4ts";
 import { isComment, formatDocComment } from "./DocumentManager";
+import { CentroidPLCLexer } from "./CentroidPLCLexer";
 
 /* This class handles turning the parse tree into symbol info */
 export class CentroidSymbolParseListener implements CentroidPLCListener {
@@ -55,11 +56,18 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
     // it on the same line. This will be a comment if there is one.
     const stop = context.stop;
     if (stop) {
-      const comment = this.tokens.getHiddenTokensToRight(stop.tokenIndex);
-      // Make sure it exists and is on the same line
-      if (comment.length != 0 && comment[0].text) {
+      const comments = this.tokens.getHiddenTokensToRight(stop.tokenIndex);
+      // Find the first comment token on the same line
+      if (comments.length != 0) {
         let stop = context.singleExpression().stop;
-        if (stop && comment[0].line == stop.line) symbolDoc = comment[0].text;
+        for (let comment of comments) {
+          // Stop when we hit a new line
+          if (stop && comment.line != stop.line) break;
+          if (comment.type != CentroidPLCLexer.Comment || !comment.text)
+            continue;
+          symbolDoc = comment.text;
+          break;
+        }
       }
     }
 

@@ -22,21 +22,18 @@
  * SOFTWARE.
  */
 "use strict";
+import { CommonTokenStream } from "antlr4ts";
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 import { ParseTreeWalker } from "antlr4ts/tree/ParseTreeWalker";
-import IntervalTree from "node-interval-tree";
 import * as vscode from "vscode";
 import { CentroidPLCParser } from "./CentroidPLCParser";
+import { CentroidSymbolParseListener } from "./CentroidSymbolParseListener";
 import { FileTries } from "./FileTries";
 import machine_params from "./json/machine_parameters.json";
 import sv_system_variables from "./json/sv_system_variables.json";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
-import { collectTextOfChildren, createPLCParserForText } from "./util";
+import { createPLCParserForText } from "./util";
 import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
-import { ParseTree } from "antlr4ts/tree/ParseTree";
-import { CommonTokenStream } from "antlr4ts";
-import { TerminalNode } from "antlr4ts/tree/TerminalNode";
-import { CentroidSymbolParseListener } from "./CentroidSymbolParseListener";
 
 export function isStageSymbol(symbolInfo: SymbolInfo) {
   return (
@@ -58,7 +55,7 @@ export function formatDocComment(comment: string) {
 }
 
 class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
-  private PLCParser: CentroidPLCParser | undefined;
+  private parsers = new Map<string, CentroidPLCParser>();
   constructor() {
     super();
     this.processSymbolList(machine_params);
@@ -89,11 +86,17 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     const fileTries = new FileTries();
     this.tries.set(filename, fileTries);
     super.parseAndAddDocument(document);
-    this.PLCParser = createPLCParserForText(document.getText());
+
+    const PLCParser = createPLCParserForText(document.getText());
+    this.parsers.set(filename, PLCParser);
     try {
-      const tree = this.PLCParser.plcProgram();
-      const listener = new CentroidSymbolParseListener(document, fileTries, this
-        .PLCParser.inputStream as CommonTokenStream);
+      const tree = PLCParser.plcProgram();
+      const tokenStream = PLCParser.inputStream as CommonTokenStream;
+      const listener = new CentroidSymbolParseListener(
+        document,
+        fileTries,
+        tokenStream
+      );
       ParseTreeWalker.DEFAULT.walk(listener as ParseTreeListener, tree);
     } catch (err) {
       console.error(`Error parsing ${document.fileName}: ${err}`);
@@ -102,8 +105,17 @@ class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     fileTries.freeze();
   }
 
-  getTriesForDocument(document: vscode.TextDocument): FileTries {
-    return super.getTriesForDocument(document) as FileTries;
+  protected removeDocumentInternal(document: vscode.TextDocument) {
+    super.removeDocumentInternal(document);
+    let filename = this.normalizePathtoDoc(document);
+    this.parsers.delete(filename);
+  }
+  getTriesForDocument(document: vscode.TextDocument): FileTries | undefined {
+    return super.getTriesForDocument(document) as FileTries | undefined;
+  }
+  getParserForDocument(document: vscode.TextDocument) {
+    let filename = this.normalizePathtoDoc(document);
+    return this.parsers.get(filename);
   }
 }
 export const DocumentSymbolManager = new DocumentSymbolManagerClass();
