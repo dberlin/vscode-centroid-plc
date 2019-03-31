@@ -33,7 +33,7 @@ import machine_params from "./json/machine_parameters.json";
 import sv_system_variables from "./json/sv_system_variables.json";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
 import { createPLCParserForText } from "./util";
-import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager.js";
+import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDocumentManager";
 
 export function isStageSymbol(symbolInfo: SymbolInfo) {
   return (

@@ -14,3 +14,5 @@ package-lock.json
 vsc-extension-quickstart.md
 images/*.ai
 images/*.svg
+webpack.config.js
+node_modules

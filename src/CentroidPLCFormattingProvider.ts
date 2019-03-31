@@ -23,9 +23,9 @@
  */
 import * as vscode from "vscode";
 import formatting_tokens from "./json/formatting_tokens.json";
-import { createPLCLexerForText } from "./util.js";
+import { createPLCLexerForText } from "./util";
 import { Token } from "antlr4ts";
-import { CentroidPLCLexer } from "./CentroidPLCLexer.js";
+import { CentroidPLCLexer } from "./CentroidPLCLexer";
 
 const systemVariableTokens = new Set(formatting_tokens);
 
