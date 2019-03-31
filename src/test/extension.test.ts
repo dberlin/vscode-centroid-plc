@@ -37,33 +37,71 @@ import { createPLCLexerForText, createPLCParserForText } from "../util";
 import * as fs from "fs";
 import * as path from "path";
 let testFilePath = path.join(__dirname + "/../../testfiles/");
+import {
+  DocumentSymbolManager,
+  DocumentSymbolManagerClass
+} from "../DocumentManager";
+import { FileTries } from "../FileTries";
 
 suite("Extension Tests", () => {
   test("Source code lexing", async function() {
     for (let fileName of fs.readdirSync(testFilePath)) {
       const docText = fs
-        .readFileSync(path.join(testFilePath + fileName))
+        .readFileSync(path.join(`${testFilePath}/${fileName}`))
         .toString();
 
       let CentroidPLCLexer = createPLCLexerForText(docText);
       try {
         const lexingResults = CentroidPLCLexer.getAllTokens();
+        assert.notEqual(
+          lexingResults.length,
+          0,
+          `Should have found some tokens parsing ${fileName}`
+        );
       } catch (err) {
         assert.fail("`Lexer hit an error parsing ${fileName}`");
       }
     }
   });
   test("Source code parsing", async function() {
+    this.timeout(5000);
     for (let fileName of fs.readdirSync(testFilePath)) {
       const docText = fs
-        .readFileSync(path.join(testFilePath + fileName))
+        .readFileSync(path.join(`${testFilePath}/${fileName}`))
         .toString();
-      let CentroidPLCParser = createPLCParserForText(docText);
+      let parser = createPLCParserForText(docText);
       try {
-        const tree = CentroidPLCParser.plcProgram();
+        const tree = parser.plcProgram();
+        assert.equal(
+          parser.numberOfSyntaxErrors,
+          0,
+          `Parser hit an error parsing ${fileName}`
+        );
       } catch (err) {
         assert.fail(`Parser hit an error in ${fileName}`);
       }
+    }
+  });
+  test("Document symbol manager parsing", async function() {
+    this.timeout(30000);
+    let manager = new DocumentSymbolManagerClass();
+    for (let fileName of fs.readdirSync(testFilePath)) {
+      const textDocument = await vscode.workspace.openTextDocument(
+        path.join(`${testFilePath}/${fileName}`)
+      );
+      manager.parseAndAddDocument(textDocument);
+      let fileTries = DocumentSymbolManager.getTriesForDocument(textDocument);
+      assert.notEqual(
+        fileTries,
+        undefined,
+        `The trie for the ${fileName} should not be undefined`
+      );
+      let completions = (fileTries as FileTries).getAllCompletions("");
+      assert.notDeepEqual(
+        completions.length,
+        0,
+        `The trie for the ${fileName} should have symbols in it`
+      );
     }
   });
 });

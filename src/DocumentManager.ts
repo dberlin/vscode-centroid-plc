@@ -54,7 +54,7 @@ export function formatDocComment(comment: string) {
   return "### ".concat(comment.substring(1).trimLeft());
 }
 
-class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
+export class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
   private parsers = new Map<string, CentroidPLCParser>();
   constructor() {
     super();
