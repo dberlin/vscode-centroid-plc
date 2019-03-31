@@ -108,11 +108,13 @@ export function createPLCLexerForText(text: string) {
   const inputStream = new ANTLRInputStream(text);
   return new CentroidPLCLexer(inputStream);
 }
-export function createPLCParserForText(text: string) {
-  const lexer = createPLCLexerForText(text);
+export function createPLCParserForLexer(lexer: CentroidPLCLexer) {
   const tokenStream = new CommonTokenStream(lexer);
   const parser = new CentroidPLCParser(tokenStream);
-  parser.errorHandler = new BailErrorStrategy();
   parser.interpreter.setPredictionMode(PredictionMode.SLL);
   return parser;
+}
+export function createPLCParserForText(text: string) {
+  const lexer = createPLCLexerForText(text);
+  return createPLCParserForLexer(lexer);
 }

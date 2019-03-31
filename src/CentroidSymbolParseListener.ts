@@ -71,7 +71,7 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
       }
     }
 
-    let varName = context.Identifier().text as string;
+    let varName = context.variableName().text as string;
     // Don't process system symbols here, we already have symbolinfo for them.
     if (isSystemSymbolName(varName)) return;
 
@@ -81,27 +81,19 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
     // Get the type part of the declaration
     let typeText = context.singleExpression().text;
     let matches;
+    let varNameToken = context.variableName().Identifier().symbol;
 
     // See if it's a type or something else
     if ((matches = this.variableTypeRegex.exec(typeText))) {
-      this.processTypedSymbol(
-        matches,
-        context.Identifier().symbol,
-        typeText,
-        symbolDoc
-      );
+      this.processTypedSymbol(matches, varNameToken, typeText, symbolDoc);
     } else {
-      this.processConstantSymbol(
-        context.Identifier().symbol,
-        typeText,
-        symbolDoc
-      );
+      this.processConstantSymbol(varNameToken, typeText, symbolDoc);
     }
   }
 
   //
   public exitStage(context: StageContext) {
-    let ident = context.Identifier();
+    let ident = context.stageName();
     if (!ident) return;
     let symbol = this.fileTries.getSymbol(ident.text);
     if (!symbol) return;

@@ -23,17 +23,25 @@ grammar CentroidPLC;
 /* Parser */
 
 /*
- Stages are technically optional in Centroid PLC programs. However, we factor out the common prefix
- here and pretend that everything is a stage, and that some are just unnamed.
+ There can be declarations and lists of statements at the top, but once a stage name is given, the
+ only thing that an occur is stages, because there is no way to end a stage except with a new stage
+ name.
  */
 
-plcProgram: stage+ EOF;
+plcProgram: listOfStatements stage* EOF;
+
+// This is the list of statements before the first stage.
+listOfStatements: (declaration | ifStatement)*;
 
 // Stages are made up of either declarations or conditional statements.
-stage: Identifier? (declaration | ifStatement)+;
+stage: stageName (declaration | ifStatement)+;
+
+stageName: Identifier;
 
 // Declarations are x IS y form, where Y can be a math expression or a type. */
-declaration: Identifier IS singleExpression;
+declaration: variableName IS singleExpression;
+
+variableName: Identifier;
 
 // If statements may have multiple actions after the conditional separated by commas.
 ifStatement:
@@ -61,7 +69,7 @@ singleExpression:
 	| MathCall '(' callArguments ')'								# MathCallExpression
 	| RawAccess '[' singleExpression ']'							# RawMemAccessExpression
 	| '(' singleExpression ')'										# ParenExpression
-	| Identifier													# IdentifierExperssion
+	| variableName													# VariableExpression
 	| IntegerConstant												# IntConstantExpression
 	| FloatingConstant												# FloatConstantExpression;
 
@@ -73,7 +81,7 @@ actionExpression:
 
 // Assignments of variables
 assignmentExpression:
-	Identifier '=' (singleExpression | StringLiteral);
+	variableName '=' (singleExpression | StringLiteral);
 
 // This is the set of builtin funtions that can be called.
 callExpression:
@@ -87,16 +95,16 @@ callExpression:
 
 // Messages are constants, but it is hard for us to distinguish
 messageExpression: MSG singleExpression;
-setResetExpression: (SET | RST) Identifier;
-shiftExpression: (LSHIFT | RSHIFT) Identifier IntegerConstant;
-bitOpExpression: (BITSET | BITRST) Identifier IntegerConstant;
+setResetExpression: (SET | RST) variableName;
+shiftExpression: (LSHIFT | RSHIFT) variableName IntegerConstant;
+bitOpExpression: (BITSET | BITRST) variableName IntegerConstant;
 bitTestExpression:
-	BITST Identifier IntegerConstant (Identifier)?;
-btwwtbExpression: (BTW | WTB) Identifier Identifier (
+	BITST Identifier IntegerConstant (variableName)?;
+btwwtbExpression: (BTW | WTB) variableName variableName (
 		IntegerConstant
 	)?;
-jumpExpression: JMP Identifier;
-coilExpression: '(' Identifier ')';
+jumpExpression: JMP stageName;
+coilExpression: '(' variableName ')';
 
 StringLiteral: '"' SCharSequence? '"';
 
@@ -120,7 +128,7 @@ And: '&';
 LessThanEqual: '<=';
 GreaterThanEqual: '>=';
 LessThan: '<';
-GreatherThan: '>';
+GreaterThan: '>';
 NotEqual: '!=';
 DoubleEqual: '==';
 Plus: '+';
