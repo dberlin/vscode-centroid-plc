@@ -41,7 +41,7 @@ export class CentroidPLCFormattingProvider
   private isKeywordOrSystemVar(token: Token) {
     return (
       (token.type === CentroidPLCLexer.Identifier &&
-        systemVariableTokens.has((token.text as string).toUpperCase())) ||
+        systemVariableTokens.has(token.text!.toUpperCase())) ||
       (token.type >= CentroidPLCLexer.MathCall &&
         token.type <= CentroidPLCLexer.RSHIFT)
     );
@@ -54,7 +54,7 @@ export class CentroidPLCFormattingProvider
     if (tokens.length == 0) return [];
     for (let token of tokens) {
       if (this.isKeywordOrSystemVar(token)) {
-        const matchStr = token.text as string;
+        const matchStr = token.text!;
         if (token.stopIndex == -1) continue;
         // Skip uppercasing if not necessary
         let upperStr = matchStr.toUpperCase();

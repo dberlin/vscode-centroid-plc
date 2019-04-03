@@ -53,7 +53,7 @@ suite("Extension Tests", () => {
       let CentroidPLCLexer = createPLCLexerForText(docText);
       try {
         const lexingResults = CentroidPLCLexer.getAllTokens();
-        assert.notEqual(
+        assert.notStrictEqual(
           lexingResults.length,
           0,
           `Should have found some tokens parsing ${fileName}`
@@ -72,7 +72,7 @@ suite("Extension Tests", () => {
       let parser = createPLCParserForText(docText);
       try {
         const tree = parser.plcProgram();
-        assert.equal(
+        assert.strictEqual(
           parser.numberOfSyntaxErrors,
           0,
           `Parser hit an error parsing ${fileName}`
@@ -91,13 +91,13 @@ suite("Extension Tests", () => {
       );
       manager.parseAndAddDocument(textDocument);
       let fileTries = DocumentSymbolManager.getTriesForDocument(textDocument);
-      assert.notEqual(
+      assert.notStrictEqual(
         fileTries,
         undefined,
         `The trie for the ${fileName} should not be undefined`
       );
       let completions = (fileTries as FileTries).getAllCompletions("");
-      assert.notDeepEqual(
+      assert.notDeepStrictEqual(
         completions.length,
         0,
         `The trie for the ${fileName} should have symbols in it`

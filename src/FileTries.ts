@@ -72,7 +72,7 @@ export class FileTries extends BaseFileTries {
   getStageSymbols(): SymbolInfo[] {
     const stageNames = this.getStageNames();
     return stageNames.map(val => {
-      return this.getSymbol(val) as SymbolInfo;
+      return this.getSymbol(val)!;
     });
   }
 

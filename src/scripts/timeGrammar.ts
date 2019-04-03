@@ -10,7 +10,8 @@ import {
   RecognitionException,
   Recognizer,
   Token,
-  TokenStream
+  TokenStream,
+  CharStreams
 } from "antlr4ts";
 import { ATN } from "antlr4ts/atn/ATN";
 import { ATNConfigSet } from "antlr4ts/atn/ATNConfigSet";
@@ -300,10 +301,8 @@ class SummarizingDiagnosticErrorListener extends DiagnosticErrorListener {
 let lexer;
 let parser;
 for (let fileName of fs.readdirSync(testFilePath)) {
-  const docText = fs
-    .readFileSync(path.join(`${testFilePath}/${fileName}`))
-    .toString();
-  let inputStream = new ANTLRInputStream(docText);
+  let docBuffer = fs.readFileSync(path.join(`${testFilePath}/${fileName}`));
+  let inputStream = CharStreams.fromString(docBuffer.toString());
   if (!lexer) lexer = new CentroidPLCLexer(inputStream);
   lexer.inputStream = inputStream;
   let tokenStream = new CommonTokenStream(lexer);

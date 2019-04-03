@@ -71,7 +71,7 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
       }
     }
 
-    let varName = context.variableName().text as string;
+    let varName = context.variableName().text!;
     // Don't process system symbols here, we already have symbolinfo for them.
     if (isSystemSymbolName(varName)) return;
 
@@ -115,11 +115,11 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
     typeText: string,
     symbolDoc: string
   ) {
-    let varName = varNameToken.text as string;
+    let varName = varNameToken.text!;
     // If this is a system variable type, it may be an alias for an existing
     // system symbol, in which case we will copy the documentation.
     if (isSystemSymbolName(typeText)) {
-      const sym = getSymbolByName(this.document, typeText) as SymbolInfo;
+      const sym = getSymbolByName(this.document, typeText);
       if (sym) {
         let doc = sym.documentation as vscode.MarkdownString;
         if (doc === undefined) return null;
@@ -160,7 +160,7 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
     typeText: string,
     symbolDoc: string
   ) {
-    let varName = varNameToken.text as string;
+    let varName = varNameToken.text!;
     let sym = new SymbolInfo(
       varName,
       SymbolType.MessageOrConstant,

@@ -25,7 +25,8 @@
 import {
   ANTLRInputStream,
   BailErrorStrategy,
-  CommonTokenStream
+  CommonTokenStream,
+  CharStreams
 } from "antlr4ts";
 import { PredictionMode } from "antlr4ts/atn/PredictionMode";
 import { CentroidPLCLexer } from "./CentroidPLCLexer";
@@ -105,7 +106,7 @@ export function collectTextOfChildren(ctx: any) {
 }
 
 export function createPLCLexerForText(text: string) {
-  const inputStream = new ANTLRInputStream(text);
+  const inputStream = CharStreams.fromString(text);
   return new CentroidPLCLexer(inputStream);
 }
 export function createPLCParserForLexer(lexer: CentroidPLCLexer) {
