@@ -25,8 +25,8 @@
 import {
   ANTLRInputStream,
   BailErrorStrategy,
+  CharStreams,
   CommonTokenStream,
-  CharStreams
 } from "antlr4ts";
 import { PredictionMode } from "antlr4ts/atn/PredictionMode";
 import { CentroidPLCLexer } from "./CentroidPLCLexer";
@@ -42,7 +42,7 @@ export function normalizeSymbolName(name: string) {
   return name.trim();
 }
 
-interface symbolWithLabel {
+interface SymbolWithLabel {
   label: string;
 }
 /**
@@ -50,7 +50,7 @@ interface symbolWithLabel {
  *
  * @param sym - Symbol to check
  */
-export function isSystemSymbol(sym: symbolWithLabel) {
+export function isSystemSymbol(sym: SymbolWithLabel) {
   return isSystemSymbolName(sym.label);
 }
 
@@ -63,21 +63,21 @@ export function isSystemSymbolName(symName: string) {
  * @param args - Regular expressions to combine
  */
 export function RegExpAny(...args: RegExp[]) {
-  let components: string[] = [];
-  let flags = new Map();
-  for (let i = 0; i < args.length; i++) {
-    components.push(args[i].source);
-    for (let flag of args[i].flags.split("")) {
+  const components: string[] = [];
+  const flags = new Map();
+  for (const arg of args) {
+    components.push(arg.source);
+    for (const flag of arg.flags.split("")) {
       flags.set(flag, flag);
     }
   }
-  let newFlags = [];
-  for (let key of flags.keys()) {
+  const newFlags = [];
+  for (const key of flags.keys()) {
     newFlags.push(key);
   }
-  let combined = new RegExp(
+  const combined = new RegExp(
     `(?:${components.join(")|(?:")})`,
-    newFlags.join("")
+    newFlags.join(""),
   );
   return combined;
 }
@@ -88,17 +88,23 @@ export function RegExpAny(...args: RegExp[]) {
  */
 export function collectTextOfChildren(ctx: any) {
   let stringResult = "";
-  if (ctx.image) stringResult = ctx.image;
+  if (ctx.image) {
+    stringResult = ctx.image;
+  }
   if (ctx.children) {
-    for (let child of Object.values(ctx.children)) {
+    for (const child of Object.values(ctx.children)) {
       if (Array.isArray(child)) {
-        for (let entry of child) {
-          let tempResult = collectTextOfChildren(entry);
-          if (tempResult) stringResult += tempResult;
+        for (const entry of child) {
+          const tempResult = collectTextOfChildren(entry);
+          if (tempResult) {
+            stringResult += tempResult;
+          }
         }
       } else {
-        let tempResult = collectTextOfChildren(child);
-        if (tempResult) stringResult += tempResult;
+        const tempResult = collectTextOfChildren(child);
+        if (tempResult) {
+          stringResult += tempResult;
+        }
       }
     }
   }

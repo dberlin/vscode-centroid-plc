@@ -37,13 +37,13 @@ import { BaseDocumentSymbolManagerClass } from "./vscode-centroid-common/BaseDoc
 
 export function isStageSymbol(symbolInfo: SymbolInfo) {
   return (
-    symbolInfo.symbolType == SymbolType.Stage ||
-    symbolInfo.symbolType == SymbolType.FastStage
+    symbolInfo.symbolType === SymbolType.Stage ||
+    symbolInfo.symbolType === SymbolType.FastStage
   );
 }
 
 export function isComment(str: string) {
-  return str.length > 1 && str[0] == ";";
+  return str.length > 1 && str[0] === ";";
 }
 
 /**
@@ -61,27 +61,13 @@ export class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     this.processSymbolList(machine_params);
     this.processSymbolList(sv_system_variables);
   }
-  protected processSymbolList(
-    symList: { kind: string; documentation: string; name: string }[]
-  ) {
-    symList.forEach(val => {
-      this.systemSymbols.push(
-        new SymbolInfo(
-          val.name,
-          <SymbolType>getSymbolTypeFromString(val.kind),
-          val.kind,
-          0,
-          0,
-          val.documentation
-        )
-      );
-    });
-  }
 
   // Parse and add a document to our list of managed documents
-  parseAndAddDocument(document: vscode.TextDocument) {
+  public parseAndAddDocument(document: vscode.TextDocument) {
     console.time("Parsing document and processing symbols");
-    if (this.hasDocument(document)) return;
+    if (this.hasDocument(document)) {
+      return;
+    }
     const filename = this.normalizePathtoDoc(document);
     const fileTries = new FileTries();
     this.tries.set(filename, fileTries);
@@ -95,7 +81,7 @@ export class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
       const listener = new CentroidSymbolParseListener(
         document,
         fileTries,
-        tokenStream
+        tokenStream,
       );
       ParseTreeWalker.DEFAULT.walk(listener as ParseTreeListener, tree);
     } catch (err) {
@@ -104,18 +90,36 @@ export class DocumentSymbolManagerClass extends BaseDocumentSymbolManagerClass {
     console.timeEnd("Parsing document and processing symbols");
     fileTries.freeze();
   }
+  public getTriesForDocument(
+    document: vscode.TextDocument,
+  ): FileTries | undefined {
+    return super.getTriesForDocument(document) as FileTries | undefined;
+  }
+  public getParserForDocument(document: vscode.TextDocument) {
+    const filename = this.normalizePathtoDoc(document);
+    return this.parsers.get(filename);
+  }
+  protected processSymbolList(
+    symList: Array<{ kind: string; documentation: string; name: string }>,
+  ) {
+    symList.forEach((val) => {
+      this.systemSymbols.push(
+        new SymbolInfo(
+          val.name,
+          getSymbolTypeFromString(val.kind) as SymbolType,
+          val.kind,
+          0,
+          0,
+          val.documentation,
+        ),
+      );
+    });
+  }
 
   protected removeDocumentInternal(document: vscode.TextDocument) {
     super.removeDocumentInternal(document);
-    let filename = this.normalizePathtoDoc(document);
+    const filename = this.normalizePathtoDoc(document);
     this.parsers.delete(filename);
-  }
-  getTriesForDocument(document: vscode.TextDocument): FileTries | undefined {
-    return super.getTriesForDocument(document) as FileTries | undefined;
-  }
-  getParserForDocument(document: vscode.TextDocument) {
-    let filename = this.normalizePathtoDoc(document);
-    return this.parsers.get(filename);
   }
 }
 export const DocumentSymbolManager = new DocumentSymbolManagerClass();

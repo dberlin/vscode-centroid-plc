@@ -38,13 +38,15 @@ export class FileTries extends BaseFileTries {
    * This function takes care of understanding the type of the symbol and adding it to the relevant tries.
    * @param symbolInfo - Symbol to add to tries.
    */
-  add(symbolInfo: SymbolInfo) {
+  public add(symbolInfo: SymbolInfo) {
     const name = symbolInfo.label;
-    if (symbolInfo.symbolType == SymbolType.MessageOrConstant) {
+    if (symbolInfo.symbolType === SymbolType.MessageOrConstant) {
       this.constantSymbols.insert(name);
     } else {
       this.typedSymbols.insert(name);
-      if (isStageSymbol(symbolInfo)) this.stageSymbols.insert(name);
+      if (isStageSymbol(symbolInfo)) {
+        this.stageSymbols.insert(name);
+      }
     }
     super.add(symbolInfo);
   }
@@ -53,7 +55,7 @@ export class FileTries extends BaseFileTries {
    * Freeze all the tries so no more insertion can take place,
    * and convert them into DAWGs
    */
-  freeze() {
+  public freeze() {
     super.freeze();
     this.constantSymbols.freeze();
     this.typedSymbols.freeze();
@@ -63,20 +65,20 @@ export class FileTries extends BaseFileTries {
   /**
    * Return the names of all stage variables in the trie.
    */
-  getStageNames(): string[] {
-    return <string[]>this.stageSymbols.search("", { prefix: true });
+  public getStageNames(): string[] {
+    return this.stageSymbols.search("", { prefix: true }) as string[];
   }
   /**
    * Return the symbols for all the stage variables in the trie;
    */
-  getStageSymbols(): SymbolInfo[] {
+  public getStageSymbols(): SymbolInfo[] {
     const stageNames = this.getStageNames();
-    return stageNames.map(val => {
+    return stageNames.map((val) => {
       return this.getSymbol(val)!;
     });
   }
 
-  getSymbol(label: string): SymbolInfo | null {
+  public getSymbol(label: string): SymbolInfo | null {
     return super.getSymbol(label) as SymbolInfo | null;
   }
 }

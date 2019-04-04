@@ -28,15 +28,15 @@ import { getWordForPosition } from "./vscode-util";
 
 export class CentroidCompletionProvider
   implements vscode.CompletionItemProvider {
-  async provideCompletionItems(
+  public async provideCompletionItems(
     document: vscode.TextDocument,
     position: vscode.Position,
     token: vscode.CancellationToken,
-    context: vscode.CompletionContext
+    context: vscode.CompletionContext,
   ): Promise<vscode.CompletionItem[] | vscode.CompletionList> {
     const wordText = getWordForPosition(document, position) || "";
     const tries = DocumentSymbolManager.getTriesForDocument(document);
-    if (!tries) return [];
+    if (!tries) { return []; }
     const symbolResults = tries.getAllCompletions(wordText);
     return symbolResults;
   }

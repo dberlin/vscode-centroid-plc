@@ -38,33 +38,33 @@ export enum SymbolType {
   Timer,
   OneShot,
   MessageOrConstant,
-  BuiltInKeyword
+  BuiltInKeyword,
 }
 export class SymbolInfo extends BaseSymbolInfo {
   /* Which number symbol is it. All symbols of any type in centroid PLC are
   numbered instances of that type */
-  symbolNumber: number;
+  public symbolNumber: number;
   /* What kind of symbol is it. */
-  symbolType: SymbolType;
+  public symbolType: SymbolType;
 
   constructor(
     name: string,
     type: SymbolType,
     declType: string = "",
-    number: number = 0,
+    num: number = 0,
     value: number = 0,
     doc: string = "",
-    declPos: number = -1
+    declPos: number = -1,
   ) {
     let kind = vscode.CompletionItemKind.Variable;
-    if (type == SymbolType.MessageOrConstant) {
+    if (type === SymbolType.MessageOrConstant) {
       kind = vscode.CompletionItemKind.Value;
-    } else if (type == SymbolType.BuiltInKeyword) {
+    } else if (type === SymbolType.BuiltInKeyword) {
       kind = vscode.CompletionItemKind.Function;
     }
     super(name, kind, doc, declType, "", value, declPos);
 
-    this.symbolNumber = number;
+    this.symbolNumber = num;
     this.symbolType = type;
   }
 }
@@ -80,7 +80,7 @@ const SymbolStringFromType: Map<SymbolType, string> = new Map([
   [SymbolType.Stage, "STG"],
   [SymbolType.FastStage, "FSTG"],
   [SymbolType.Timer, "T"],
-  [SymbolType.OneShot, "PD"]
+  [SymbolType.OneShot, "PD"],
 ]);
 export function getSymbolStringFromType(type: SymbolType) {
   return SymbolStringFromType.get(type);
@@ -97,7 +97,7 @@ const SymbolTypeFromString: Map<string, SymbolType> = new Map([
   ["STG", SymbolType.Stage],
   ["FSTG", SymbolType.FastStage],
   ["T", SymbolType.Timer],
-  ["PD", SymbolType.OneShot]
+  ["PD", SymbolType.OneShot],
 ]);
 export function getSymbolTypeFromString(str: string) {
   return SymbolTypeFromString.get(str);

@@ -43,49 +43,49 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider(
       centroidScheme,
-      new CentroidCompletionProvider()
-    )
+      new CentroidCompletionProvider(),
+    ),
   );
 
   context.subscriptions.push(
     vscode.languages.registerDeclarationProvider(
       centroidScheme,
-      new CentroidDeclarationProvider()
-    )
+      new CentroidDeclarationProvider(),
+    ),
   );
 
   context.subscriptions.push(
     vscode.languages.registerDefinitionProvider(
       centroidScheme,
-      new CentroidDefinitionProvider()
-    )
+      new CentroidDefinitionProvider(),
+    ),
   );
   context.subscriptions.push(
     vscode.languages.registerDocumentFormattingEditProvider(
       centroidScheme,
-      new CentroidPLCFormattingProvider()
-    )
+      new CentroidPLCFormattingProvider(),
+    ),
   );
 
   context.subscriptions.push(
     vscode.languages.registerDocumentSymbolProvider(
       centroidScheme,
-      new CentroidDocumentSymbolProvider()
-    )
+      new CentroidDocumentSymbolProvider(),
+    ),
   );
 
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(
       centroidScheme,
-      new CentroidHoverProvider()
-    )
+      new CentroidHoverProvider(),
+    ),
   );
 
   context.subscriptions.push(
     vscode.languages.registerReferenceProvider(
       centroidScheme,
-      new CentroidReferenceProvider()
-    )
+      new CentroidReferenceProvider(),
+    ),
   );
   console.timeEnd("Initialize subscriptions");
   console.time("Parse documents");
@@ -94,27 +94,25 @@ export function activate(context: vscode.ExtensionContext) {
       if (document.languageId === "centroid-plc") {
         DocumentSymbolManager.parseAndAddDocument(document);
       }
-    })
+    }),
   );
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
       if (document.languageId === "centroid-plc") {
         DocumentSymbolManager.resetDocument(document);
       }
-    })
+    }),
   );
   context.subscriptions.push(
     vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
       if (document.languageId === "centroid-plc") {
         DocumentSymbolManager.removeDocument(document);
       }
-    })
+    }),
   );
-  for (let i = 0; i < vscode.workspace.textDocuments.length; ++i) {
-    if (vscode.workspace.textDocuments[i].languageId === "centroid-plc") {
-      DocumentSymbolManager.parseAndAddDocument(
-        vscode.workspace.textDocuments[i]
-      );
+  for (const doc of vscode.workspace.textDocuments) {
+    if (doc.languageId === "centroid-plc") {
+      DocumentSymbolManager.parseAndAddDocument(doc);
     }
   }
   console.timeEnd("Parse documents");

@@ -37,7 +37,7 @@ try {
 }
 const parser = createPLCParserForText(docText);
 try {
-  let tree = parser.plcProgram();
+  const tree = parser.plcProgram();
   console.log(tree.toStringTree());
 } catch (err) {
   console.log(err);

@@ -27,13 +27,19 @@ if (process.argv.length < 4) {
   console.log("usage: ts-node tokenstosymbols.ts <file with tokens> <kind>");
   process.exit(0);
 }
-var textTokens = fs
+const textTokens = fs
   .readFileSync(process.argv[2])
   .toString()
   .split(/[\r\n]+/);
-let symbols: { name: string; documentation: string; kind: string }[] = [];
-textTokens.forEach(symbolName => {
-  if (symbolName.length == 0) return;
+const symbols: Array<{
+  name: string;
+  documentation: string;
+  kind: string;
+}> = [];
+textTokens.forEach((symbolName) => {
+  if (symbolName.length === 0) {
+    return;
+  }
   symbols.push({ name: symbolName, documentation: "", kind: process.argv[3] });
 });
 console.log(JSON.stringify(symbols, null, 4));

@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
+import { CommonTokenStream, Token } from "antlr4ts";
 import * as vscode from "vscode";
+import { CentroidPLCLexer } from "./CentroidPLCLexer";
 import { CentroidPLCListener } from "./CentroidPLCListener";
-import { StageContext, DeclarationContext } from "./CentroidPLCParser";
+import { DeclarationContext, StageContext } from "./CentroidPLCParser";
+import { formatDocComment, isComment } from "./DocumentManager";
 import { FileTries } from "./FileTries";
 import { getSymbolTypeFromString, SymbolInfo, SymbolType } from "./SymbolInfo";
 import { isSystemSymbolName } from "./util";
 import { getSymbolByName } from "./vscode-util";
-import { CommonTokenStream, Token } from "antlr4ts";
-import { isComment, formatDocComment } from "./DocumentManager";
-import { CentroidPLCLexer } from "./CentroidPLCLexer";
 
 /* This class handles turning the parse tree into symbol info */
 export class CentroidSymbolParseListener implements CentroidPLCListener {
@@ -43,7 +43,7 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
   constructor(
     document: vscode.TextDocument,
     fileTries: FileTries,
-    tokens: CommonTokenStream
+    tokens: CommonTokenStream,
   ) {
     this.document = document;
     this.fileTries = fileTries;
@@ -58,30 +58,35 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
     if (stop) {
       const comments = this.tokens.getHiddenTokensToRight(stop.tokenIndex);
       // Find the first comment token on the same line
-      if (comments.length != 0) {
-        let stop = context.singleExpression().stop;
-        for (let comment of comments) {
+      if (comments.length !== 0) {
+        const expressionStop = context.singleExpression().stop;
+        for (const comment of comments) {
           // Stop when we hit a new line
-          if (stop && comment.line != stop.line) break;
-          if (comment.type != CentroidPLCLexer.Comment || !comment.text)
+          if (expressionStop && comment.line !== expressionStop.line) {
+            break;
+          }
+          if (comment.type !== CentroidPLCLexer.Comment || !comment.text) {
             continue;
+          }
           symbolDoc = comment.text;
           break;
         }
       }
     }
 
-    let varName = context.variableName().text!;
+    const varName = context.variableName().text!;
     // Don't process system symbols here, we already have symbolinfo for them.
-    if (isSystemSymbolName(varName)) return;
+    if (isSystemSymbolName(varName)) {
+      return;
+    }
 
     // Format any comment we found.
     symbolDoc = isComment(symbolDoc) ? formatDocComment(symbolDoc) : "";
 
     // Get the type part of the declaration
-    let typeText = context.singleExpression().text;
+    const typeText = context.singleExpression().text;
     let matches;
-    let varNameToken = context.variableName().Identifier().symbol;
+    const varNameToken = context.variableName().Identifier().symbol;
 
     // See if it's a type or something else
     if ((matches = this.variableTypeRegex.exec(typeText))) {
@@ -93,11 +98,17 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
 
   //
   public exitStage(context: StageContext) {
-    let ident = context.stageName();
-    if (!ident) return;
-    let symbol = this.fileTries.getSymbol(ident.text);
-    if (!symbol) return;
-    if (!context.stop) return;
+    const ident = context.stageName();
+    if (!ident) {
+      return;
+    }
+    const symbol = this.fileTries.getSymbol(ident.text);
+    if (!symbol) {
+      return;
+    }
+    if (!context.stop) {
+      return;
+    }
     // Symbol def starts with name start, ends with end of last token
     symbol.symbolDefPos = context.start.startIndex;
     symbol.symbolDefEndPos = context.stop.stopIndex;
@@ -113,39 +124,43 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
     matches: RegExpExecArray,
     varNameToken: Token,
     typeText: string,
-    symbolDoc: string
+    symbolDoc: string,
   ) {
-    let varName = varNameToken.text!;
+    const varName = varNameToken.text!;
     // If this is a system variable type, it may be an alias for an existing
     // system symbol, in which case we will copy the documentation.
     if (isSystemSymbolName(typeText)) {
       const sym = getSymbolByName(this.document, typeText);
       if (sym) {
-        let doc = sym.documentation as vscode.MarkdownString;
-        if (doc === undefined) return null;
-        let newSym = new SymbolInfo(
+        const doc = sym.documentation as vscode.MarkdownString;
+        if (doc === undefined) {
+          return null;
+        }
+        const aliasSym = new SymbolInfo(
           varName,
           sym.symbolType,
           sym.detail,
           sym.symbolNumber,
           sym.symbolValue,
           "#### This is an alias for " + sym.label + "\n\n" + doc.value,
-          varNameToken.startIndex
+          varNameToken.startIndex,
         );
-        this.fileTries.add(newSym);
+        this.fileTries.add(aliasSym);
         return;
       }
     }
     const symbolType = getSymbolTypeFromString(matches[2]);
-    if (symbolType === undefined) return;
-    let newSym = new SymbolInfo(
+    if (symbolType === undefined) {
+      return;
+    }
+    const newSym = new SymbolInfo(
       varName,
       symbolType,
       typeText,
-      parseInt(matches[3]),
+      parseInt(matches[3], 10),
       0,
       symbolDoc,
-      varNameToken.startIndex
+      varNameToken.startIndex,
     );
     this.fileTries.add(newSym);
   }
@@ -158,17 +173,17 @@ export class CentroidSymbolParseListener implements CentroidPLCListener {
   private processConstantSymbol(
     varNameToken: Token,
     typeText: string,
-    symbolDoc: string
+    symbolDoc: string,
   ) {
-    let varName = varNameToken.text!;
-    let sym = new SymbolInfo(
+    const varName = varNameToken.text!;
+    const sym = new SymbolInfo(
       varName,
       SymbolType.MessageOrConstant,
       typeText,
       0,
-      parseInt(typeText),
+      parseInt(typeText, 10),
       symbolDoc,
-      varNameToken.startIndex
+      varNameToken.startIndex,
     );
     this.fileTries.add(sym);
   }

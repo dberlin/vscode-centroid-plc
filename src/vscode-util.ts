@@ -11,10 +11,12 @@ import { SymbolInfo } from "./SymbolInfo";
  */
 export function getSymbolByName(
   document: vscode.TextDocument,
-  symbolName: string
+  symbolName: string,
 ) {
-  let tries = DocumentSymbolManager.getTriesForDocument(document);
-  if (!tries) return null;
+  const tries = DocumentSymbolManager.getTriesForDocument(document);
+  if (!tries) {
+    return null;
+  }
   return tries.getSymbol(symbolName);
 }
 /**
@@ -25,9 +27,9 @@ export function getSymbolByName(
  */
 export function getWordForPosition(
   document: vscode.TextDocument,
-  position: vscode.Position
+  position: vscode.Position,
 ): string | null {
-  let wordRange = document.getWordRangeAtPosition(position);
+  const wordRange = document.getWordRangeAtPosition(position);
   if (!wordRange) {
     return null;
   }
@@ -42,9 +44,11 @@ export function getWordForPosition(
  */
 export function getSymbolForPosition(
   document: vscode.TextDocument,
-  position: vscode.Position
+  position: vscode.Position,
 ): SymbolInfo | null {
-  let wordText = getWordForPosition(document, position);
-  if (!wordText) return null;
+  const wordText = getWordForPosition(document, position);
+  if (!wordText) {
+    return null;
+  }
   return getSymbolByName(document, wordText);
 }

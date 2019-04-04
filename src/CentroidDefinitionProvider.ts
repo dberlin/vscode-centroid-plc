@@ -27,10 +27,10 @@ import { isSystemSymbol } from "./util";
 import { getSymbolForPosition } from "./vscode-util";
 
 export class CentroidDefinitionProvider implements vscode.DefinitionProvider {
-  provideDefinition(
+  public provideDefinition(
     document: vscode.TextDocument,
     position: vscode.Position,
-    token: vscode.CancellationToken
+    token: vscode.CancellationToken,
   ): vscode.ProviderResult<
     vscode.Location | vscode.Location[] | vscode.LocationLink[]
   > {
@@ -45,8 +45,8 @@ export class CentroidDefinitionProvider implements vscode.DefinitionProvider {
       return new vscode.Location(
         document.uri,
         document.positionAt(
-          sym.symbolDefPos !== -1 ? sym.symbolDefPos : sym.symbolDeclPos
-        )
+          sym.symbolDefPos !== -1 ? sym.symbolDefPos : sym.symbolDeclPos,
+        ),
       );
     }
     return null;

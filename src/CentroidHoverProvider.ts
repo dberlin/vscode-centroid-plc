@@ -31,19 +31,21 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
   public provideHover(
     document: vscode.TextDocument,
     position: vscode.Position,
-    token: vscode.CancellationToken
+    token: vscode.CancellationToken,
   ): vscode.ProviderResult<vscode.Hover> {
     /* See if we have the symbol */
-    let sym = getSymbolForPosition(document, position);
+    const sym = getSymbolForPosition(document, position);
     if (sym) {
       const hoverText = new vscode.MarkdownString();
       let declString: string;
       const symbolPos =
-        sym.symbolDeclPos == -1
+        sym.symbolDeclPos === -1
           ? document.positionAt(0)
           : document.positionAt(sym.symbolDeclPos);
       /* Don't produce a hover for the same position we declared the symbol on */
-      if (position.line == symbolPos.line) return null;
+      if (position.line === symbolPos.line) {
+        return null;
+      }
       /* Produce a cleaned up declaration line for the symbol */
       switch (sym.symbolType) {
         case SymbolType.MessageOrConstant: {
@@ -51,7 +53,7 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
           break;
         }
         default: {
-          declString = sym.label.concat(" IS ", <string>sym.detail);
+          declString = sym.label.concat(" IS ", sym.detail as string);
         }
       }
 
@@ -61,7 +63,7 @@ export class CentroidHoverProvider implements vscode.HoverProvider {
         hoverText.appendMarkdown("**This is a system defined variable**  \n\n");
       }
       hoverText.appendMarkdown(
-        (<vscode.MarkdownString>sym.documentation).value
+        (sym.documentation as vscode.MarkdownString).value,
       );
       return new vscode.Hover(hoverText);
     }

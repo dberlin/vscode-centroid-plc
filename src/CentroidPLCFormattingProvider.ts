@@ -21,21 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { Token } from "antlr4ts";
 import * as vscode from "vscode";
+import { CentroidPLCLexer } from "./CentroidPLCLexer";
 import formatting_tokens from "./json/formatting_tokens.json";
 import { createPLCLexerForText } from "./util";
-import { Token } from "antlr4ts";
-import { CentroidPLCLexer } from "./CentroidPLCLexer";
 
 const systemVariableTokens = new Set(formatting_tokens);
 
 export class CentroidPLCFormattingProvider
   implements vscode.DocumentFormattingEditProvider {
+  public provideDocumentFormattingEdits(
+    document: vscode.TextDocument,
+    options: vscode.FormattingOptions,
+    token: vscode.CancellationToken,
+  ): vscode.ProviderResult<vscode.TextEdit[]> {
+    console.time("Fixing keywords");
+    const upperCaseEdits = this.fixKeywordCase(document);
+    console.timeEnd("Fixing keywords");
+    const results: vscode.TextEdit[] = [];
+    return results.concat(upperCaseEdits);
+  }
   private getRangeForMatch(document: vscode.TextDocument, token: Token) {
     return new vscode.Range(
       // These are different kinds of ranges, hence the offsetting
       document.positionAt(token.startIndex),
-      document.positionAt(token.stopIndex + 1)
+      document.positionAt(token.stopIndex + 1),
     );
   }
   private isKeywordOrSystemVar(token: Token) {
@@ -47,35 +58,28 @@ export class CentroidPLCFormattingProvider
     );
   }
   private fixKeywordCase(document: vscode.TextDocument) {
-    let edits = [];
+    const edits = [];
     const docText = document.getText();
     const lexer = createPLCLexerForText(docText);
-    let tokens = lexer.getAllTokens();
-    if (tokens.length == 0) return [];
-    for (let token of tokens) {
+    const tokens = lexer.getAllTokens();
+    if (tokens.length === 0) {
+      return [];
+    }
+    for (const token of tokens) {
       if (this.isKeywordOrSystemVar(token)) {
         const matchStr = token.text!;
-        if (token.stopIndex == -1) continue;
+        if (token.stopIndex === -1) {
+          continue;
+        }
         // Skip uppercasing if not necessary
-        let upperStr = matchStr.toUpperCase();
+        const upperStr = matchStr.toUpperCase();
         if (upperStr !== matchStr) {
-          let range = this.getRangeForMatch(document, token);
+          const range = this.getRangeForMatch(document, token);
           edits.push(new vscode.TextEdit(range, upperStr));
           continue;
         }
       }
     }
     return edits;
-  }
-  provideDocumentFormattingEdits(
-    document: vscode.TextDocument,
-    options: vscode.FormattingOptions,
-    token: vscode.CancellationToken
-  ): vscode.ProviderResult<vscode.TextEdit[]> {
-    console.time("Fixing keywords");
-    let upperCaseEdits = this.fixKeywordCase(document);
-    console.timeEnd("Fixing keywords");
-    let results: vscode.TextEdit[] = [];
-    return results.concat(upperCaseEdits);
   }
 }
