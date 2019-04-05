@@ -90,7 +90,7 @@ suite("Extension Tests", () => {
         path.join(`${testFilePath}/${fileName}`),
       );
       manager.parseAndAddDocument(textDocument);
-      const fileTries = DocumentSymbolManager.getTriesForDocument(textDocument);
+      const fileTries = manager.getTriesForDocument(textDocument);
       assert.notStrictEqual(
         fileTries,
         undefined,
