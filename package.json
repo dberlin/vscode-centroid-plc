@@ -54,7 +54,7 @@
     "vscode:prepublish": "webpack --mode production",
     "compile": "npm run convert-yaml && npm run expand-json && npm run antlr && webpack --mode none",
     "watch": "webpack --mode none --watch",
-    "test-compile": "tsc -p ./",
+    "test-compile": "npm run antlr && tsc -p ./",
     "webpack": "webpack --mode development",
     "webpack-dev": "webpack --mode development --watch"
   },
